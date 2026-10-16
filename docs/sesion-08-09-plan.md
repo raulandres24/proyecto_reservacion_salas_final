@@ -6,6 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
+- Última actualización: 15/10/2026, al cerrar la fase 1 (ver las secciones 10 y 11)
 
 ## 1. Punto de partida
 
@@ -26,17 +27,18 @@
 **Actores:** estudiante de pregrado, docente y administrador.
 
 - El **administrador** pone salas en mantenimiento, gestiona reservas ajenas y también reserva.
-  - **Pendiente (se resuelve en la fase 1):** ninguna de las historias de abajo cubre que el administrador reserve. En la fase 1 se decide si se agrega una historia o se amplía una existente.
-- El **docente** reserva para sí mismo, incluidas las salas A y E, sin límite de anticipación.
-- El **estudiante de pregrado** no puede reservar las salas A y E.
+  - **Resuelto en la fase 1 por el cambio C-03:** el pendiente "ninguna historia cubre que el administrador reserve" se resolvió ampliando el actor de HU-05 a "personal: docente o administrador", sin historia nueva ni tests extra.
+- El **docente** reserva para sí mismo, incluidas las salas A y E, sin límite de anticipación **[PROVISIONAL, P-13]**.
+- El **estudiante de pregrado** no puede reservar las salas A y E **[PROVISIONAL, P-16]**.
+- Las reglas vigentes y su estado (acuerdo, propuesta o provisional) están en [sesion-06-requisitos.md](sesion-06-requisitos.md). Si este plan y los requisitos difieren, mandan los requisitos.
 
 | ID | Actor | Historia (resumen) | Por qué es necesaria |
 |---|---|---|---|
 | HU-01 | Persona del padrón sin cuenta | Registrarme con mi código y correo del padrón y elegir mi contraseña | Sin cuenta nadie reserva; es el recorrido FE → MW → Padrón → BD. |
 | HU-02 | Usuario registrado | Iniciar y cerrar sesión con correo y contraseña | Hay que distinguir quién hace cada acción; es el recorrido FE → MW → BD. |
-| HU-03 | Estudiante de pregrado | Consultar qué salas están libres en una fecha y hora | RES-02; es el primer paso del recorrido demostrable. |
+| HU-03 | Usuario con cuenta (C-05) | Consultar qué salas están libres en una fecha y un bloque | RES-02; es el primer paso del recorrido demostrable. |
 | HU-04 | Estudiante de pregrado | Reservar una sala | Es el núcleo (RES-03, RES-04) y concentra la mayoría de las reglas. |
-| HU-05 | Docente | Reservar una sala para mí, incluidas A y E | Es un actor real con reglas distintas: puede usar A y E y no tiene límite de anticipación. |
+| HU-05 | Personal: docente o administrador (C-03) | Reservar una sala para mí, incluidas A y E | Es un actor real con reglas distintas: puede usar A y E y no tiene límite de anticipación. |
 | HU-06 | Estudiante de pregrado | Ver mis reservas y cancelar una | RES-05; sin esto una sala no se libera. |
 | HU-07 | Estudiante de pregrado | Modificar mi reserva antes de que empiece | RES-05, RF-03 y RF-06; es la operación de las sesiones 7, 12 y 13–14. |
 | HU-08 | Administrador | Poner una sala en mantenimiento | RES-06; es una regla aprobada por el docente. |
@@ -77,9 +79,9 @@ Esfuerzo total: **38,5 h-p**. Duración total: **31 h** de franjas de trabajo (i
 **Reparto de la fase 7** (cambio del 15/10/2026, sección 11):
 
 - Raúl escribe `conftest.py` y los tests de HU-01 a HU-05.
-- Hugo escribe los tests de HU-07, HU-06, HU-08 y HU-09, **en ese orden de prioridad**. Los de HU-07 son también las tres pruebas de la sesión 12.
+- Hugo escribe los tests de HU-07, HU-06, HU-08 y HU-09, **en ese orden de prioridad**. HU07-CA1, CA2 y CA4 son también las tres pruebas de la sesión 12.
 - Si a las 18:00 del domingo faltan tests de Hugo, los que falten se registran en `trazabilidad.md` como "no implementado".
-- La cantidad exacta de tests se acuerda al cerrar la fase 1. La estimación actual es de ~22: unos 12 de Raúl y unos 10 de Hugo.
+- La cantidad de tests se acordó en la fase 1: **26**, 15 de Raúl (HU-01 a HU-05) y 11 de Hugo (HU-06 a HU-09). La lista y lo que no se prueba están en [sesion-07-modelos.md](sesion-07-modelos.md), sección 6. Antes la estimación era de ~22 (sección 11).
 
 **Por qué estas estimaciones:**
 
@@ -222,10 +224,23 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 
 **Estado real:**
 
-| Fase | Estado | Fecha y hora real de cierre | Commit de cierre | Horas reales |
+| Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
 |---|---|---|---|---|
-| F0 | En curso: se cierra con el commit que sube este documento | — | se anota al cerrar F1 | — |
-| F1 a F9 | No iniciada | — | — | — |
+| F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 4.5 Hrs |
+| F1 | Terminada con este commit, con la aprobación de Raúl | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3) | 6.5 Hrs |
+| F2 a F9 | No iniciada | — | — | — |
+
+**Notas del estado real:**
+
+- **Señal de R1:** F0 se cerró a las 10:52, antes de las 17:00. **R1 no se activa.**
+- **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
+- **El cambio C-04 se subió en 7 commits:**
+  - `7800f85` creó por error `docs/cambios`, sin extensión;
+  - `0a485c2`, `1f96018` y `44fa48b` borraron `docs/cambios`, `docs/cambios.md` y `docs/sesion-06-requisitos.md`;
+  - `0e55c2a` y `12d46ce` volvieron a subir los archivos (el primero como `cambio.md`);
+  - `8f2f609` lo renombró a `cambios.md`.
+
+  Entre `44fa48b` y `12d46ce` el repositorio estuvo sin los requisitos. El contenido final coincide con el aprobado. Los commits de borrado y de renombre (`0a485c2`, `1f96018`, `44fa48b`, `8f2f609` y `9465262`) no citan un issue, aunque la regla dice que todos deben hacerlo. Desde la fase 3 se trabaja con git en local, lo que evita los commits automáticos de la web de GitHub.
 
 ## 11. Cambios al plan
 
@@ -235,23 +250,20 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | 15/10/2026 | F7 se reequilibra: Hugo escribe tests de 16:00 a 18:00 (antes era 1 h), y F8 baja a 1 h por persona el lunes. | Una hora era poco para ~10 tests. | Raúl |
 | 15/10/2026 | Hugo confirma su disponibilidad (Dom 16:00–19:00, Lun 10:00–12:30 y 1 h de lectura de `docs/`). Se quita "por confirmar" del plan y R3 no se activa. | Se cumplió la condición del riesgo 3. | Raúl |
 | 15/10/2026 | Se agrega el recorte R4: los arreglos que revelen los tests salen de F8. | Proteger las fases funcionales. | Raúl |
+| 15/10/2026 | La estimación de tests pasa de ~22 (unos 12 de Raúl y 10 de Hugo) a **26 (15 de Raúl y 11 de Hugo)**. Las franjas de F7 no cambian. | La lista de criterios aprobada en F1 cubre las reglas del MVP; lo que no se prueba se declara en la trazabilidad. | Raúl |
+| 15/10/2026 | **Numeración real de los issues:** del #1 al #19 coinciden con la lista de la fase 0. El **#20** era un duplicado y se borró. Desde ahí todo se corre uno: #21 workflow de CI, #22 trazabilidad, #23 interfaz (Raúl), #24 interfaz (Hugo), **#25 README**, Gantt real y revisión final, y **#26 preguntas abiertas al docente**. | Se creó un issue duplicado entre el #19 y el #20. | Raúl |
+| 15/10/2026 | El pendiente del administrador que reserva (sección 2) queda resuelto por C-03. HU-03 cambia de actor a "usuario con cuenta" (C-05). | Decisiones de la fase 1, registradas en `cambios.md`. | Raúl |
+| 15/10/2026 | La sección 12 deja de copiar las preguntas al docente y remite a los requisitos. | Evitar dos listas que se desactualicen, como pasó en el repositorio anterior. | Raúl |
 
 ## 12. Dudas abiertas con el docente
 
-Si no hay respuesta antes del viernes 16/10, se usa el valor provisional, marcado como tal en la fase 1, y la pregunta queda abierta.
+La lista vigente, con 16 preguntas (P-01 a P-16) y sus valores provisionales, está en [sesion-06-requisitos.md](sesion-06-requisitos.md), sección 6, y se sigue en el issue **#26**. Este plan ya no la copia, para no tener dos listas que se contradigan.
 
-| Duda | Situación actual | Afecta a |
-|---|---|---|
-| ¿Además de "solo antes de que empiece" (RF-06), rige la regla de la sesión 4: modificar "hasta 10 minutos después de haber sido realizada"? | Se aplica la opción B: solo antes de que empiece. **Nota:** `sesion04.md` dice 10 minutos; la sesión 7 del repositorio anterior lo copió mal como 15. | HU-07 |
-| Al presionar Esc en "¿Deseas mantenerla?", ¿la reserva se cancela? | Provisional: sí, como se acordó en la sesión 6. | HU-07 |
-| Si los asistentes son exactamente iguales a la capacidad, ¿se acepta? | El valor provisional se fija en F1. | HU-04, HU-05, HU-07 |
-| ¿Pregrado puede reservar para el mismo día? ¿Antes de las 18:00 no puede reservar nada? | El valor provisional se fija en F1. | HU-04 |
-| ¿Cuál es el horario de apertura de las salas y la duración mínima y máxima de una reserva? | El valor provisional se fija en F1. | HU-03, HU-04, HU-05 |
-| ¿Qué capacidad tiene cada sala? | Si no hay respuesta, se usan capacidades ficticias declaradas como tales. | Datos (F4) |
-| ¿Se puede cancelar una reserva que ya comenzó? | El valor provisional se fija en F1. | HU-06, HU-09 |
+Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Cada respuesta del docente que cambie algo se registra en [cambios.md](cambios.md).
 
 ## 13. Participación y asistencia utilizada
 
 - **Raúl Vaca:** tras la observación del docente sobre las 129 pruebas, decidió rehacer el proyecto (14/10/2026); definió el alcance, los roles, las franjas horarias, los cambios al plan y los recortes, y aprobó las historias y la estructura.
 - **Hugo Zúñiga:** sin aporte en F0; confirmó su disponibilidad el 15/10/2026 y se incorpora en F7.
+- **Fase 1:** Raúl respondió las preguntas de la fase, aprobó los requisitos, los 26 criterios y los cambios C-01 a C-05, y subió los documentos. Hugo no tuvo aporte en esta fase.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, y para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas. Raúl revisó, cambió y aprobó el plan.
