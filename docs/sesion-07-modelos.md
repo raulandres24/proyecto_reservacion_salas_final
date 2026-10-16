@@ -265,7 +265,7 @@ Formato: objetivo, actor, disparador, precondiciones, poscondición de éxito, g
      - i) no tener una reserva en un bloque contiguo ese día (RF-08).
 
      *(La primera que falle → E1.)*
-  3. El sistema guarda la reserva como Confirmada, **en la misma operación en que comprueba que la sala sigue libre** (RF-07; el detalle se diseña en la fase 2).
+  3. El sistema guarda la reserva como Confirmada. Si otra solicitud ganó ese bloque un instante antes, el índice único (D-02) rechaza la escritura: con "sala ocupada en ese bloque" (RF-07) si la ganadora es de otra persona, o con "ya tienes una reserva en ese bloque" (RF-02) si es de la misma persona.
   4. El sistema informa "Reserva confirmada" con los datos.
 - **Excepciones:** E1: rechazo con la causa concreta de la regla que falló (RC-01); no se guarda nada.
 - **Datos:** cambia la colección de reservas (una nueva). Se conservan todas las demás reservas.
@@ -364,7 +364,7 @@ Formato: objetivo, actor, disparador, precondiciones, poscondición de éxito, g
 ## 4. Modelo RES-MOD-01 — Modificar una reserva (diagrama de actividad)
 
 - **Pregunta que responde:** ¿qué cambia y qué se conserva según el resultado de cada comprobación, y en qué se diferencia el camino del administrador del camino del estudiante?
-- **Qué deja fuera:** cómo se guarda en MongoDB, la transacción de RF-07 y la pantalla. Eso es de la fase 2 y de la fase 8.
+- **Qué deja fuera:** cómo se guarda en MongoDB, el índice único de RF-07 y la pantalla. Eso es de la fase 2 y de la fase 8.
 
 ```mermaid
 flowchart TD
@@ -451,7 +451,7 @@ RC-01 (causa concreta) y RC-03 (un rechazo no deja la operación a medias) no ti
 
 | Regla o parte | Situación |
 |---|---|
-| RF-07, solicitudes en el **mismo instante** | Solo se prueban dos solicitudes **seguidas**, que en la práctica es HU04-CA2. La garantía para el mismo instante se diseña en la fase 2. |
+| RF-07, solicitudes en el **mismo instante** | Solo se prueban dos solicitudes **seguidas**, que en la práctica es HU04-CA2. El mismo instante lo cubre el índice único (D-02), que se comprueba en F4; no se prueba con solicitudes simultáneas. |
 | RF-10, rechazo a las 17:59 | Se prueba solo en la **consulta** (HU03-CA2), no al reservar. |
 | RF-11, pregrado rechazado en A y E | Se prueba solo en la **consulta** (HU03-CA1), no al reservar. |
 | RF-04, asistentes = capacidad | Sin test; es **[PROVISIONAL]** (P-03). |
@@ -464,6 +464,8 @@ RC-01 (causa concreta) y RC-03 (un rechazo no deja la operación a medias) no ti
 | HU-09, **éxito** del administrador al modificar, y cancelar una reserva ajena | Sin test; solo se prueban sus dos rechazos. |
 | C-04, modificar una reserva ajena (estudiante) | Sin test propio; queda como precondición de CU-07. |
 | RF-08 sin aplicar al personal | Sin test; es **[PROVISIONAL]** (P-08). |
+| RF-08, dos pedidos de la **misma persona en el mismo instante** para bloques contiguos (por ejemplo, B2 y B3 en salas distintas) | Sin test. Podrían aceptarse los dos, porque RF-08 no se puede expresar como índice único (diseño, sección 1; cambio C-07). |
+| RF-12, una reserva creada **en el mismo instante** en que se registra un mantenimiento de esa sala y ese bloque | Sin test. Podría quedar Confirmada: la transacción del mantenimiento y la reserva escriben documentos distintos, así que no chocan (diseño, sección 1; cambio C-07). |
 
 Que RF-10 **no** se aplique al personal sí se prueba, en HU05-CA1 (Ana reserva el lunes para el viernes), pero sigue siendo **[PROVISIONAL]** (P-13).
 
@@ -471,7 +473,7 @@ Los escenarios de este documento se recorrieron sobre el modelo. **Eso no equiva
 
 ## 7. Dudas y cambios
 
-- Las preguntas abiertas siguen en la sección 6 de los requisitos (P-01 a P-16) y en el issue #26. Las que afectan a estas historias son: P-02 (Esc), P-03 (asistentes = capacidad), P-08 (bloques seguidos para el personal), P-09 (cambiar de sala) y P-13 (anticipación del personal).
+- Las preguntas abiertas siguen en la sección 6 de los requisitos (P-01 a P-17) y en el issue #26. Las que afectan a estas historias son: P-02 (Esc), P-03 (asistentes = capacidad), P-08 (bloques seguidos para el personal), P-09 (cambiar de sala) y P-13 (anticipación del personal).
 - Cambios que se aplican aquí: **C-03** (HU-05 para el docente o el administrador) y **C-04** (solo el dueño cancela o modifica). Ver [cambios.md](cambios.md).
 
 ## 8. Siguiente paso y participación

@@ -138,7 +138,7 @@ Que pregrado no use A ni E es **[PROVISIONAL]** (P-16). Ver RF-11.
 ### RES-RF-05 — Solo reservan estudiantes con matrícula al día
 
 - Origen: ENC (RES-01, RES-04); S6 (ENT-04). Prioridad: alta.
-- Estado: la regla es **[ACUERDO]** (S6). Que el dato se lea del padrón lo indicó Raúl al listar los acuerdos (15/10/2026). Cómo se lee se decide en la fase 2.
+- Estado: la regla es **[ACUERDO]** (S6). Que el dato se lea del padrón lo indicó Raúl al listar los acuerdos (15/10/2026). En la fase 2 se decidió copiarlo del padrón a la cuenta al registrarse (diseño, D-01); la limitación que resulta es la pregunta P-17 (cambio C-06).
 - Requisito: un estudiante sin la matrícula al día puede tener cuenta (RF-13), pero el sistema rechaza todas sus reservas con el motivo "matrícula no vigente" y no registra nada. Esta regla no se aplica al docente ni al administrador.
 - Criterio de aceptación:
   - Situación inicial: Lucía (31247, matrícula no al día) tiene cuenta. La sala C está libre el jueves 22/10 en B2. Hoy es miércoles 21/10, 18:05.
@@ -175,7 +175,7 @@ Que pregrado no use A ni E es **[PROVISIONAL]** (P-16). Ver RF-11.
   - Situación inicial: la sala D está libre el jueves 22/10 en B3. Hoy es miércoles 21/10, 18:05.
   - Acción: Valeria envía la solicitud y, enseguida, Mateo envía la misma.
   - Resultado: existe una sola reserva de la sala D en B3, a nombre de Valeria, y la de Mateo se rechaza.
-- **Limitación del criterio:** prueba dos solicitudes **seguidas**, no dos solicitudes en el **mismo instante**. La garantía para el mismo instante (una transacción en MongoDB) se diseña y explica en la fase 2.
+- **Limitación del criterio:** prueba dos solicitudes **seguidas**, no dos solicitudes en el **mismo instante**. El mismo instante se resuelve en el diseño con un índice único parcial (D-02).
 
 ### RES-RF-08 — No reservar dos bloques seguidos el mismo día
 
@@ -333,6 +333,7 @@ Se siguen en el issue #26. Mientras no haya respuesta, rige el valor provisional
 | P-14 | Posgrado: ¿puede usar también las salas de pregrado? | Aplazado: posgrado está fuera del MVP | RF-11 |
 | P-15 | ¿Se aprueba que cada rechazo muestre su causa concreta? | Sí | RC-01 |
 | P-16 | ¿Los estudiantes de pregrado pueden usar las salas A y E? | No | RF-11 |
+| P-17 | La matrícula al día, el rol y el nivel se copian del padrón a la cuenta al registrarse, y al reservar ya no se consulta el padrón. ¿Es aceptable que, si el padrón cambiara después del registro, la cuenta no se actualice? (En el MVP el padrón es estático y de solo lectura.) Agregada el 15/10/2026, cambio C-06 | Sí, es aceptable; queda como limitación declarada | RF-05, RF-13 |
 
 ## 7. Siguiente paso
 
