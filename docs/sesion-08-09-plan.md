@@ -228,13 +228,13 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 |---|---|---|---|---|
 | F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
 | F1 | Terminada, con la aprobación de Raúl (15/10/2026) | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3). **Cierre en el plan: `30b824b`**; horas corregidas en `a8549be` | 4 Hrs |
-| F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:30 | C-06 y C-07, `sesion-13-14-diseno.md` (Closes #4), borrador de `sesion-12-arquitectura.md` (Refs #5) y este plan. Los SHA se anotan al cerrar F3 | 3 Hrs |
+| F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:02 | C-06 y C-07, `sesion-13-14-diseno.md` (Closes #4), borrador de `sesion-12-arquitectura.md` (Refs #5) y este plan. Los SHA se anotan al cerrar F3 | 3 Hrs |
 | F3 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
 
 - **Señal de R1:** F0 se cerró a las 10:52, antes de las 17:00. **R1 no se activa.**
-- **Señal de R2:** F2 se cerró el viernes 16/10 a las 12:30, antes de las 17:00. **R2 no se activa.**
+- **Señal de R2:** F2 se cerró el viernes 16/10 a las 12:02, antes de las 17:00. **R2 no se activa.**
 - **F2 empezó el jueves a las 21:00** con las secciones 1 a 3 del diseño y se completó en la clase del viernes (colchón), como estaba previsto.
 - **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
 - **El cambio C-04 se subió en 7 commits:**
