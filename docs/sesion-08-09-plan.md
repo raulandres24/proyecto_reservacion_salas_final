@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 15/10/2026, al cerrar la fase 1 (ver las secciones 10 y 11)
+- Última actualización: 16/10/2026, al cerrar la fase 2 (ver las secciones 10 y 11)
 
 ## 1. Punto de partida
 
@@ -65,7 +65,7 @@ En el repositorio anterior, `RES-HU-01` era "modificar una reserva". En este rep
 | F1 | Requisitos, historias y casos de uso | `sesion-06-requisitos.md` y `sesion-07-modelos.md` aprobados | 4 | 4 | F0 | Raúl | 6, 7 |
 | F2 | Diseño | `sesion-13-14-diseno.md` y borrador de `sesion-12-arquitectura.md` aprobados | 3 | 3 | F1 | Raúl | 12, 13–14 |
 | F3 | Entorno | MongoDB como replica set de un nodo; `runserver` arranca y se conecta | 2,5 | 2,5 | F2 | Raúl | — |
-| F4 | Datos | Modelos, `padron.json` y salas cargadas; datos visibles en Compass | 2 | 2 | F3 | Raúl | 13–14 |
+| F4 | Datos | Modelos, `padron.json` y salas cargadas; datos visibles con cualquier cliente de MongoDB | 2 | 2 | F3 | Raúl | 13–14 |
 | F5 | Reglas | Una sola capa de reglas; cada historia probada a mano y explicada | 5 | 5 | F4 | Raúl | 6, 12 |
 | F6 | Vistas | Cada operación responde bien con HTML simple | 4 | 4 | F5 | Raúl | 7, 12 |
 | H0 | Lectura de `docs/` | Hugo puede explicar las historias y el diseño | 1 | 1 | F2 | Hugo | — |
@@ -227,12 +227,15 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
 |---|---|---|---|---|
 | F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
-| F1 | Terminada con este commit, con la aprobación de Raúl | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3) | 4 Hrs |
-| F2 a F9 | No iniciada | — | — | — |
+| F1 | Terminada, con la aprobación de Raúl (15/10/2026) | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3). **Cierre en el plan: `30b824b`**; horas corregidas en `a8549be` | 4 Hrs |
+| F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:30 | C-06 y C-07, `sesion-13-14-diseno.md` (Closes #4), borrador de `sesion-12-arquitectura.md` (Refs #5) y este plan. Los SHA se anotan al cerrar F3 | 3,5 Hrs |
+| F3 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
 
 - **Señal de R1:** F0 se cerró a las 10:52, antes de las 17:00. **R1 no se activa.**
+- **Señal de R2:** F2 se cerró el viernes 16/10 a las 12:30, antes de las 17:00. **R2 no se activa.**
+- **F2 empezó el jueves a las 21:00** con las secciones 1 a 3 del diseño y se completó en la clase del viernes (colchón), como estaba previsto.
 - **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
 - **El cambio C-04 se subió en 7 commits:**
   - `7800f85` creó por error `docs/cambios`, sin extensión;
@@ -254,10 +257,11 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | 15/10/2026 | **Numeración real de los issues:** del #1 al #19 coinciden con la lista de la fase 0. El **#20** era un duplicado y se borró. Desde ahí todo se corre uno: #21 workflow de CI, #22 trazabilidad, #23 interfaz (Raúl), #24 interfaz (Hugo), **#25 README**, Gantt real y revisión final, y **#26 preguntas abiertas al docente**. | Se creó un issue duplicado entre el #19 y el #20. | Raúl |
 | 15/10/2026 | El pendiente del administrador que reserva (sección 2) queda resuelto por C-03. HU-03 cambia de actor a "usuario con cuenta" (C-05). | Decisiones de la fase 1, registradas en `cambios.md`. | Raúl |
 | 15/10/2026 | La sección 12 deja de copiar las preguntas al docente y remite a los requisitos. | Evitar dos listas que se desactualicen, como pasó en el repositorio anterior. | Raúl |
+| 16/10/2026 | El criterio de cierre de F4 dice "datos visibles con cualquier cliente de MongoDB" en lugar de "Compass". | Los documentos del repositorio no nombran una herramienta concreta para mirar los datos. | Raúl |
 
 ## 12. Dudas abiertas con el docente
 
-La lista vigente, con 16 preguntas (P-01 a P-16) y sus valores provisionales, está en [sesion-06-requisitos.md](sesion-06-requisitos.md), sección 6, y se sigue en el issue **#26**. Este plan ya no la copia, para no tener dos listas que se contradigan.
+La lista vigente, con 17 preguntas (P-01 a P-17) y sus valores provisionales, está en [sesion-06-requisitos.md](sesion-06-requisitos.md), sección 6, y se sigue en el issue **#26**. Este plan ya no la copia, para no tener dos listas que se contradigan.
 
 Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Cada respuesta del docente que cambie algo se registra en [cambios.md](cambios.md).
 
@@ -266,4 +270,5 @@ Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Ca
 - **Raúl Vaca:** tras la observación del docente sobre las 129 pruebas, decidió rehacer el proyecto (14/10/2026); definió el alcance, los roles, las franjas horarias, los cambios al plan y los recortes, y aprobó las historias y la estructura.
 - **Hugo Zúñiga:** sin aporte en F0; confirmó su disponibilidad el 15/10/2026 y se incorpora en F7.
 - **Fase 1:** Raúl respondió las preguntas de la fase, aprobó los requisitos, los 26 criterios y los cambios C-01 a C-05, y subió los documentos. Hugo no tuvo aporte en esta fase.
+- **Fase 2:** Raúl respondió las preguntas del diseño, aprobó las decisiones D-01 a D-10 y revisó los documentos; Claude (Anthropic) las propuso y redactó. Hugo no tuvo aporte en esta fase.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, y para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas. Raúl revisó, cambió y aprobó el plan.
