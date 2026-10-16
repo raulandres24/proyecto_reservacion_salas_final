@@ -226,8 +226,8 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 
 | Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
 |---|---|---|---|---|
-| F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 4.5 Hrs |
-| F1 | Terminada con este commit, con la aprobación de Raúl | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3) | 6.5 Hrs |
+| F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
+| F1 | Terminada con este commit, con la aprobación de Raúl | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3) | 4 Hrs |
 | F2 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
