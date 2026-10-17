@@ -2,6 +2,7 @@ from . import reglas
 from .models import Mantenimiento, Reserva, Sala
 from .reglas import Rechazo
 from django.db import IntegrityError
+from django.core.exceptions import ValidationError
 
 
 def buscar_sala(letra):
@@ -50,3 +51,26 @@ def crear_reserva(usuario, letra_sala, fecha, bloque, asistentes, ahora):
     )
     guardar_reserva(reserva)
     return reserva
+
+def buscar_reserva(reserva_id):
+    try:
+        return Reserva.objects.get(pk=reserva_id)
+    except (Reserva.DoesNotExist, ValidationError):
+        raise Rechazo("la reserva no existe")
+
+def cancelar(reserva, motivo):
+    reserva.estado = Reserva.Estado.CANCELADA
+    reserva.motivo_cancelacion = motivo
+    reserva.save()
+    return reserva
+
+def cancelar_reserva(usuario, reserva_id, ahora):
+    reserva = buscar_reserva(reserva_id)
+    reglas.verificar_puede_cancelar(reserva, usuario, ahora)
+    return cancelar(reserva, reglas.motivo_de_cancelacion(usuario))
+
+def no_mantener_reserva(usuario, reserva_id):
+    reserva = buscar_reserva(reserva_id)
+    reglas.verificar_dueno(reserva, usuario)
+    reglas.verificar_confirmada(reserva)
+    return cancelar(reserva, Reserva.MotivoCancelacion.NO_LA_MANTUVO)
