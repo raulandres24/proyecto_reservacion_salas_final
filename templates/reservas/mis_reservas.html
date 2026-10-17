@@ -4,7 +4,7 @@
     <h1>Mis reservas</h1>
     {% if reservas %}
         <table>
-            <tr><th>Sala</th><th>Fecha</th><th>Bloque</th><th>Asistentes</th><th>Estado</th><th></th></tr>
+            <tr><th>Sala</th><th>Fecha</th><th>Bloque</th><th>Asistentes</th><th>Estado</th><th>Motivo</th><th></th></tr>
             {% for reserva in reservas %}
                 <tr>
                     <td>{{ reserva.sala.letra }}</td>
@@ -12,6 +12,7 @@
                     <td>B{{ reserva.bloque }}</td>
                     <td>{{ reserva.asistentes }}</td>
                     <td>{{ reserva.get_estado_display }}</td>
+                    <td>{{ reserva.get_motivo_cancelacion_display }}</td>
                     <td>
                         {% if reserva.estado == "confirmada" %}
                         <a href="{% url 'modificar' reserva.pk %}">Modificar</a>
