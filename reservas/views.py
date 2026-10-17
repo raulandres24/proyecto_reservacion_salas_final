@@ -5,8 +5,15 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.views.decorators.http import require_POST
-from .servicios import BLOQUES, Rechazo, cancelar_reserva, consultar_salas_libres, crear_reserva, mis_reservas
-from .servicios import BLOQUES, Rechazo, consultar_salas_libres, crear_reserva, mis_reservas
+
+from .servicios import (
+    BLOQUES, Rechazo, cancelar_reserva, consultar_salas_libres, crear_reserva,
+    mis_reservas, modificar_reserva, no_mantener_reserva, reserva_a_modificar,
+)
+
+
+def leer_fecha_bloque_asistentes(datos):
+    return date.fromisoformat(datos["fecha"]), int(datos["bloque"]), int(datos["asistentes"])
 
 
 @login_required
@@ -29,9 +36,7 @@ def salas_libres(request):
 @login_required
 def reservar(request):
     try:
-        fecha = date.fromisoformat(request.POST["fecha"])
-        bloque = int(request.POST["bloque"])
-        asistentes = int(request.POST["asistentes"])
+        fecha, bloque, asistentes = leer_fecha_bloque_asistentes(request.POST)
         crear_reserva(request.user, request.POST["sala"], fecha, bloque, asistentes, timezone.localtime())
     except Rechazo as rechazo:
         messages.error(request, rechazo.causa)
@@ -47,11 +52,49 @@ def reservar(request):
 def ver_mis_reservas(request):
     return render(request, "reservas/mis_reservas.html", {"reservas": mis_reservas(request.user)})
 
+
 @require_POST
 @login_required
 def cancelar(request, reserva_id):
     try:
         cancelar_reserva(request.user, reserva_id, timezone.localtime())
+    except Rechazo as rechazo:
+        messages.error(request, rechazo.causa)
+    else:
+        messages.success(request, "Reserva cancelada")
+    return redirect("mis_reservas")
+
+
+@login_required
+def modificar(request, reserva_id):
+    ahora = timezone.localtime()
+    try:
+        reserva = reserva_a_modificar(request.user, reserva_id, ahora)
+    except Rechazo as rechazo:
+        messages.error(request, rechazo.causa)
+        return redirect("mis_reservas")
+    preguntar = False
+    if request.method == "POST":
+        try:
+            fecha, bloque, asistentes = leer_fecha_bloque_asistentes(request.POST)
+            modificar_reserva(request.user, reserva_id, fecha, bloque, asistentes, ahora)
+        except Rechazo as rechazo:
+            messages.error(request, rechazo.causa)
+            preguntar = rechazo.preguntar_si_mantener
+        except ValueError:
+            messages.error(request, "Los datos de la reserva no son válidos")
+        else:
+            messages.success(request, "Reserva modificada")
+            return redirect("mis_reservas")
+    contexto = {"reserva": reserva, "bloques": BLOQUES, "preguntar": preguntar}
+    return render(request, "reservas/modificar.html", contexto)
+
+
+@require_POST
+@login_required
+def no_mantener(request, reserva_id):
+    try:
+        no_mantener_reserva(request.user, reserva_id)
     except Rechazo as rechazo:
         messages.error(request, rechazo.causa)
     else:

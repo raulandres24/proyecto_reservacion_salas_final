@@ -116,9 +116,13 @@ def aplicar_cambio(reserva, fecha, bloque, asistentes, ahora):
     reserva.asistentes = asistentes
     guardar_reserva(reserva)
 
-def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
+def reserva_a_modificar(usuario, reserva_id, ahora):
     reserva = buscar_reserva(reserva_id)
     reglas.verificar_puede_modificar(reserva, usuario, ahora)
+    return reserva
+
+def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
+    reserva = reserva_a_modificar(usuario, reserva_id, ahora)
     try:
         aplicar_cambio(reserva, fecha, bloque, asistentes, ahora)
     except Rechazo as rechazo:

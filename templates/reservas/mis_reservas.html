@@ -14,6 +14,7 @@
                     <td>{{ reserva.get_estado_display }}</td>
                     <td>
                         {% if reserva.estado == "confirmada" %}
+                        <a href="{% url 'modificar' reserva.pk %}">Modificar</a>
                             <form method="post" action="{% url 'cancelar' reserva.pk %}">
                                 {% csrf_token %}
                                 <button type="submit">Cancelar</button>
