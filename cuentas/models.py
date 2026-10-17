@@ -1,6 +1,3 @@
-from django.db import models
-
-# Create your models here.
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.db import models
 
@@ -23,7 +20,7 @@ class Usuario(AbstractBaseUser):
         POSGRADO = "posgrado", "Posgrado"
 
     correo = models.EmailField(unique=True)
-    codigo = models.CharField(max_length=5, unique=True)
+    codigo = models.CharField(max_length=6, unique=True)
     nombre = models.CharField(max_length=150)
     rol = models.CharField(max_length=15, choices=Rol.choices)
     nivel = models.CharField(max_length=10, choices=Nivel.choices, blank=True)
