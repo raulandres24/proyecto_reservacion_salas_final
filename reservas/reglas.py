@@ -1,5 +1,7 @@
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from datetime import date
 from datetime import datetime, time, timedelta
 
@@ -158,3 +160,25 @@ def motivo_de_cancelacion(usuario):
 
 def debe_preguntar_si_mantener(reserva, usuario):
     return es_dueno(reserva, usuario)
+
+def verificar_persona_en_padron(persona):
+    if persona is None:
+        raise Rechazo("código no encontrado en el padrón")
+
+def verificar_correo_del_padron(persona, correo):
+    if persona["correo"].lower() != correo.lower():
+        raise Rechazo("el correo no corresponde a ese código")
+
+def verificar_persona_activa(persona):
+    if not persona["activo"]:
+        raise Rechazo("persona no activa en el padrón")
+
+def verificar_sin_cuenta(ya_tiene_cuenta):
+    if ya_tiene_cuenta:
+        raise Rechazo("ya tienes una cuenta")
+
+def verificar_contrasena(contrasena, cuenta_nueva):
+    try:
+        validate_password(contrasena, user=cuenta_nueva)
+    except ValidationError as error:
+        raise Rechazo(" ".join(error.messages))
