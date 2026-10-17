@@ -1,6 +1,4 @@
-from django.db import models
 from django.conf import settings
-from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.db.models import Q
 
@@ -32,10 +30,8 @@ class Reserva(models.Model):
     dueno = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     sala = models.ForeignKey(Sala, on_delete=models.PROTECT)
     fecha = models.DateField()
-    bloque = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(6)]
-    )
-    asistentes = models.PositiveSmallIntegerField(validators=[MinValueValidator(1)])
+    bloque = models.PositiveSmallIntegerField()
+    asistentes = models.PositiveSmallIntegerField()
     estado = models.CharField(
         max_length=10, choices=Estado.choices, default=Estado.CONFIRMADA
     )
@@ -64,9 +60,7 @@ class Reserva(models.Model):
 class Mantenimiento(models.Model):
     sala = models.ForeignKey(Sala, on_delete=models.PROTECT)
     fecha = models.DateField()
-    bloque = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(6)]
-    )
+    bloque = models.PositiveSmallIntegerField()
     registrado_por = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     registrado_en = models.DateTimeField()
 
