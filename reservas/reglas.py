@@ -97,3 +97,24 @@ def verificar_anticipacion(dueno, fecha, ahora):
             f"las reservas para el {DIAS[fecha.weekday()]} "
             f"se abren el {DIAS[anterior.weekday()]} a las 18:00"
         )
+
+def verificar_bloques_no_seguidos(dueno, bloques_del_dueno, bloque):
+    if not es_estudiante(dueno):
+        return
+    if bloque - 1 in bloques_del_dueno or bloque + 1 in bloques_del_dueno:
+        raise Rechazo("no puedes reservar dos bloques seguidos")
+
+
+def comprobar_reserva(
+    dueno, sala, fecha, bloque, asistentes, ahora,
+    sala_ocupada, hay_mantenimiento, bloques_del_dueno,
+):
+    verificar_matricula(dueno)
+    verificar_dia_y_bloque(fecha, bloque, ahora)
+    verificar_anticipacion(dueno, fecha, ahora)
+    verificar_nivel_de_sala(dueno, sala)
+    verificar_sin_mantenimiento(hay_mantenimiento)
+    verificar_capacidad(sala, asistentes)
+    verificar_sala_libre(sala_ocupada)
+    verificar_un_bloque_por_persona(bloques_del_dueno, bloque)
+    verificar_bloques_no_seguidos(dueno, bloques_del_dueno, bloque)
