@@ -118,3 +118,43 @@ def comprobar_reserva(
     verificar_sala_libre(sala_ocupada)
     verificar_un_bloque_por_persona(bloques_del_dueno, bloque)
     verificar_bloques_no_seguidos(dueno, bloques_del_dueno, bloque)
+
+def es_administrador(usuario):
+    return usuario.rol == "administrador"
+
+def es_dueno(reserva, usuario):
+    return reserva.dueno_id == usuario.pk
+
+def verificar_es_administrador(usuario):
+    if not es_administrador(usuario):
+        raise Rechazo("solo el administrador puede hacer esto")
+
+def verificar_confirmada(reserva):
+    if reserva.estado != "confirmada":
+        raise Rechazo("la reserva ya está cancelada")
+
+def verificar_dueno(reserva, usuario):
+    if not es_dueno(reserva, usuario):
+        raise Rechazo("la reserva no es tuya")
+
+def verificar_puede_modificar(reserva, usuario, ahora):
+    if not es_administrador(usuario):
+        verificar_dueno(reserva, usuario)
+    verificar_confirmada(reserva)
+    verificar_no_comenzada(reserva, ahora)
+
+def verificar_puede_cancelar(reserva, usuario, ahora):
+    if es_administrador(usuario):
+        verificar_confirmada(reserva)
+        return
+    verificar_dueno(reserva, usuario)
+    verificar_confirmada(reserva)
+    verificar_no_comenzada(reserva, ahora)
+
+def motivo_de_cancelacion(usuario):
+    if es_administrador(usuario):
+        return "por_el_administrador"
+    return "por_el_dueno"
+
+def debe_preguntar_si_mantener(reserva, usuario):
+    return es_dueno(reserva, usuario)
