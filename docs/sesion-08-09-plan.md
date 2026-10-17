@@ -222,8 +222,8 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 3. `trazabilidad.md` relaciona cada test con su historia, criterio y caso de uso;
 4. el README permite instalar y ejecutar el proyecto desde cero.
 
+**Estado real:**
 
-Raúl montó el entorno
 | Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
 |---|---|---|---|---|
 | F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
