@@ -131,3 +131,6 @@ MIGRATION_MODULES = {
     'auth': 'mongo_migrations.auth',
     'contenttypes': 'mongo_migrations.contenttypes',
 }
+
+# Usuario propio: el login es por correo y el rol es el único permiso
+AUTH_USER_MODEL = 'cuentas.Usuario'
