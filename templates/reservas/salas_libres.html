@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block titulo %}Salas libres{% endblock %}
+{% block contenido %}
+    <h1>Salas libres</h1>
+    <form method="get">
+        <p><label>Fecha <input name="fecha" type="date" required></label></p>
+        <p><label>Bloque
+            <select name="bloque">
+                {% for numero, horas in bloques.items %}
+                    <option value="{{ numero }}">B{{ numero }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
+                {% endfor %}
+            </select>
+        </label></p>
+        <button type="submit">Ver salas libres</button>
+    </form>
+    {% if salas is not None %}
+        {% if salas %}
+            <ul>
+                {% for sala in salas %}
+                    <li>Sala {{ sala.letra }} (capacidad {{ sala.capacidad }})</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No hay salas libres en ese bloque.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

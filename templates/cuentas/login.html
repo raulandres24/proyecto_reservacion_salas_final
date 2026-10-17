@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titulo %}Iniciar sesión{% endblock %}
+{% block contenido %}
+    <h1>Iniciar sesión</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p><label>Correo <input name="correo" type="email" required></label></p>
+        <p><label>Contraseña <input name="contrasena" type="password" required></label></p>
+        <button type="submit">Entrar</button>
+    </form>
+    <p><a href="{% url 'registro' %}">Crear cuenta</a></p>
+{% endblock %}

@@ -56,7 +56,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -135,3 +135,7 @@ MIGRATION_MODULES = {
 
 # Usuario propio: el login es por correo y el rol es el único permiso
 AUTH_USER_MODEL = 'cuentas.Usuario'
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'salas_libres'
+LOGOUT_REDIRECT_URL = 'login'

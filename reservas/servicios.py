@@ -4,7 +4,7 @@ from .reglas import Rechazo
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
 from django_mongodb_backend import transaction
-
+from .reglas import BLOQUES, Rechazo
 
 def buscar_sala(letra):
     try:
