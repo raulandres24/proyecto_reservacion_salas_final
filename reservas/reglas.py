@@ -1,4 +1,8 @@
-from datetime import time
+from datetime import datetime, time
+from zoneinfo import ZoneInfo
+from datetime import date
+
+ZONA_HORARIA = ZoneInfo("America/La_Paz")
 
 BLOQUES = {
     1: (time(7, 45), time(9, 45)),
@@ -50,3 +54,21 @@ def verificar_nivel_de_sala(dueno, sala):
 def verificar_sin_mantenimiento(hay_mantenimiento):
     if hay_mantenimiento:
         raise Rechazo("sala en mantenimiento")
+#--------------------------------------------------------------------------------------------------------
+def inicio_del_bloque(fecha, bloque):
+    hora_de_inicio = BLOQUES[bloque][0]
+    return datetime.combine(fecha, hora_de_inicio, tzinfo=ZONA_HORARIA)
+def ya_comenzo(fecha, bloque, ahora):
+    return ahora >= inicio_del_bloque(fecha, bloque)
+
+def verificar_no_comenzada(reserva, ahora):
+    if ya_comenzo(reserva.fecha, reserva.bloque, ahora):
+        raise Rechazo("la reserva ya comenzó")
+
+def verificar_dia_y_bloque(fecha, bloque, ahora):
+    if fecha.weekday() >= 5:
+        raise Rechazo("no hay atención ese día")
+    if bloque not in BLOQUES:
+        raise Rechazo("el bloque no existe")
+    if ya_comenzo(fecha, bloque, ahora):
+        raise Rechazo("el bloque ya empezó")
