@@ -10,6 +10,10 @@
             {% csrf_token %}
             {{ user.nombre }} ({{ user.rol }})
             <button type="submit">Cerrar sesión</button>
+                    <nav>
+            <a href="{% url 'salas_libres' %}">Salas libres</a>
+            <a href="{% url 'mis_reservas' %}">Mis reservas</a>
+        </nav>
         </form>
     {% endif %}
 <body>

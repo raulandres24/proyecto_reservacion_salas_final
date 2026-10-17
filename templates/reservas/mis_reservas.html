@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titulo %}Mis reservas{% endblock %}
+{% block contenido %}
+    <h1>Mis reservas</h1>
+    {% if reservas %}
+        <table>
+            <tr><th>Sala</th><th>Fecha</th><th>Bloque</th><th>Asistentes</th><th>Estado</th><th></th></tr>
+            {% for reserva in reservas %}
+                <tr>
+                    <td>{{ reserva.sala.letra }}</td>
+                    <td>{{ reserva.fecha|date:"d/m/Y" }}</td>
+                    <td>B{{ reserva.bloque }}</td>
+                    <td>{{ reserva.asistentes }}</td>
+                    <td>{{ reserva.get_estado_display }}</td>
+                    <td>
+                        {% if reserva.estado == "confirmada" %}
+                            <form method="post" action="{% url 'cancelar' reserva.pk %}">
+                                {% csrf_token %}
+                                <button type="submit">Cancelar</button>
+                            </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>Todavía no tienes reservas.</p>
+    {% endif %}
+{% endblock %}

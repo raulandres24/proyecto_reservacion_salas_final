@@ -3,11 +3,11 @@
 {% block contenido %}
     <h1>Salas libres</h1>
     <form method="get">
-        <p><label>Fecha <input name="fecha" type="date" required></label></p>
+        <p><label>Fecha <input name="fecha" type="date" value="{{ fecha|date:'Y-m-d' }}" required></label></p>
         <p><label>Bloque
             <select name="bloque">
                 {% for numero, horas in bloques.items %}
-                    <option value="{{ numero }}">B{{ numero }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
+                    <option value="{{ numero }}" {% if numero == bloque %}selected{% endif %}>B{{ numero }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
                 {% endfor %}
             </select>
         </label></p>
@@ -17,7 +17,17 @@
         {% if salas %}
             <ul>
                 {% for sala in salas %}
-                    <li>Sala {{ sala.letra }} (capacidad {{ sala.capacidad }})</li>
+                    <li>
+                        <form method="post" action="{% url 'reservar' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="sala" value="{{ sala.letra }}">
+                            <input type="hidden" name="fecha" value="{{ fecha|date:'Y-m-d' }}">
+                            <input type="hidden" name="bloque" value="{{ bloque }}">
+                            Sala {{ sala.letra }} (capacidad {{ sala.capacidad }})
+                            <input type="number" name="asistentes" placeholder="Asistentes" required>
+                            <button type="submit">Reservar</button>
+                        </form>
+                    </li>
                 {% endfor %}
             </ul>
         {% else %}
