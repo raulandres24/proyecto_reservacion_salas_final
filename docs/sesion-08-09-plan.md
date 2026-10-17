@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 16/10/2026, al cerrar la fase 2 (ver las secciones 10 y 11)
+- Última actualización: 16/10/2026, al cerrar la fase 3 (ver las secciones 10 y 11)
 
 ## 1. Punto de partida
 
@@ -224,17 +224,22 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 
 **Estado real:**
 
+Raúl montó el entorno
 | Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
 |---|---|---|---|---|
 | F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
 | F1 | Terminada, con la aprobación de Raúl (15/10/2026) | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3). **Cierre en el plan: `30b824b`**; horas corregidas en `a8549be` | 4 Hrs |
-| F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:02 | C-06 y C-07, `sesion-13-14-diseno.md` (Closes #4), borrador de `sesion-12-arquitectura.md` (Refs #5) y este plan. Los SHA se anotan al cerrar F3 | 3 Hrs |
-| F3 a F9 | No iniciada | — | — | — |
+| F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:02 | `3f599d6` (C-06 y C-07, Refs #4), `7cbd10a` (diseño, Closes #4), `b1c0085` (borrador de la sesión 12, Refs #5) y `dea61ee` (cierre en el plan); hora y horas corregidas en `8ab4ee6` y `f3d2983` | 3 Hrs |
+| F3 | Terminada, con la aprobación de Raúl | 16/10/2026, 18:46 | `9c422fe` (Closes #6) y `b447d06` (Refs #6). El cierre en el plan se anota al cerrar F4 | 2 Hrs (estimación) |
+| F4 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
 
 - **Señal de R1:** F0 se cerró a las 10:52, antes de las 17:00. **R1 no se activa.**
 - **Señal de R2:** F2 se cerró el viernes 16/10 a las 12:02, antes de las 17:00. **R2 no se activa.**
+- **Señal del riesgo 2 (F3):** F3 se cerró el viernes 16/10 a las 18:46, antes de las 19:30. **R2 no se activa.**
+- **F3 empezó antes de lo previsto:** se trabajó en dos tramos, de 14:53 a 15:24 y de 17:12 a 18:46. El plan la tenía de 17:00 a 19:30.
+- **F3 no ejecutó `migrate`:** con el usuario propio (D-05), `AUTH_USER_MODEL` se declara en F4 antes de la primera migración.
 - **F2 empezó el jueves a las 21:00** con las secciones 1 a 3 del diseño y se completó en la clase del viernes (colchón), como estaba previsto.
 - **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
 - **El cambio C-04 se subió en 7 commits:**
@@ -271,4 +276,5 @@ Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Ca
 - **Hugo Zúñiga:** sin aporte en F0; confirmó su disponibilidad el 15/10/2026 y se incorpora en F7.
 - **Fase 1:** Raúl respondió las preguntas de la fase, aprobó los requisitos, los 26 criterios y los cambios C-01 a C-05, y subió los documentos. Hugo no tuvo aporte en esta fase.
 - **Fase 2:** Raúl respondió las preguntas del diseño, aprobó las decisiones D-01 a D-10 y revisó los documentos; Claude (Anthropic) las propuso y redactó. Hugo no tuvo aporte en esta fase.
+- **Fase 3**: Raúl montó el entorno en su computadora, ejecutó cada comando, revisó los archivos y subió los commits; Claude (Anthropic) lo guió comando por comando, propuso la configuración y revisó el resultado. Hugo no tuvo aporte en esta fase.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, y para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas. Raúl revisó, cambió y aprobó el plan.
