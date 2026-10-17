@@ -1,0 +1,22 @@
+[
+  {"codigo": "95445", "nombre": "Santiago Arauz", "correo": "santiagoarauz@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94186", "nombre": "Sofía Arduz", "correo": "sofiaarduz@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94102", "nombre": "Gonzalo Cardenas", "correo": "gonzalocardenas@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "101145", "nombre": "Sebas Cruz", "correo": "sebascruz@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "87097", "nombre": "Ismael Diaz", "correo": "ismaeldiaz@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "86289", "nombre": "Marcos Dominguez", "correo": "marcosdominguez@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "89352", "nombre": "Andrew Laura", "correo": "andrewlaura@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94635", "nombre": "Katrina Leigue", "correo": "katrinaleigue@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "91870", "nombre": "Alejandro Parraga", "correo": "alejandroparraga@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "95429", "nombre": "Luciana Soza", "correo": "lucianasoza@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94008", "nombre": "Sebastian Soto", "correo": "sebastiansoto@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94302", "nombre": "Peter Teran", "correo": "peterteran@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "94046", "nombre": "Andrea Trujillo", "correo": "andreatrujillo@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "95187", "nombre": "Raúl Vaca", "correo": "raulvaca@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "95503", "nombre": "Hugo Zuñiga", "correo": "hugozuniga@upb.edu", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
+  {"codigo": "67676", "nombre": "Sergio Barrientos", "correo": "sergiobarrientos@upb.edu", "rol": "docente", "nivel": "", "matricula_al_dia": false, "activo": true},
+  {"codigo": "10001", "nombre": "Sergio Barrientos", "correo": "adminsergio@upb.example", "rol": "administrador", "nivel": "", "matricula_al_dia": false, "activo": true},
+  {"codigo": "10002", "nombre": "Raúl Vaca", "correo": "adminraul@upb.example", "rol": "administrador", "nivel": "", "matricula_al_dia": false, "activo": true},
+  {"codigo": "31247", "nombre": "Lucía Fernández", "correo": "luciafernandez@upb.example", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": false, "activo": true},
+  {"codigo": "31248", "nombre": "Diego Vargas", "correo": "diegovargas@upb.example", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": false}
+]
