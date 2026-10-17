@@ -11,10 +11,13 @@ def buscar_sala(letra):
     except Sala.DoesNotExist:
         raise Rechazo("la sala no existe")
 
-def sala_esta_ocupada(sala, fecha, bloque):
-    return Reserva.objects.filter(
+def sala_esta_ocupada(sala, fecha, bloque, excepto=None):
+    reservas = Reserva.objects.filter(
         sala=sala, fecha=fecha, bloque=bloque, estado=Reserva.Estado.CONFIRMADA
-    ).exists()
+    )
+    if excepto:
+        reservas = reservas.exclude(pk=excepto.pk)
+    return reservas.exists()
 
 def hay_mantenimiento(sala, fecha, bloque):
     return Mantenimiento.objects.filter(sala=sala, fecha=fecha, bloque=bloque).exists()
@@ -97,3 +100,28 @@ def consultar_salas_libres(usuario, fecha, bloque, ahora):
         for sala in Sala.objects.order_by("letra")
         if reglas.puede_usar_sala(usuario, sala) and sala_esta_libre(sala, fecha, bloque)
     ]
+
+def aplicar_cambio(reserva, fecha, bloque, asistentes, ahora):
+    dueno = reserva.dueno
+    sala = reserva.sala
+    reglas.comprobar_reserva(
+        dueno, sala, fecha, bloque, asistentes, ahora,
+        sala_esta_ocupada(sala, fecha, bloque, excepto=reserva),
+        hay_mantenimiento(sala, fecha, bloque),
+        bloques_del_dueno(dueno, fecha, excepto=reserva),
+    )
+    reserva.fecha = fecha
+    reserva.bloque = bloque
+    reserva.asistentes = asistentes
+    guardar_reserva(reserva)
+
+
+def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
+    reserva = buscar_reserva(reserva_id)
+    reglas.verificar_puede_modificar(reserva, usuario, ahora)
+    try:
+        aplicar_cambio(reserva, fecha, bloque, asistentes, ahora)
+    except Rechazo as rechazo:
+        rechazo.preguntar_si_mantener = reglas.debe_preguntar_si_mantener(reserva, usuario)
+        raise
+    return reserva
