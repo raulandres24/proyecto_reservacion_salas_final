@@ -130,10 +130,13 @@ def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
     return reserva
 
 def poner_en_mantenimiento(administrador, sala, fecha, bloque, ahora):
-    Mantenimiento.objects.get_or_create(
-        sala=sala, fecha=fecha, bloque=bloque,
-        defaults={"registrado_por": administrador, "registrado_en": ahora},
-    )
+    try:
+        Mantenimiento.objects.create(
+            sala=sala, fecha=fecha, bloque=bloque,
+            registrado_por=administrador, registrado_en=ahora,
+        )
+    except IntegrityError:
+        raise Rechazo("la sala ya está en mantenimiento en ese bloque")
     afectadas = list(
         Reserva.objects.filter(
             sala=sala, fecha=fecha, bloque=bloque, estado=Reserva.Estado.CONFIRMADA
