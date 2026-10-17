@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %}Reservas del día{% endblock %}
+{% block contenido %}
+    <h1>Reservas del día</h1>
+    <form method="get">
+        <label>Fecha <input name="fecha" type="date" value="{{ fecha|date:'Y-m-d' }}" required></label>
+        <button type="submit">Ver reservas</button>
+    </form>
+    {% if reservas is not None %}
+        {% if reservas %}
+            <table>
+                <tr><th>Sala</th><th>Bloque</th><th>Dueño</th><th>Asistentes</th><th>Estado</th><th></th></tr>
+                {% for reserva in reservas %}
+                    <tr>
+                        <td>{{ reserva.sala.letra }}</td>
+                        <td>B{{ reserva.bloque }}</td>
+                        <td>{{ reserva.dueno.nombre }}</td>
+                        <td>{{ reserva.asistentes }}</td>
+                        <td>{{ reserva.get_estado_display }}</td>
+                        <td>
+                            {% if reserva.estado == "confirmada" %}
+                                <form method="post" action="{% url 'cancelar' reserva.pk %}">
+                                    {% csrf_token %}
+                                    <button type="submit">Cancelar</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <p>No hay reservas ese día.</p>
+        {% endif %}
+    {% endif %}
+{% endblock %}

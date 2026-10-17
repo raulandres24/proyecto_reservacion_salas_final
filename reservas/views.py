@@ -8,7 +8,8 @@ from django.views.decorators.http import require_POST
 
 from .servicios import (
     BLOQUES, Rechazo, cancelar_reserva, consultar_salas_libres, crear_reserva,
-    mis_reservas, modificar_reserva, no_mantener_reserva, reserva_a_modificar,
+    listar_reservas, mis_reservas, modificar_reserva, no_mantener_reserva,
+    registrar_mantenimiento, reserva_a_modificar, todas_las_salas,
 )
 
 
@@ -100,3 +101,34 @@ def no_mantener(request, reserva_id):
     else:
         messages.success(request, "Reserva cancelada")
     return redirect("mis_reservas")
+
+@login_required
+def reservas_del_dia(request):
+    reservas = fecha = None
+    if "fecha" in request.GET:
+        try:
+            fecha = date.fromisoformat(request.GET["fecha"])
+            reservas = listar_reservas(request.user, fecha)
+        except Rechazo as rechazo:
+            messages.error(request, rechazo.causa)
+        except ValueError:
+            messages.error(request, "La fecha no es válida")
+    return render(request, "reservas/reservas_del_dia.html", {"reservas": reservas, "fecha": fecha})
+
+@login_required
+def mantenimiento(request):
+    if request.method == "POST":
+        try:
+            fecha = date.fromisoformat(request.POST["fecha"])
+            bloques = [int(bloque) for bloque in request.POST.getlist("bloques")]
+            canceladas = registrar_mantenimiento(
+                request.user, request.POST["sala"], fecha, bloques, timezone.localtime()
+            )
+        except Rechazo as rechazo:
+            messages.error(request, rechazo.causa)
+        except ValueError:
+            messages.error(request, "Los datos no son válidos")
+        else:
+            messages.success(request, f"Mantenimiento registrado. Reservas canceladas: {len(canceladas)}")
+            return redirect("mantenimiento")
+    return render(request, "reservas/mantenimiento.html", {"salas": todas_las_salas(), "bloques": BLOQUES})

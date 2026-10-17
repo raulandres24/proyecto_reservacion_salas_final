@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block titulo %}Mantenimiento{% endblock %}
+{% block contenido %}
+    <h1>Registrar mantenimiento</h1>
+    <form method="post">
+        {% csrf_token %}
+        <p><label>Sala
+            <select name="sala">
+                {% for sala in salas %}
+                    <option value="{{ sala.letra }}">Sala {{ sala.letra }}</option>
+                {% endfor %}
+            </select>
+        </label></p>
+        <p><label>Fecha <input name="fecha" type="date" required></label></p>
+        <p>Bloques:
+            {% for numero, horas in bloques.items %}
+                <label><input type="checkbox" name="bloques" value="{{ numero }}"> B{{ numero }}</label>
+            {% endfor %}
+        </p>
+        <button type="submit">Registrar mantenimiento</button>
+    </form>
+{% endblock %}

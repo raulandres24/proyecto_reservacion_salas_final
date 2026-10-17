@@ -13,6 +13,10 @@
                     <nav>
             <a href="{% url 'salas_libres' %}">Salas libres</a>
             <a href="{% url 'mis_reservas' %}">Mis reservas</a>
+                   {% if user.rol == "administrador" %}
+                <a href="{% url 'reservas_del_dia' %}">Reservas del día</a>
+                <a href="{% url 'mantenimiento' %}">Mantenimiento</a>
+            {% endif %}
         </nav>
         </form>
     {% endif %}

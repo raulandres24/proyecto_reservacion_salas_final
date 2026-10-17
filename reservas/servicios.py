@@ -153,3 +153,6 @@ def registrar_mantenimiento(administrador, letra_sala, fecha, bloques, ahora):
         for bloque in bloques:
             canceladas += poner_en_mantenimiento(administrador, sala, fecha, bloque, ahora)
     return canceladas
+
+def todas_las_salas():
+    return list(Sala.objects.order_by("letra"))
