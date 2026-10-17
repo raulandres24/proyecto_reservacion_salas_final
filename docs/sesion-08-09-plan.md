@@ -222,7 +222,6 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 3. `trazabilidad.md` relaciona cada test con su historia, criterio y caso de uso;
 4. el README permite instalar y ejecutar el proyecto desde cero.
 
-**Estado real:**
 
 Raúl montó el entorno
 | Fase | Estado | Fecha y hora real de cierre | Commits | Horas reales |
@@ -276,5 +275,5 @@ Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Ca
 - **Hugo Zúñiga:** sin aporte en F0; confirmó su disponibilidad el 15/10/2026 y se incorpora en F7.
 - **Fase 1:** Raúl respondió las preguntas de la fase, aprobó los requisitos, los 26 criterios y los cambios C-01 a C-05, y subió los documentos. Hugo no tuvo aporte en esta fase.
 - **Fase 2:** Raúl respondió las preguntas del diseño, aprobó las decisiones D-01 a D-10 y revisó los documentos; Claude (Anthropic) las propuso y redactó. Hugo no tuvo aporte en esta fase.
-- **Fase 3**: Raúl montó el entorno en su computadora, ejecutó cada comando, revisó los archivos y subió los commits; Claude (Anthropic) lo guió comando por comando, propuso la configuración y revisó el resultado. Hugo no tuvo aporte en esta fase.
+- **Fase 3:** Raúl montó el entorno en su computadora, ejecutó cada comando, revisó los archivos y subió los commits; Claude (Anthropic) lo guió comando por comando, propuso la configuración y revisó el resultado. Hugo no tuvo aporte en esta fase.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, y para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas. Raúl revisó, cambió y aprobó el plan.
