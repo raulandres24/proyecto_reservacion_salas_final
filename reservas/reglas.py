@@ -1,6 +1,8 @@
 from datetime import datetime, time
 from zoneinfo import ZoneInfo
 from datetime import date
+from datetime import datetime, time, timedelta
+
 
 ZONA_HORARIA = ZoneInfo("America/La_Paz")
 
@@ -72,3 +74,26 @@ def verificar_dia_y_bloque(fecha, bloque, ahora):
         raise Rechazo("el bloque no existe")
     if ya_comenzo(fecha, bloque, ahora):
         raise Rechazo("el bloque ya empezó")
+
+HORA_DE_APERTURA = time(18, 0)
+DIAS = ("lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo")
+
+def hoy(ahora):
+    return ahora.astimezone(ZONA_HORARIA).date()
+
+def dia_de_clase_anterior(fecha):
+    anterior = fecha - timedelta(days=1)
+    while anterior.weekday() >= 5:
+        anterior -= timedelta(days=1)
+    return anterior
+
+def verificar_anticipacion(dueno, fecha, ahora):
+    if not es_estudiante(dueno) or fecha == hoy(ahora):
+        return
+    anterior = dia_de_clase_anterior(fecha)
+    apertura = datetime.combine(anterior, HORA_DE_APERTURA, tzinfo=ZONA_HORARIA)
+    if ahora < apertura:
+        raise Rechazo(
+            f"las reservas para el {DIAS[fecha.weekday()]} "
+            f"se abren el {DIAS[anterior.weekday()]} a las 18:00"
+        )
