@@ -16,7 +16,8 @@ BLOQUES = {
     5: (time(16, 45), time(18, 45)),
     6: (time(19, 0), time(21, 0)),
 }
-
+CAUSA_SALA_OCUPADA = "sala ocupada en ese bloque"
+CAUSA_BLOQUE_REPETIDO = "ya tienes una reserva en ese bloque"
 
 class Rechazo(Exception):
     def __init__(self, causa, preguntar_si_mantener=False):
@@ -33,11 +34,11 @@ def verificar_capacidad(sala, asistentes):
 
 def verificar_sala_libre(sala_ocupada):
     if sala_ocupada:
-        raise Rechazo("sala ocupada en ese bloque")
+        raise Rechazo(CAUSA_SALA_OCUPADA)
 
 def verificar_un_bloque_por_persona(bloques_del_dueno, bloque):
     if bloque in bloques_del_dueno:
-        raise Rechazo("ya tienes una reserva en ese bloque")
+        raise Rechazo(CAUSA_BLOQUE_REPETIDO)
 
 def es_estudiante(usuario):
     return usuario.rol == "estudiante"
