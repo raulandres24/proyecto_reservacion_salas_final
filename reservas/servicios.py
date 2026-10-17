@@ -1,9 +1,8 @@
+from django.core.exceptions import ValidationError
+from django.db import IntegrityError
+from django_mongodb_backend import transaction
 from . import reglas
 from .models import Mantenimiento, Reserva, Sala
-from .reglas import Rechazo
-from django.db import IntegrityError
-from django.core.exceptions import ValidationError
-from django_mongodb_backend import transaction
 from .reglas import BLOQUES, Rechazo
 
 def buscar_sala(letra):
