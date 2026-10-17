@@ -142,7 +142,7 @@ Los seis bloques (B1 07:45–09:45 … B6 19:00–21:00) se definen **una sola v
 Las reservas canceladas no cuentan para los índices parciales: una sala con una reserva cancelada en B2 se puede volver a reservar en B2.
 
 **[A CONFIRMAR EN F4]**, con una migración de prueba:
-1. Que `UniqueConstraint` con `condition` genere el índice único parcial (revisado en el código del paquete con asistencia de IA; falta comprobarlo con la versión instalada).
+1. Que `UniqueConstraint` con `condition` genere el índice único parcial. Se revisó en el código de la versión 6.1.0 del paquete, con asistencia de IA; la versión instalada es la 5.2.4, así que la comprobación de F4 es la que vale.
 2. Qué error lanza Django cuando falla un índice único (se espera `IntegrityError`) y cómo saber cuál de los dos índices falló, para elegir el mensaje correcto (D-03).
 3. Cómo se guarda un campo de fecha en MongoDB, que no tiene un tipo "solo fecha", y que el índice compare bien dos reservas del mismo día.
 
@@ -184,15 +184,21 @@ Se elige **`AbstractBaseUser`** porque:
 
 | App | Para qué | Estado |
 |---|---|---|
-| `django.contrib.auth` | Contraseñas cifradas, `login()`, `@login_required` | Instalada |
-| `django.contrib.contenttypes` | La necesita `auth` | Instalada |
+| `django.contrib.auth` | Contraseñas cifradas, `login()`, `@login_required` | Instalada como `config.apps.MongoAuthConfig` |
+| `django.contrib.contenttypes` | La necesita `auth` | Instalada como `config.apps.MongoContentTypesConfig` |
 | `django.contrib.sessions` | Guarda la sesión iniciada (`django_session`) | Instalada |
 | `django.contrib.messages` | Muestra el motivo de cada rechazo después de una redirección (RC-01) | Instalada |
 | `django.contrib.staticfiles` | Sirve el CSS de Tailwind (fase 8) | Instalada |
 | `django.contrib.admin` | Panel `/admin/` | **No se instala** (D-06) |
 | `cuentas` y `reservas` | Nuestras apps | Instaladas |
+| `django_mongodb_backend` | El conector de Django con MongoDB | Instalada |
 
-**[A CONFIRMAR EN F3]:** django-mongodb-backend pide configuraciones propias para las apps de Django que guardan datos (por ejemplo, el tipo de identificador ObjectId). Se configuran con la versión instalada.
+**Confirmado en F3** (Django 5.2.18, django-mongodb-backend 5.2.4, pymongo 4.19.0; versiones en `requirements.txt`). El conector pide:
+- `DEFAULT_AUTO_FIELD` con `ObjectIdAutoField`, en la configuración y en cada app;
+- el enrutador `MongoRouter`;
+- `MIGRATION_MODULES` para `auth` y `contenttypes`, con sus migraciones en `mongo_migrations/`.
+
+La plantilla oficial del proyecto ya trae todo eso. `startapp` deja `BigAutoField` en `cuentas` y `reservas`, así que en esas dos apps se corrigió a mano.
 
 **[A CONFIRMAR EN F4]:** que el login, las sesiones y `@login_required` funcionen con cuentas cuyo `_id` es un ObjectId.
 
