@@ -183,3 +183,7 @@ def verificar_contrasena(contrasena, cuenta_nueva):
         validate_password(contrasena, user=cuenta_nueva)
     except ValidationError as error:
         raise Rechazo(" ".join(error.messages))
+
+def verificar_hay_bloques(bloques):
+    if not bloques:
+        raise Rechazo("elige al menos un bloque")

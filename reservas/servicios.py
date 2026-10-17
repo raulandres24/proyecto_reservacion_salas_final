@@ -3,6 +3,7 @@ from .models import Mantenimiento, Reserva, Sala
 from .reglas import Rechazo
 from django.db import IntegrityError
 from django.core.exceptions import ValidationError
+from django_mongodb_backend import transaction
 
 
 def buscar_sala(letra):
@@ -115,7 +116,6 @@ def aplicar_cambio(reserva, fecha, bloque, asistentes, ahora):
     reserva.asistentes = asistentes
     guardar_reserva(reserva)
 
-
 def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
     reserva = buscar_reserva(reserva_id)
     reglas.verificar_puede_modificar(reserva, usuario, ahora)
@@ -125,3 +125,27 @@ def modificar_reserva(usuario, reserva_id, fecha, bloque, asistentes, ahora):
         rechazo.preguntar_si_mantener = reglas.debe_preguntar_si_mantener(reserva, usuario)
         raise
     return reserva
+
+def poner_en_mantenimiento(administrador, sala, fecha, bloque, ahora):
+    Mantenimiento.objects.get_or_create(
+        sala=sala, fecha=fecha, bloque=bloque,
+        defaults={"registrado_por": administrador, "registrado_en": ahora},
+    )
+    afectadas = list(
+        Reserva.objects.filter(
+            sala=sala, fecha=fecha, bloque=bloque, estado=Reserva.Estado.CONFIRMADA
+        )
+    )
+    return [cancelar(reserva, Reserva.MotivoCancelacion.POR_MANTENIMIENTO) for reserva in afectadas]
+
+def registrar_mantenimiento(administrador, letra_sala, fecha, bloques, ahora):
+    reglas.verificar_es_administrador(administrador)
+    reglas.verificar_hay_bloques(bloques)
+    sala = buscar_sala(letra_sala)
+    for bloque in bloques:
+        reglas.verificar_dia_y_bloque(fecha, bloque, ahora)
+    canceladas = []
+    with transaction.atomic():
+        for bloque in bloques:
+            canceladas += poner_en_mantenimiento(administrador, sala, fecha, bloque, ahora)
+    return canceladas
