@@ -92,6 +92,7 @@ DATABASE_ROUTERS = ["django_mongodb_backend.routers.MongoRouter"]
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'OPTIONS': {'user_attributes': ('correo', 'nombre')},
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
