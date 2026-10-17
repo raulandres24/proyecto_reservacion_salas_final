@@ -22,16 +22,17 @@ Cada requisito, y cada parte de un requisito cuando hace falta, lleva una de est
 |---|---|---|---|---|---|---|
 | Horario | 07:45–09:45 | 10:00–12:00 | 12:15–14:15 | 14:30–16:30 | 16:45–18:45 | 19:00–21:00 |
 
-**Personas ficticias del padrón usadas en los ejemplos** [PROPUESTA; ningún dato es real]:
+**Personas del padrón usadas en los ejemplos** [PROPUESTA]. El padrón (`padron/padron.json`) tiene 23 entradas: 15 estudiantes reales del curso, el docente, dos administradores y las cinco personas ficticias de los ejemplos (cambio C-09). Los ejemplos y las pruebas usan solo las personas de esta tabla; los datos de los estudiantes reales no se copian a los documentos.
 
-| Código | Nombre | Correo | Rol | Matrícula al día | Activa |
-|---|---|---|---|---|---|
-| 31245 | Valeria Rojas | valeria.rojas@upb.example | Estudiante de pregrado | Sí | Sí |
-| 31246 | Mateo Suárez | mateo.suarez@upb.example | Estudiante de pregrado | Sí | Sí |
-| 31247 | Lucía Fernández | lucia.fernandez@upb.example | Estudiante de pregrado | **No** | Sí |
-| 31248 | Diego Vargas | diego.vargas@upb.example | Estudiante de pregrado | Sí | **No** |
-| 20101 | Ana Gutiérrez | ana.gutierrez@upb.example | Docente | — | Sí |
-| 10001 | Carlos Méndez | carlos.mendez@upb.example | Administrador | — | Sí |
+| Código | Nombre | Correo | Rol | Matrícula al día | Activa | Nota |
+|---|---|---|---|---|---|---|
+| 31245 | Valeria Rojas | valeria.rojas@upb.example | Estudiante de pregrado | Sí | Sí | Ficticia |
+| 31246 | Mateo Suárez | mateo.suarez@upb.example | Estudiante de pregrado | Sí | Sí | Ficticio |
+| 31247 | Lucía Fernández | lucia.fernandez@upb.example | Estudiante de pregrado | **No** | Sí | Ficticia |
+| 31248 | Diego Vargas | diego.vargas@upb.example | Estudiante de pregrado | Sí | **No** | Ficticio |
+| 20101 | Ana Gutiérrez | ana.gutierrez@upb.example | Docente | — | Sí | Ficticia |
+| 10001 | Sergio Barrientos | adminsergio@upb.example | Administrador | — | Sí | Cuenta de administrador del docente, aparte de su cuenta de docente; correo inventado |
+| 10002 | Raúl Vaca | adminraul@upb.example | Administrador | — | Sí | Segundo administrador; correo inventado. No aparece en los ejemplos |
 
 **Salas** [capacidades **[PROVISIONAL]**, ficticias y declaradas como tales]:
 
@@ -239,9 +240,9 @@ Que pregrado no use A ni E es **[PROVISIONAL]** (P-16). Ver RF-11.
   - rechaza cualquier reserva o modificación nueva en ese período.
 - Criterio de aceptación:
   - Situación inicial: Valeria tiene la sala C el jueves 22/10 en B2. Hoy es miércoles 21/10, 20:00.
-  - Acción: Carlos (administrador) registra mantenimiento de la sala C el jueves 22/10 en B2 y B3.
+  - Acción: Sergio (10001, administrador) registra mantenimiento de la sala C el jueves 22/10 en B2 y B3.
   - Resultado: la reserva de Valeria queda "Cancelada por mantenimiento". Si Mateo pide luego la sala C el jueves 22/10 en B3, se rechaza por "sala en mantenimiento".
-  - Rechazo: hoy es jueves 22/10, 10:30. Carlos intenta registrar mantenimiento en B2, que ya empezó. Se rechaza y no se cancela nada.
+  - Rechazo: hoy es jueves 22/10, 10:30. Sergio intenta registrar mantenimiento en B2, que ya empezó. Se rechaza y no se cancela nada.
 
 ### RES-RF-13 — Registro con el padrón
 

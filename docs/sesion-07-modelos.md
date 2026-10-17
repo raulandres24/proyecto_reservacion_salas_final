@@ -7,7 +7,7 @@
 
 ## 0. Cómo leer este documento
 
-- Los datos de los ejemplos son los de la sección 0 de los requisitos: bloques B1 a B6, personas ficticias, salas y capacidades. Las marcas **[ACUERDO]**, **[PROPUESTA]** y **[PROVISIONAL]** de cada regla están en los requisitos, y aquí se citan por su ID.
+- Los datos de los ejemplos son los de la sección 0 de los requisitos: bloques B1 a B6, personas del padrón usadas en los ejemplos (ficticias, salvo el administrador 10001; cambio C-09), salas y capacidades. Las marcas **[ACUERDO]**, **[PROPUESTA]** y **[PROVISIONAL]** de cada regla están en los requisitos, y aquí se citan por su ID.
 - **Cada criterio de aceptación es exactamente un test.** Hay 26 criterios, así que habrá 26 tests. El nombre de cada test empieza con su historia y su criterio (`test_HU04_CA2_…`). Los tests se programan en la fase 7.
 - Cada criterio fija su "hora actual". Todos los criterios comprueban dos cosas: **la respuesta** del sistema y **lo que quedó guardado** en la base de datos.
 - Lo que **no** se prueba está declarado en la sección 6.
@@ -157,12 +157,12 @@ En CA1, CA2 y CA3 hoy es miércoles 21/10/2026, 19:00. Valeria tiene la sala B e
 
 **HU08-CA1 — Aceptación.** `test_HU08_CA1_mantenimiento_cancela_reservas_y_bloquea_el_periodo`
 - **Dado** que hoy es miércoles 21/10/2026, 20:00, y Valeria tiene la sala C el jueves 22/10 en B2,
-- **cuando** Carlos (10001, administrador) registra mantenimiento de la sala C el jueves 22/10 en B2 y B3,
+- **cuando** Sergio (10001, administrador) registra mantenimiento de la sala C el jueves 22/10 en B2 y B3,
 - **entonces** la reserva de Valeria pasa a Cancelada con motivo "por mantenimiento", y si Mateo pide después la sala C el jueves en B3, se rechaza con "sala en mantenimiento".
 
 **HU08-CA2 — Rechazo.** `test_HU08_CA2_rechaza_mantenimiento_en_bloque_ya_empezado`
 - **Dado** que hoy es jueves 22/10, 10:30, y Valeria tiene la sala C ese día en B2,
-- **cuando** Carlos intenta registrar mantenimiento de la sala C en B2,
+- **cuando** Sergio intenta registrar mantenimiento de la sala C en B2,
 - **entonces** se rechaza con "el bloque ya empezó", no se registra el mantenimiento, y la reserva de Valeria sigue Confirmada.
 
 ### HU-09 — El administrador gestiona reservas ajenas
@@ -171,12 +171,12 @@ Hoy es miércoles 21/10/2026, 19:00.
 
 **HU09-CA1 — Rechazo sin pregunta.** `test_HU09_CA1_admin_rechazado_sin_pregunta_conserva_ambas`
 - **Dado** que Valeria tiene la sala B el jueves 22/10 en B2 y Mateo la sala B el jueves 22/10 en B3,
-- **cuando** Carlos intenta mover la reserva de Valeria a B3,
+- **cuando** Sergio intenta mover la reserva de Valeria a B3,
 - **entonces** se rechaza con "sala ocupada en ese bloque", **no** aparece "¿Deseas mantenerla?", y las dos reservas quedan como estaban.
 
 **HU09-CA2 — Rechazo (reglas del dueño).** `test_HU09_CA2_admin_aplica_reglas_del_dueno`
 - **Dado** que Valeria tiene la sala B el jueves 22/10 en B2 y la sala C el jueves 22/10 en B4,
-- **cuando** Carlos intenta mover la reserva de B4 a B3 (la sala C está libre en B3),
+- **cuando** Sergio intenta mover la reserva de B4 a B3 (la sala C está libre en B3),
 - **entonces** se rechaza con "no puedes reservar dos bloques seguidos", porque se aplican las reglas de Valeria, la dueña, y sus dos reservas quedan como estaban.
 
 ## 3. Casos de uso

@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 16/10/2026, al cerrar la fase 3 (ver las secciones 10 y 11)
+- Última actualización: 17/10/2026, al cerrar la fase 4 (ver las secciones 10 y 11)
 
 ## 1. Punto de partida
 
@@ -229,8 +229,9 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | F0 | Terminada, en clase (colchón), como estaba previsto | 15/10/2026, 10:52 | `65188dc` (Closes #1); `9465262` renombra el archivo, sin cita de issue | 2 Hrs |
 | F1 | Terminada, con la aprobación de Raúl (15/10/2026) | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3). **Cierre en el plan: `30b824b`**; horas corregidas en `a8549be` | 4 Hrs |
 | F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:02 | `3f599d6` (C-06 y C-07, Refs #4), `7cbd10a` (diseño, Closes #4), `b1c0085` (borrador de la sesión 12, Refs #5) y `dea61ee` (cierre en el plan); hora y horas corregidas en `8ab4ee6` y `f3d2983` | 3 Hrs |
-| F3 | Terminada, con la aprobación de Raúl | 16/10/2026, 18:46 | `9c422fe` (Closes #6) y `b447d06` (Refs #6). El cierre en el plan se anota al cerrar F4 | 2 Hrs (estimación) |
-| F4 a F9 | No iniciada | — | — | — |
+| F3 | Terminada, con la aprobación de Raúl | 16/10/2026, 18:46 | `9c422fe` (Closes #6) y `b447d06` (Refs #6). Cierre en el plan: `28a4f2c`; diseño: `0789faf`; formato del plan corregido en `9c2b128` y `cd8ae45` (todos Refs #6) | 2 Hrs (estimación) |
+| F4 | Terminada, con la aprobación de Raúl | 17/10/2026, 12:11 | `79d5f0c`, `b7a3f41`, `55b79a9`, `1bf3119`, `b10e601` y `b1f3c6f` (Refs #7). La corrección del padrón (C-09) y el cierre en los documentos (Closes #7) se anotan al cerrar F5 | 2,2 Hrs |
+| F5 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
 
@@ -239,6 +240,8 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 - **Señal del riesgo 2 (F3):** F3 se cerró el viernes 16/10 a las 18:46, antes de las 19:30. **R2 no se activa.**
 - **F3 empezó antes de lo previsto:** se trabajó en dos tramos, de 14:53 a 15:24 y de 17:12 a 18:46. El plan la tenía de 17:00 a 19:30.
 - **F3 no ejecutó `migrate`:** con el usuario propio (D-05), `AUTH_USER_MODEL` se declara en F4 antes de la primera migración.
+- **F4 terminó después de su franja:** el plan la tenía el viernes de 19:30 a 21:30. Se trabajó el viernes de 20:43 a 22:01 y el sábado de 10:25 a 11:11 y de 12:02 a 12:11 (pausa de 11:11 a 12:02). La franja de F5 del sábado de 08:00 a 12:00 no se usó.
+- **F4 confirmó los puntos [A CONFIRMAR EN F4] del diseño** (secciones 2.4 y 3.4) y encontró que, con este conector, `django.db.transaction.atomic()` no hace nada: F5 usa `django_mongodb_backend.transaction.atomic()` (D-04).
 - **F2 empezó el jueves a las 21:00** con las secciones 1 a 3 del diseño y se completó en la clase del viernes (colchón), como estaba previsto.
 - **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
 - **El cambio C-04 se subió en 7 commits:**

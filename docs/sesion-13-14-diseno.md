@@ -18,7 +18,7 @@
 | D-01 | **La matrícula al día, el rol y el nivel se copian del padrón a la cuenta al registrarse.** Reservar es FE → MW → BD y no vuelve a consultar el padrón. | Mantiene el recorrido que dibujó el docente: el padrón solo se consulta en el registro. | RF-05, RF-13; CU-01 |
 | D-02 | **Índices únicos parciales**, que solo cuentan las reservas Confirmadas: (1) sala + fecha + bloque y (2) dueño + fecha + bloque. | Una transacción sola **no** impide que dos solicitudes simultáneas inserten dos documentos distintos. El índice hace que la base de datos rechace la segunda. | RF-01, RF-07 (índice 1); RF-02 (índice 2) |
 | D-03 | **`servicios.py` captura el error de clave duplicada** y lo traduce al mismo rechazo que daría la regla: "sala ocupada en ese bloque" (índice 1) o "ya tienes una reserva en ese bloque" (índice 2). | El usuario recibe la misma causa haya o no un empate al mismo instante (RC-01). La regla sigue viviendo en `reglas.py`; el índice es la última barrera. | RF-01, RF-02, RF-07, RC-01 |
-| D-04 | **El mantenimiento se registra en una transacción**: el período y la cancelación de las reservas afectadas ocurren juntos o no ocurre nada. Las transacciones necesitan MongoDB como *replica set* de un nodo (plan, fase 3). | Un rechazo o un error no puede dejar la operación a medias. | RF-12, RC-03; CU-08 |
+| D-04 | **El mantenimiento se registra en una transacción**: el período y la cancelación de las reservas afectadas ocurren juntos o no ocurre nada. Las transacciones necesitan MongoDB como *replica set* de un nodo (plan, fase 3). Se abren con `django_mongodb_backend.transaction.atomic()`: con este conector, `django.db.transaction.atomic()` no hace nada (confirmado en F4). | Un rechazo o un error no puede dejar la operación a medias. | RF-12, RC-03; CU-08 |
 | D-05 | **Usuario propio `cuentas.Usuario`, sobre `AbstractBaseUser`**: un documento por persona, login por correo. `rol` es la única fuente de permisos. Correo y código son únicos. La cuenta **no guarda `is_active`**. Las cuentas solo se crean con el registro. | Detalle en la sección 3. | RF-13, RF-14; CU-01, CU-02 |
 | D-06 | **Sin el panel `/admin/` de Django.** Todo lo del rol administrador pasa por nuestras vistas y servicios. | El panel guarda directamente en la base, sin reglas: es la falla del repositorio anterior. | HU-08, HU-09 |
 | D-07 | **Comando `cargar_salas`**, que carga las 8 salas. Se puede correr varias veces sin duplicar: busca cada sala por su letra y, si existe, la actualiza. **[DECISIÓN F2, 15/10/2026]** | Se corre en la fase 4 y antes de los tests; correrlo dos veces no debe crear salas repetidas. | Datos de la sección 0 de los requisitos |
@@ -47,7 +47,7 @@ Cada modelo de Django se guarda como una colección de MongoDB. El nombre lo pon
 |---|---|---|---|
 | `_id` | ObjectId | Identificador | MongoDB |
 | `correo` | texto | **Único**. Es el dato con el que se entra. | Padrón |
-| `codigo` | texto de 5 dígitos | **Único** | Padrón |
+| `codigo` | texto de hasta 6 dígitos (C-08) | **Único** | Padrón |
 | `nombre` | texto | — | Padrón |
 | `rol` | `estudiante` · `docente` · `administrador` | Única fuente de permisos | Padrón |
 | `nivel` | `pregrado` · `posgrado` · vacío | Solo para estudiantes; vacío para el personal | Padrón |
@@ -95,7 +95,7 @@ Si el administrador marca B2 y B3, se crean **dos documentos**, uno por bloque *
 **`django_session`** — la crea `django.contrib.sessions` para guardar las sesiones iniciadas (RF-14). No la tocamos.
 
 **Fuera de la base de datos:**
-- El padrón (`padron/padron.json`, D-08), con los campos: `codigo`, `nombre`, `correo`, `rol`, `nivel`, `matricula_al_dia` y `activo`. El campo `activo` del padrón **solo se comprueba al registrarse** (RF-13) y no se copia a la cuenta.
+- El padrón (`padron/padron.json`, D-08), con 23 entradas (cambio C-09) y los campos: `codigo`, `nombre`, `correo`, `rol`, `nivel`, `matricula_al_dia` y `activo`. El campo `activo` del padrón **solo se comprueba al registrarse** (RF-13) y no se copia a la cuenta.
 - Los horarios de los bloques (sección 2.3).
 
 ### 2.2 Relaciones y multiplicidades
@@ -141,10 +141,11 @@ Los seis bloques (B1 07:45–09:45 … B6 19:00–21:00) se definen **una sola v
 
 Las reservas canceladas no cuentan para los índices parciales: una sala con una reserva cancelada en B2 se puede volver a reservar en B2.
 
-**[A CONFIRMAR EN F4]**, con una migración de prueba:
-1. Que `UniqueConstraint` con `condition` genere el índice único parcial. Se revisó en el código de la versión 6.1.0 del paquete, con asistencia de IA; la versión instalada es la 5.2.4, así que la comprobación de F4 es la que vale.
-2. Qué error lanza Django cuando falla un índice único (se espera `IntegrityError`) y cómo saber cuál de los dos índices falló, para elegir el mensaje correcto (D-03).
-3. Cómo se guarda un campo de fecha en MongoDB, que no tiene un tipo "solo fecha", y que el índice compare bien dos reservas del mismo día.
+**Confirmado en F4** (django-mongodb-backend 5.2.4):
+1. `UniqueConstraint` con `condition=Q(estado="confirmada")` crea índices únicos **parciales** en MongoDB (`partialFilterExpression` con `estado` igual a `confirmada`; el conector agrega filtros `$type`). Una reserva cancelada no bloquea el bloque.
+2. Cuando falla un índice único, Django lanza `IntegrityError` (sin texto propio). Su causa (`error.__cause__`) es un `BulkWriteError` de pymongo: `details["writeErrors"][0]` trae el código 11000, el mensaje con el nombre del índice y `keyPattern`. Para D-03 se distingue por `keyPattern`: si contiene `sala_id`, "sala ocupada en ese bloque"; si contiene `dueno_id`, "ya tienes una reserva en ese bloque".
+3. Si una misma persona repite su propia reserva, se violan los dos índices a la vez. En la prueba, MongoDB informó el de sala (se vio una vez; no está garantizado). Por eso `reglas.py` comprueba antes, con la causa correcta, y el índice queda como última barrera para el mismo instante.
+4. La fecha se guarda como fecha de MongoDB a medianoche UTC, y el índice compara bien dos reservas del mismo día. El bloque se guarda como entero y las referencias como ObjectId.
 
 ## 3. La cuenta de usuario (`cuentas.Usuario`)
 
@@ -166,7 +167,7 @@ Se elige **`AbstractBaseUser`** porque:
 - **Correo y código únicos** (sección 2.4).
 - **Sin `is_active`:** `AbstractBaseUser` ya responde `is_active = True` para todas las cuentas. La limitación está en la sección 1 (ligada a P-17).
 - **Contraseña:** las reglas por defecto de Django (RF-13).
-- **Las cuentas solo se crean con el registro** contra el padrón (RF-13, CU-01), incluida la del administrador (Carlos, 10001, que figura en el padrón con rol administrador). El "administrador" de cuentas (manager) solo sabe crear usuarios comunes: **no hay `createsuperuser`** ni ningún otro camino.
+- **Las cuentas solo se crean con el registro** contra el padrón (RF-13, CU-01), incluida la del administrador (Sergio Barrientos, 10001, que figura en el padrón con rol administrador y un correo distinto del de su cuenta de docente). El "administrador" de cuentas (manager) solo sabe crear usuarios comunes: **no hay `createsuperuser`** ni ningún otro camino.
 
 ### 3.3 Qué se copia del padrón al registrarse
 
@@ -200,7 +201,7 @@ Se elige **`AbstractBaseUser`** porque:
 
 La plantilla oficial del proyecto ya trae todo eso. `startapp` deja `BigAutoField` en `cuentas` y `reservas`, así que en esas dos apps se corrigió a mano.
 
-**[A CONFIRMAR EN F4]:** que el login, las sesiones y `@login_required` funcionen con cuentas cuyo `_id` es un ObjectId.
+**Confirmado en F4:** el login y las sesiones funcionan con cuentas cuyo `_id` es un ObjectId. Se comprobó `create_user`, el login por correo, que una contraseña equivocada falla, que la sesión guarda el ObjectId como texto y que Django recupera al mismo usuario. `@login_required` se prueba con las vistas, en F6.
 
 ## 4. Clases y responsabilidades
 
