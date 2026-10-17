@@ -74,3 +74,26 @@ def no_mantener_reserva(usuario, reserva_id):
     reglas.verificar_dueno(reserva, usuario)
     reglas.verificar_confirmada(reserva)
     return cancelar(reserva, Reserva.MotivoCancelacion.NO_LA_MANTUVO)
+
+def mis_reservas(usuario):
+    return list(Reserva.objects.filter(dueno=usuario).order_by("fecha", "bloque"))
+
+def listar_reservas(administrador, fecha):
+    reglas.verificar_es_administrador(administrador)
+    return list(
+        Reserva.objects.filter(fecha=fecha, estado=Reserva.Estado.CONFIRMADA).order_by("bloque")
+    )
+
+def sala_esta_libre(sala, fecha, bloque):
+    return not sala_esta_ocupada(sala, fecha, bloque) and not hay_mantenimiento(
+        sala, fecha, bloque
+    )
+
+def consultar_salas_libres(usuario, fecha, bloque, ahora):
+    reglas.verificar_dia_y_bloque(fecha, bloque, ahora)
+    reglas.verificar_anticipacion(usuario, fecha, ahora)
+    return [
+        sala
+        for sala in Sala.objects.order_by("letra")
+        if reglas.puede_usar_sala(usuario, sala) and sala_esta_libre(sala, fecha, bloque)
+    ]
