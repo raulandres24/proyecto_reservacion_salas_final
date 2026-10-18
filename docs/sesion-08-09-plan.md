@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 17/10/2026, al cerrar la fase 4 (ver las secciones 10 y 11)
+- Última actualización: 17/10/2026, al cerrar las fases 5 y 6 (ver las secciones 10 y 11)
 
 ## 1. Punto de partida
 
@@ -230,8 +230,10 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | F1 | Terminada, con la aprobación de Raúl (15/10/2026) | 15/10/2026, 20:13 (último entregable) | `43d2cb9`, `660af2a` (Closes #2), C-04 (de `7800f85` a `8f2f609`, ver nota) y `039cb9b` (Closes #3). **Cierre en el plan: `30b824b`**; horas corregidas en `a8549be` | 4 Hrs |
 | F2 | Terminada con los commits de cierre de la fase 2, con la aprobación de Raúl | 16/10/2026, 12:02 | `3f599d6` (C-06 y C-07, Refs #4), `7cbd10a` (diseño, Closes #4), `b1c0085` (borrador de la sesión 12, Refs #5) y `dea61ee` (cierre en el plan); hora y horas corregidas en `8ab4ee6` y `f3d2983` | 3 Hrs |
 | F3 | Terminada, con la aprobación de Raúl | 16/10/2026, 18:46 | `9c422fe` (Closes #6) y `b447d06` (Refs #6). Cierre en el plan: `28a4f2c`; diseño: `0789faf`; formato del plan corregido en `9c2b128` y `cd8ae45` (todos Refs #6) | 2 Hrs (estimación) |
-| F4 | Terminada, con la aprobación de Raúl | 17/10/2026, 12:11 | `79d5f0c`, `b7a3f41`, `55b79a9`, `1bf3119`, `b10e601` y `b1f3c6f` (Refs #7). La corrección del padrón (C-09) y el cierre en los documentos (Closes #7) se anotan al cerrar F5 | 2,2 Hrs |
-| F5 a F9 | No iniciada | — | — | — |
+| F4 | Terminada, con la aprobación de Raúl | 17/10/2026, 12:11 | `79d5f0c`, `b7a3f41`, `55b79a9`, `1bf3119`, `b10e601` y `b1f3c6f` (Refs #7). Corrección del padrón (C-09): `5cf384c` (Refs #7); cierre en los documentos: `9f85502` (Closes #7) | 2,2 Hrs |
+| F5 | Terminada, con la aprobación de Raúl | 17/10/2026, 15:21 | 16 commits, de `19774da` a `a1776d2` (Refs #8; el último, Closes #8). Limpieza de imports posterior: `c309c39` (Refs #10). El cierre en los documentos se anota al cerrar F7 | 2,4 Hrs (2 h 25 min) |
+| F6 | Terminada, con la aprobación de Raúl | 17/10/2026, 17:05 (cierre del último issue) | `62e3b95`, `ba9020f`, `7cd3aca` y `988dea1`, ligados al #9 por error (ver nota). Dos desviaciones del diseño corregidas al cerrar: `1d892c9` (Refs #13) y `67d5462` (Refs #16) | 1,75 Hrs (1 h 45 min) |
+| F7 a F9 | No iniciada | — | — | — |
 
 **Notas del estado real:**
 
@@ -241,6 +243,15 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 - **F3 empezó antes de lo previsto:** se trabajó en dos tramos, de 14:53 a 15:24 y de 17:12 a 18:46. El plan la tenía de 17:00 a 19:30.
 - **F3 no ejecutó `migrate`:** con el usuario propio (D-05), `AUTH_USER_MODEL` se declara en F4 antes de la primera migración.
 - **F4 terminó después de su franja:** el plan la tenía el viernes de 19:30 a 21:30. Se trabajó el viernes de 20:43 a 22:01 y el sábado de 10:25 a 11:11 y de 12:02 a 12:11 (pausa de 11:11 a 12:02). La franja de F5 del sábado de 08:00 a 12:00 no se usó.
+- **F5 y F6 cerraron antes de lo planeado:** el plan les daba 5 h y 4 h, hasta el domingo a las 10:00. Se hicieron el sábado en 4,2 h (4 h 10 min): F5 de 12:25 a 15:21 (menos 30 min de comida) y F6 de 15:21 a 17:05. La sesión de estudio de Raúl sobre el código, desde las 17:05, no se cuenta en ninguna fase.
+- **F5 se probó a mano**, con scripts locales que no se versionan (`prueba_*.py`). Una falla simulada dentro del mantenimiento dejó todo intacto (D-04). Los tests automáticos son de F7.
+- **F6 se probó en el navegador** con una cuenta de administrador y otra de estudiante. Queda para F8 (#24) el enlace "Modificar" del administrador en reservas ajenas: la regla ya lo permite, pero hoy solo se llega escribiendo la URL.
+- **Dos desviaciones del diseño, encontradas al cerrar F6** al comparar el código con el diseño, y corregidas en el código el 17/10 (probadas en el navegador):
+  - el mantenimiento aceptaba en silencio un bloque ya registrado, en lugar de rechazar todo el registro (diseño, sección 2.1, [DECISIÓN F2]). Corregido en `1d892c9`: registrar la sala C con B2 y B3, con B3 ya en mantenimiento, da "la sala ya está en mantenimiento en ese bloque", B2 no queda registrado y la reserva de C en B2 sigue Confirmada;
+  - "Mis reservas" no mostraba el motivo de cancelación (diseño, sección 4.3). Corregido en `67d5462`: aparecen "Por el administrador", "No la mantuvo" y "Por mantenimiento", y el motivo queda vacío en las Confirmadas.
+
+  No hay cambio en `cambios.md`: el diseño no cambió; el que se desviaba era el código.
+- **Issues de F6:** los commits `62e3b95`, `ba9020f`, `7cd3aca` y `988dea1` citan el #9 por error; el #9 es HU-03, de F5, y su contenido sí estaba hecho. No se reescribió el historial. Los issues #15, #16 y #17 se cerraron a mano, con comentarios que citan los commits. Siguen abiertos el #5 (hasta escribir las secciones 6 y 7 de la sesión 12, en F7), el #18, el #19 y del #21 al #26.
 - **F4 confirmó los puntos [A CONFIRMAR EN F4] del diseño** (secciones 2.4 y 3.4) y encontró que, con este conector, `django.db.transaction.atomic()` no hace nada: F5 usa `django_mongodb_backend.transaction.atomic()` (D-04).
 - **F2 empezó el jueves a las 21:00** con las secciones 1 a 3 del diseño y se completó en la clase del viernes (colchón), como estaba previsto.
 - **F1 empezó antes de lo previsto:** arrancó en clase después de cerrar F0, usando el colchón, y terminó a las 20:13. El plan la tenía de 17:00 a 21:00.
@@ -265,6 +276,7 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | 15/10/2026 | El pendiente del administrador que reserva (sección 2) queda resuelto por C-03. HU-03 cambia de actor a "usuario con cuenta" (C-05). | Decisiones de la fase 1, registradas en `cambios.md`. | Raúl |
 | 15/10/2026 | La sección 12 deja de copiar las preguntas al docente y remite a los requisitos. | Evitar dos listas que se desactualicen, como pasó en el repositorio anterior. | Raúl |
 | 16/10/2026 | El criterio de cierre de F4 dice "datos visibles con cualquier cliente de MongoDB" en lugar de "Compass". | Los documentos del repositorio no nombran una herramienta concreta para mirar los datos. | Raúl |
+| 17/10/2026 | F7 se reparte por tipo de prueba, sin cambiar las cantidades (15 de Raúl y 11 de Hugo). Raúl escribe `conftest.py` y sus tests de HU-04 y HU-05 el domingo de 11:00 a 16:00; Hugo empieza a las 16:00 con esa base lista y toma los tests de reglas puras, que no necesitan base de datos. La tabla de franjas (sección 6) no se rehace. | Aprovechar el adelanto de F5 y F6, y que Hugo empiece por pruebas que no dependen de la base. | Raúl |
 
 ## 12. Dudas abiertas con el docente
 
@@ -279,4 +291,6 @@ Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Ca
 - **Fase 1:** Raúl respondió las preguntas de la fase, aprobó los requisitos, los 26 criterios y los cambios C-01 a C-05, y subió los documentos. Hugo no tuvo aporte en esta fase.
 - **Fase 2:** Raúl respondió las preguntas del diseño, aprobó las decisiones D-01 a D-10 y revisó los documentos; Claude (Anthropic) las propuso y redactó. Hugo no tuvo aporte en esta fase.
 - **Fase 3:** Raúl montó el entorno en su computadora, ejecutó cada comando, revisó los archivos y subió los commits; Claude (Anthropic) lo guió comando por comando, propuso la configuración y revisó el resultado. Hugo no tuvo aporte en esta fase.
+- **Fase 4:** Raúl escribió, probó y subió el código, y decidió los cambios C-08 y C-09; Claude (Anthropic) lo guió, propuso el código de `padron.py` y de `cargar_salas`, y revisó los commits contra el diseño. Hugo no tuvo aporte en esta fase.
+- **Fases 5 y 6:** Raúl escribió, probó y subió el código, y aprobó C-10; Claude (Anthropic) lo guió, propuso la estructura y revisó el código contra el diseño, donde encontró las diferencias de C-10 y las dos desviaciones corregidas al cerrar F6. Hugo no tuvo aporte en estas fases.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, y para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas. Raúl revisó, cambió y aprobó el plan.

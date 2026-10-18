@@ -281,6 +281,8 @@ classDiagram
         no_mantener_reserva()
         cancelar_reserva()
         registrar_mantenimiento()
+        reserva_a_modificar()
+        todas_las_salas()
     }
 
     AbstractBaseUser <|-- Usuario
@@ -314,7 +316,7 @@ classDiagram
 | `registro` | `cuentas/servicios.py` | Orquestar el registro (CU-01): lee el padrón, averigua si ya hay cuenta, le pasa los datos a `reglas` y crea la cuenta si no hubo rechazo. Ofrece a sus vistas la clase `Rechazo` | **No decide nada por su cuenta** (D-10) |
 | `Sala`, `Reserva`, `Mantenimiento` | `reservas/models.py` | Guardar los datos y declarar los índices (sección 2.4) | **No contienen reglas de negocio** |
 | `reglas` | `reservas/reglas.py` | **Único lugar de todas las reglas**: registro, autorización, tiempo y reserva, más la constante `BLOQUES` (sección 4.4). Recibe datos ya leídos y responde: no hace nada si la regla se cumple, o lanza `Rechazo` con la causa | **No lee ni escribe en la base** y no importa modelos |
-| `servicios` | `reservas/servicios.py` | Cada operación de los casos de uso (sección 4.3): lee de la base, le pasa los datos a `reglas`, guarda si no hubo rechazo y traduce la clave duplicada a `Rechazo` (D-03). Abre la transacción del mantenimiento (D-04). Las operaciones de solo lectura no escriben nada (RC-02). Ofrece a sus vistas la clase `Rechazo` | **No decide nada por su cuenta**: ningún `if` de negocio |
+| `servicios` | `reservas/servicios.py` | Cada operación de los casos de uso (sección 4.3): lee de la base, le pasa los datos a `reglas`, guarda si no hubo rechazo y traduce la clave duplicada a `Rechazo` (D-03). Abre la transacción del mantenimiento (D-04). Las operaciones de solo lectura no escriben nada (RC-02). Ofrece a sus vistas la clase `Rechazo` y la constante `BLOQUES` (`from .reglas import BLOQUES, Rechazo`), aunque `BLOQUES` no se use dentro del archivo: así las vistas no importan `reglas` (D-10, C-10) | **No decide nada por su cuenta**: ningún `if` de negocio |
 | `Rechazo` | `reservas/reglas.py` | Una excepción con dos datos: `causa`, el motivo concreto del rechazo (RC-01), y `preguntar_si_mantener`, que vale "no" salvo que `servicios` lo marque (sección 4.6) | — |
 
 ### 4.3 Operaciones que llaman las vistas
@@ -330,6 +332,8 @@ classDiagram
 | `no_mantener_reserva` | usuario, reserva_id | La reserva Cancelada, motivo `no_la_mantuvo` | `Rechazo` si no es suya o ya no está Confirmada | Sí | CU-07, E1 |
 | `cancelar_reserva` | usuario, reserva_id, ahora | La reserva Cancelada. Si cancela el **dueño**: motivo `por_el_dueno`, solo antes de que empiece. Si cancela el **administrador**: motivo `por_el_administrador`, **en cualquier momento** y sin las comprobaciones "no es tuya" ni "ya comenzó" | Dueño: `Rechazo` ("no es tuya" o "ya comenzó"). Los dos: `Rechazo` si ya no está Confirmada | Sí | CU-06, CU-09 |
 | `registrar_mantenimiento` | administrador, letra de la sala, fecha, bloques, ahora | Los bloques registrados y las reservas afectadas Canceladas, motivo `por_mantenimiento` | `Rechazo`; no se registra ni se cancela nada | Sí, en una transacción (D-04) | CU-08 |
+| `reserva_a_modificar` | usuario, reserva_id, ahora | La reserva, para mostrar el formulario de modificar. `modificar_reserva` la usa como primer paso (C-10) | `Rechazo` de `verificar_puede_modificar` (E2): no existe, no es tuya, ya está cancelada o ya comenzó | **No** (RC-02) | CU-07, CU-09 |
+| `todas_las_salas` | — | Las 8 salas, ordenadas por letra, para el formulario de mantenimiento (C-10) | — | **No** (RC-02) | CU-08 |
 
 La diferencia entre el dueño y el administrador al cancelar o modificar **no la decide `servicios`**: la deciden las funciones de autorización de `reglas` (sección 4.4).
 
@@ -339,13 +343,17 @@ La diferencia entre el dueño y el administrador al cancelar o modificar **no la
 - la fecha, como fecha; el bloque y los asistentes, como números; la contraseña, el código y el correo, como texto;
 - el usuario es `request.user`, la cuenta que ya entrega Django al iniciar sesión. La vista no la busca en la base.
 
+La vista convierte el formulario a esos tipos con `leer_fecha_bloque_asistentes` (en `reservas/views.py`): pasa el texto a fecha y a números, y no aplica ninguna regla (C-10).
+
+**La consulta y la reserva comprueban las reglas dos veces.** `consultar_salas_libres` ya aplica las reglas de la persona (día y bloque, anticipación y nivel de sala) y solo muestra salas libres y sin mantenimiento. Aun así, `crear_reserva` vuelve a comprobar todo con `comprobar_reserva` al guardar, porque entre la consulta y la reserva otra persona pudo ocupar la sala.
+
 `servicios` busca la reserva y la sala con esos datos. Si no existen, lanza `Rechazo` ("la reserva no existe" o "la sala no existe"). Eso no es una regla de negocio: es un dato de entrada que no corresponde a nada guardado.
 
-**Iniciar y cerrar sesión (CU-02)** no tiene operación ni regla propia: lo hace Django con `authenticate`, `login` y `logout`, usando el correo como identificador (sección 3.2). El mensaje único "Correo o contraseña incorrectos" (RF-14) lo pone la vista de login.
+**Iniciar y cerrar sesión (CU-02)** no tiene operación ni regla propia: lo hace Django con `authenticate`, `login` y `logout`, usando el correo como identificador (sección 3.2). El mensaje único "Correo o contraseña incorrectos" (RF-14) lo pone la vista de login. De las tres configuraciones de login en `settings.py`, solo `LOGIN_URL = 'login'` se usa de verdad: es a donde `@login_required` manda a quien no inició sesión. `LOGIN_REDIRECT_URL` y `LOGOUT_REDIRECT_URL` están declaradas, pero las vistas propias redirigen por su cuenta.
 
 ### 4.4 Funciones de `reglas` (lista completa)
 
-Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o devuelve un dato); si no, lanza `Rechazo` con la causa.
+Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o devuelve un dato); si no, lanza `Rechazo` con la causa. La lista quedó como está en el código de F5 (cambio C-10).
 
 **Registro (RF-13, D-10)**
 
@@ -366,7 +374,7 @@ Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o de
 | `verificar_dueno(reserva, usuario)` | Que la reserva sea del usuario (C-04) | "la reserva no es tuya" |
 | `verificar_puede_modificar(reserva, usuario, ahora)` | Dueño o administrador; Confirmada; que no haya comenzado (RF-06, para los dos) | La de la comprobación que falle |
 | `verificar_puede_cancelar(reserva, usuario, ahora)` | Administrador: solo que esté Confirmada. Dueño: Confirmada, suya y que no haya comenzado | La de la comprobación que falle |
-| `motivo_de_cancelacion(reserva, usuario)` | Devuelve `por_el_administrador` si cancela el administrador, o `por_el_dueno` si cancela el dueño | — |
+| `motivo_de_cancelacion(usuario)` | Devuelve `por_el_administrador` si cancela el administrador, o `por_el_dueno` si cancela el dueño | — |
 | `debe_preguntar_si_mantener(reserva, usuario)` | Devuelve "sí" solo si quien modifica es el dueño. Al administrador no se le pregunta (CU-09). **Solo se consulta cuando la propuesta fue rechazada por `comprobar_reserva` o por el índice único (CU-07, E1)**; nunca ante "ya comenzó", "no es tuya", "ya está cancelada" ni "no existe" | — |
 
 **Tiempo**
@@ -377,7 +385,7 @@ Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o de
 | `inicio_del_bloque(fecha, bloque)` | Devuelve la fecha y hora de inicio del bloque, en America/La_Paz (RT-02) | — |
 | `verificar_no_comenzada(reserva, ahora)` | RF-06: la hora actual es anterior al inicio del bloque | "la reserva ya comenzó" |
 | `verificar_dia_y_bloque(fecha, bloque, ahora)` | RF-09: de lunes a viernes, bloque del 1 al 6 y que no haya empezado. También la usa el mantenimiento | "no hay atención ese día" o "el bloque ya empezó" |
-| `verificar_anticipacion(dueno, fecha, bloque, ahora)` | RF-10: el día siguiente desde las 18:00 del día de clase anterior, o el mismo día. Solo para estudiantes | "las reservas para el … se abren el … a las 18:00" |
+| `verificar_anticipacion(dueno, fecha, ahora)` | RF-10: el día siguiente desde las 18:00 del día de clase anterior, o el mismo día. Solo para estudiantes | "las reservas para el … se abren el … a las 18:00" |
 
 **Reserva**
 
@@ -392,6 +400,14 @@ Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o de
 | `verificar_un_bloque_por_persona(bloques_del_dueno, bloque)` | RF-02 | "ya tienes una reserva en ese bloque" |
 | `verificar_bloques_no_seguidos(dueno, bloques_del_dueno, bloque)` | RF-08, solo para estudiantes | "no puedes reservar dos bloques seguidos" |
 | `comprobar_reserva(dueno, sala, fecha, bloque, asistentes, ahora, sala_ocupada, hay_mantenimiento, bloques_del_dueno)` | Llama a las anteriores en el orden a–i de CU-04, paso 2 | La primera que falle |
+
+**Mantenimiento**
+
+| Función | Qué comprueba | Causa del rechazo |
+|---|---|---|
+| `verificar_hay_bloques(bloques)` | Que el administrador haya elegido al menos un bloque (C-10) | "elige al menos un bloque" |
+
+**Funciones auxiliares** (C-10). Responden una pregunta simple, no lanzan `Rechazo` y las usan las funciones de arriba: `es_estudiante(usuario)`, `es_administrador(usuario)`, `es_dueno(reserva, usuario)`, `hoy(ahora)`, `dia_de_clase_anterior(fecha)` y `ya_comenzo(fecha, bloque, ahora)`. Las causas "sala ocupada en ese bloque" y "ya tienes una reserva en ese bloque" están como constantes (`CAUSA_SALA_OCUPADA` y `CAUSA_BLOQUE_REPETIDO`), porque también las usa `servicios` al traducir el índice único (D-03).
 
 Las reglas que no se aplican al personal (matrícula, anticipación y bloques seguidos) lo deciden **dentro de su propia función**, mirando el `rol` del dueño. Así `servicios` no tiene que preguntar quién es.
 
