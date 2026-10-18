@@ -5,8 +5,11 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha: 15/10/2026 · Fase 1 · Issue #2 · Milestone F1 Requisitos
 - Plan: [Sesiones 8–9](sesion-08-09-plan.md) · Cambios: [cambios.md](cambios.md)
+- Actualizado: 18/10/2026 · anexo con los datos del repositorio anterior (sección 9, C-12), administrador 10003 en el padrón (C-13) y glosario de siglas (C-14). Las reglas no cambian.
 
 ## 0. Cómo leer este documento
+
+El significado de cada sigla de este documento (RF, HU, CU, FE, MW, P-xx, C-xx…) está en [glosario.md](glosario.md) (cambio C-14).
 
 Cada requisito, y cada parte de un requisito cuando hace falta, lleva una de estas tres marcas:
 
@@ -22,7 +25,7 @@ Cada requisito, y cada parte de un requisito cuando hace falta, lleva una de est
 |---|---|---|---|---|---|---|
 | Horario | 07:45–09:45 | 10:00–12:00 | 12:15–14:15 | 14:30–16:30 | 16:45–18:45 | 19:00–21:00 |
 
-**Personas del padrón usadas en los ejemplos** [PROPUESTA]. El padrón (`padron/padron.json`) tiene 23 entradas: 15 estudiantes reales del curso, el docente, dos administradores y las cinco personas ficticias de los ejemplos (cambio C-09). Los ejemplos y las pruebas usan solo las personas de esta tabla; los datos de los estudiantes reales no se copian a los documentos.
+**Personas del padrón usadas en los ejemplos** [PROPUESTA]. El padrón (`padron/padron.json`) tiene 24 entradas: 15 estudiantes reales del curso, el docente, tres administradores y las cinco personas ficticias de los ejemplos (cambios C-09 y C-13). Los ejemplos y las pruebas usan solo las personas de esta tabla; los datos de los estudiantes reales no se copian a los documentos.
 
 | Código | Nombre | Correo | Rol | Matrícula al día | Activa | Nota |
 |---|---|---|---|---|---|---|
@@ -33,6 +36,7 @@ Cada requisito, y cada parte de un requisito cuando hace falta, lleva una de est
 | 20101 | Ana Gutiérrez | ana.gutierrez@upb.example | Docente | — | Sí | Ficticia |
 | 10001 | Sergio Barrientos | adminsergio@upb.example | Administrador | — | Sí | Cuenta de administrador del docente, aparte de su cuenta de docente; correo inventado |
 | 10002 | Raúl Vaca | adminraul@upb.example | Administrador | — | Sí | Segundo administrador; correo inventado. No aparece en los ejemplos |
+| 10003 | Hugo Zuñiga | adminhugo@upb.example | Administrador | — | Sí | Tercer administrador (C-13); correo inventado. No aparece en los ejemplos |
 
 **Salas** [capacidades **[PROVISIONAL]**, ficticias y declaradas como tales]:
 
@@ -55,6 +59,8 @@ Que pregrado no use A ni E es **[PROVISIONAL]** (P-16). Ver RF-11.
 | D07 | README del repositorio anterior, decisiones del 07/10/2026 | MongoDB aprobado; anticipación de pregrado desde las 18:00; recorridos de registro (FE → MW → Padrón → BD) e inicio de sesión (FE → MW → BD) |
 | DR | Indicaciones del docente comunicadas por Raúl, **fecha no registrada** | (1) No reservar dos bloques seguidos el mismo día. (2) Los estudiantes de posgrado pueden reservar las salas A y E. |
 | E15 | Decisiones del equipo (Raúl), 15/10/2026 | Valores provisionales y decisiones de alcance del MVP |
+
+El contenido de ENC, S4, S6 y D07 está copiado en el anexo de la sección 9, con enlaces al repositorio anterior.
 
 ## 2. Alcance del MVP
 
@@ -314,7 +320,7 @@ Son los casos que más se discuten en una defensa.
 
 ## 6. Preguntas abiertas para el docente
 
-Se siguen en el issue #26. Mientras no haya respuesta, rige el valor provisional.
+Se siguen en el issue #26. Mientras no haya respuesta, rige el valor provisional. La numeración P-01 a P-17 es de este repositorio; la del repositorio anterior (P1 a P12) y sus equivalencias están en la sección 9.5.
 
 | ID | Pregunta | Valor provisional | Afecta |
 |---|---|---|---|
@@ -345,3 +351,94 @@ Se siguen en el issue #26. Mientras no haya respuesta, rige el valor provisional
 
 - **Raúl Vaca:** respondió las preguntas de la fase 1, definió los valores provisionales y las limitaciones, y revisó el documento antes del commit.
 - **Asistencia de IA:** se usó Claude (Anthropic) para comparar las respuestas con las sesiones 4 y 6 y el README del repositorio anterior, proponer la estructura y redactar el borrador.
+- **Hugo Zúñiga (18/10/2026):** sumó a este documento las entrevistas y los datos del repositorio anterior (C-12), se agregó al padrón como administrador con el código 10003 (C-13) y creó el glosario de siglas (C-14), en el issue #28 (H0).
+- **Asistencia de IA (18/10/2026):** se usó Claude (Anthropic) para copiar las entrevistas del repositorio anterior sin cambiar su texto, comprobar los datos citados contra el commit `4353d1d`, redactar el glosario y aplicar C-12, C-13 y C-14.
+
+## 9. Anexo — Datos adjuntos del repositorio anterior
+
+Los IDs **ENC**, **S4**, **S6** y **D07** (sección 1) apuntan al repositorio anterior, [campus-challenge-equipo-01](https://github.com/raulandres24/campus-challenge-equipo-01), que queda solo como referencia y no se modifica. Este anexo copia lo que usamos de él para poder leerlo sin salir de este repositorio. **No crea reglas**: las reglas vigentes siguen en la sección 3, con el estado de cada una. Se agregó el 18/10/2026 (cambio C-12).
+
+**Versión citada:** commit `4353d1d` del 14/10/2026. Los enlaces apuntan a ese commit y no a la rama, para que sigan mostrando lo mismo aunque el repositorio anterior cambie.
+
+| Sigla | Archivo en el repositorio anterior | Enlace |
+|---|---|---|
+| S4 | `docs/sesion04.md` | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/docs/sesion04.md) |
+| S6 | `docs/sesion-06-requisitos.md` (entrevista del 01/10/2026) | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/docs/sesion-06-requisitos.md) |
+| D07 | `README.md` (bitácora de decisiones y preguntas P1 a P12) | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/README.md) |
+| ENC | El encargo no está en ese repositorio; solo un resumen de RES-01 a RES-08 en `docs/BRECHA_REQUISITOS.md` | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/docs/BRECHA_REQUISITOS.md) |
+| — | `docs/sesion-13-14-revision (Raul).md`, la revisión que cita la sesión 12 | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/docs/sesion-13-14-revision%20(Raul).md) |
+| — | `docs/TRAZABILIDAD_PRUEBAS.md`, donde figuran las 129 pruebas que cita el plan | [ver](https://github.com/raulandres24/campus-challenge-equipo-01/blob/4353d1df2b5ecf3f3debd4a5c67290e9b2296fa7/docs/TRAZABILIDAD_PRUEBAS.md) |
+
+### 9.1 ENC — Necesidades del encargo (RES-01 a RES-08)
+
+El encargo del curso (P02, sesión 2) lo compartió el docente aparte. La tabla es el resumen que hizo el equipo en `docs/BRECHA_REQUISITOS.md`, **no el texto original**.
+
+| ID | Qué pide el encargo | Dónde aparece aquí |
+|---|---|---|
+| RES-01 | Registrar espacios (id, capacidad, estado) y solicitantes | RF-05 |
+| RES-02 | Consultar disponibilidad por fecha, horario y capacidad | HU-03 (consulta de salas libres) |
+| RES-03 | Crear una reserva (solicitante, espacio, intervalo, asistentes) | RF-04 |
+| RES-04 | Aplicar reglas de horario, capacidad y conflictos antes de confirmar | RF-01, RF-02, RF-04, RF-05, RF-07 |
+| RES-05 | Modificar o cancelar una reserva | RF-03, RF-06 |
+| RES-06 | Registrar bloqueos administrativos o de mantenimiento | RF-12 |
+| RES-07 | Corregir una operación administrativa conservando motivo e historial | Fuera del MVP |
+| RES-08 | Mostrar agenda por espacio, reservas activas y cancelaciones | Fuera del MVP |
+
+### 9.2 S4 — Aclaraciones del cliente en la sesión 4
+
+Entrevista al docente en la sesión 4 (`docs/sesion04.md`; el documento no registra la fecha). El backlog de esa sesión tenía cinco ítems **PB** (PB-01 crear reserva, PB-02 consultar espacios, PB-03 validar código, PB-04 modificar reserva, PB-05 cancelar reserva) y se trabajó PB-01.
+
+| Pregunta | Respuesta del docente | Efecto en S4 | Dónde queda aquí |
+|---|---|---|---|
+| ¿Existe un intervalo de tiempo entre reservas para el desalojo? | Se propone un intervalo de 15 minutos. | Diferencia obligatoria de 15 min entre el fin de una reserva y el inicio de la siguiente de la misma sala. | RF-01 (ENT-01) |
+| ¿Cuántas salas puede reservar un alumno por horario? | Una sola sala. | Si ya tiene una reserva activa en ese bloque, se rechaza la nueva. | RF-02 (ENT-02) |
+| ¿Hasta cuánto tiempo antes se permite modificar? | Hasta 10 minutos después de haber sido realizada. | Se aplicaría al programar PB-04. | Pregunta P-01: por ahora no se aplica |
+
+**Ejemplo límite de S4** (el que respalda C-01 y RF-09): hay una reserva en la sala A de 07:45 a 09:45 y se pide la misma sala de 10:00 a 12:00. Resultado: CONFIRMADA, porque el fin y el inicio respetan exactamente los 15 minutos. Es el caso de B1 y B2.
+
+### 9.3 S6 — Entrevistas ENT-01 a ENT-08
+
+Fuente: sesión 6 del repositorio anterior (entrevista del 01/10/2026). ENT-01 y ENT-02 vienen de la entrevista de la sesión 4. El docente es el Ing. Sergio Barrientos. El texto es el original; la columna "Estado" es la que tenían allí.
+
+| ID | Pregunta | Respuesta del docente | Estado en el repositorio anterior | Alimenta |
+|---|---|---|---|---|
+| ENT-01 | ¿Cuánto tiempo debe pasar entre el fin de una reserva y el inicio de la siguiente en la misma sala? | Se propone un intervalo de 15 minutos de desalojo. | Confirmado | RF-01 (C-01) |
+| ENT-02 | ¿Un estudiante puede tener dos reservas activas en el mismo bloque horario? | Una sola sala por horario, aunque sean salas distintas. | Confirmado | RF-02 |
+| ENT-03 | Si un cambio de reserva es rechazado (ej.: sala A 10:00–12:00 movida a 12:30–13:50 con otra reserva a las 14:00), ¿la reserva original se mantiene o se pierde? | El sistema debe mostrar un mensaje preguntando "¿Deseas mantenerla?". Si responde que no o presiona Esc, la reserva original se cancela. | Confirmado | RF-03 (Esc: P-02) |
+| ENT-04 | ¿Es coherente exigir en los términos y condiciones que solo puedan reservar estudiantes con matrícula al día? | Sí, es coherente: no puede reservar quien no tenga su matrícula al día. | Confirmado (falta definir cómo se verifica) | RF-05 (D-01, P-17) |
+| ENT-05 | Si mantenimiento bloquea una sala y ya había una reserva en ese horario, ¿qué debe hacer el sistema con esa reserva? | La reserva se cancela y se avisa al estudiante por email o por mensaje de WhatsApp que su reservación fue cancelada. | Confirmado (falta definir el canal: email, WhatsApp o ambos) | RF-12 (P-12) |
+| ENT-06 | ¿Qué pasa con las reservas existentes si se registra un bloqueo de mantenimiento en esa sala y horario? | La persona encargada de la gestión de las salas puede inhabilitarlas. | Confirmado | RF-12 |
+| ENT-07 | Si dos personas reservan la misma sala a la misma hora, en el mismo segundo, ¿a nombre de quién queda la reserva? | A nombre de quien presionó primero el botón. | Confirmado | RF-07 |
+| ENT-08 | ¿Se puede modificar o cancelar una reserva que ya comenzó? | No se puede modificar una vez que empezó; solo se puede modificar antes de que empiece. | Confirmado para modificar (cancelar: pendiente) | RF-06 (P-10) |
+
+Los ejemplos de esas preguntas usan horarios libres (10:00–12:00, 12:30–13:50). Desde C-01 las reservas son por bloques, pero las respuestas del docente no cambian.
+
+### 9.4 D07 — Respuestas del docente registradas en el README anterior
+
+| Fecha | Respuesta o aclaración | Dónde queda aquí |
+|---|---|---|
+| 02/10/2026 | No usar el padrón real: usar una base estática con los estudiantes del aula. El docente explicó en la pizarra el recorrido FE → MW → DB estática → DB del proyecto. | RF-13, D-08 |
+| 07/10/2026 | Se puede usar MongoDB junto con Django, en lugar de MySQL o MariaDB. | RT-03 |
+| 07/10/2026 | Pregrado: las reservas de un día se abren a las 18:00 del día de clase anterior. Reemplaza dos respuestas anteriores del docente: "24 horas antes" y "desde las 21:00". | RF-10 |
+| 07/10/2026 | Aclaración al recorrido: el padrón se consulta solo al registrarse; iniciar sesión no vuelve a consultarlo. | RF-13, RF-14, D-01 |
+
+### 9.5 Preguntas P1 a P12 del repositorio anterior y su equivalente
+
+El README anterior numeraba sus preguntas sin guion (P1 a P12). Aquí son P-01 a P-17. Solo la equivalencia P10 → P-13 está escrita en la sección 6; las demás se deducen del texto de cada pregunta.
+
+| Anterior | Pregunta (resumen) | Equivalente aquí |
+|---|---|---|
+| P1 | ¿Sigue vigente "modificar hasta 10 minutos después de crearla" o rige "hasta que empiece"? | P-01 |
+| P2 | Esc en "¿Deseas mantenerla?": ¿pierde la reserva? | P-02 |
+| P3 | ¿Se acepta una reserva con asistentes igual a la capacidad? | P-03 |
+| P4 | ¿Se puede cancelar una reserva ya iniciada? ¿Se puede mover a un horario pasado? | P-10 (cancelar). Mover a un bloque pasado: RF-09 [PROPUESTA] |
+| P5 | Aviso de mantenimiento: ¿correo o WhatsApp? | P-12 |
+| P6 | ¿Posgrado y doctorado reservan también las salas de pregrado? | P-14 |
+| P7 | ¿Se registra la carrera de quien reserva? | Sin equivalente: el padrón nuevo no tiene el campo `carrera` |
+| P8 | Pizarra "Reserva 10:00 / llega 10 am / 11 am": ¿qué significa "llega"? | Sin equivalente en el MVP |
+| P9 | ¿Se pueden reservar sábado y domingo? | P-06 (aquí se atiende solo de lunes a viernes) |
+| P10 | ¿Administradores y docente quedan fuera de la regla de anticipación? | P-13 |
+| P11 | Si el padrón cambia después del registro, ¿cada cuánto se actualiza? | P-17 |
+| P12 | Pregrado: ¿se reserva el mismo día antes de que empiece el bloque? | P-04 |
+
+Preguntas nuevas de este repositorio, sin equivalente anterior: P-05, P-07, P-08, P-09, P-11, P-15 y P-16.

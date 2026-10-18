@@ -17,6 +17,7 @@
   {"codigo": "67676", "nombre": "Sergio Barrientos", "correo": "sergiobarrientos@upb.edu", "rol": "docente", "nivel": "", "matricula_al_dia": false, "activo": true},
   {"codigo": "10001", "nombre": "Sergio Barrientos", "correo": "adminsergio@upb.example", "rol": "administrador", "nivel": "", "matricula_al_dia": false, "activo": true},
   {"codigo": "10002", "nombre": "Raúl Vaca", "correo": "adminraul@upb.example", "rol": "administrador", "nivel": "", "matricula_al_dia": false, "activo": true},
+  {"codigo": "10003", "nombre": "Hugo Zuñiga", "correo": "adminhugo@upb.example", "rol": "administrador", "nivel": "", "matricula_al_dia": false, "activo": true},
   {"codigo": "31245", "nombre": "Valeria Rojas", "correo": "valeria.rojas@upb.example", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
   {"codigo": "31246", "nombre": "Mateo Suárez", "correo": "mateo.suarez@upb.example", "rol": "estudiante", "nivel": "pregrado", "matricula_al_dia": true, "activo": true},
   {"codigo": "20101", "nombre": "Ana Gutiérrez", "correo": "ana.gutierrez@upb.example", "rol": "docente", "nivel": "", "matricula_al_dia": false, "activo": true},
