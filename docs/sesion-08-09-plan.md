@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 17/10/2026, al cerrar las fases 5 y 6 (ver las secciones 10 y 11)
+- Última actualización: 18/10/2026, cambios C-12 a C-14 (secciones 10, 11 y 13); antes, 17/10/2026, al cerrar las fases 5 y 6
 
 ## 1. Punto de partida
 
@@ -21,6 +21,10 @@
 - Acuerdos con el docente (sesiones 4 y 6) que se conservan: `RES-RF-01` a `RES-RF-07`. Se reescriben en la fase 1 con su estado actual; por ejemplo, RF-04 tiene pendiente el caso de asistentes iguales a la capacidad.
 - Propuesta del equipo, no confirmada por el docente: `RES-RC-01` (el rechazo muestra su causa concreta). Se mantiene como propuesta en la fase 1.
 - Base de datos: MongoDB, aprobada por el docente el 07/10/2026 en lugar de MySQL/MariaDB.
+- Datos del repositorio anterior que este plan cita, comprobados el 18/10/2026 contra el commit `4353d1d` (cambio C-12; las entrevistas y los enlaces están en [sesion-06-requisitos.md](sesion-06-requisitos.md), sección 9):
+  - las 129 pruebas: `pytest` las recolecta (104 funciones `def test_` más las parametrizadas) y `docs/TRAZABILIDAD_PRUEBAS.md` también dice 129;
+  - el margen de 15 min: tres definiciones (`reservas/models.py:106`, `proyecto/clases/horarios.py:13` y `proyecto/clases/sistema_reservas.py:30`) y un valor por defecto fijo (`proyecto/clases/reserva.py:221`);
+  - `api_editar_reserva` (`reservas/views.py:436`): llama a `validar_rango_horario` y luego a `reserva.save()`; no pasa por `services.py`.
 
 ## 2. Alcance del MVP
 
@@ -237,6 +241,7 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 
 **Notas del estado real:**
 
+- **Cambios del 18/10/2026, después de cerrar F4 y F6:** C-12 (entrevistas y datos del repositorio anterior, como anexo de los requisitos), C-13 (Hugo como tercer administrador: el padrón pasa a 24 entradas) y C-14 (glosario de siglas en `docs/glosario.md`). No cambian ninguna fase, fecha ni tarea. Ver [cambios.md](cambios.md).
 - **Señal de R1:** F0 se cerró a las 10:52, antes de las 17:00. **R1 no se activa.**
 - **Señal de R2:** F2 se cerró el viernes 16/10 a las 12:02, antes de las 17:00. **R2 no se activa.**
 - **Señal del riesgo 2 (F3):** F3 se cerró el viernes 16/10 a las 18:46, antes de las 19:30. **R2 no se activa.**
@@ -277,6 +282,7 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | 15/10/2026 | La sección 12 deja de copiar las preguntas al docente y remite a los requisitos. | Evitar dos listas que se desactualicen, como pasó en el repositorio anterior. | Raúl |
 | 16/10/2026 | El criterio de cierre de F4 dice "datos visibles con cualquier cliente de MongoDB" en lugar de "Compass". | Los documentos del repositorio no nombran una herramienta concreta para mirar los datos. | Raúl |
 | 17/10/2026 | F7 se reparte por tipo de prueba, sin cambiar las cantidades (15 de Raúl y 11 de Hugo). Raúl escribe `conftest.py` y sus tests de HU-04 y HU-05 el domingo de 11:00 a 16:00; Hugo empieza a las 16:00 con esa base lista y toma los tests de reglas puras, que no necesitan base de datos. La tabla de franjas (sección 6) no se rehace. | Aprovechar el adelanto de F5 y F6, y que Hugo empiece por pruebas que no dependen de la base. | Raúl |
+| 18/10/2026 | Se registran los cambios C-12 (entrevistas y datos del repositorio anterior, como anexo de los requisitos), C-13 (Hugo Zúñiga como tercer administrador del padrón, código 10003; el padrón pasa a 24 entradas) y C-14 (glosario de siglas, `docs/glosario.md`, con autor, revisor y justificación). No cambia ninguna fase, fecha, tarea ni responsable. | Poder leer las fuentes sin salir del repositorio (C-12). Hugo necesita su propia cuenta de administrador para probar las pantallas de administración y escribir los tests de HU-08 y HU-09, en F7 y F8 (C-13). Un solo glosario para las siglas que Hugo lee en H0 (C-14). | Pedido de Hugo (issue #28) |
 
 ## 12. Dudas abiertas con el docente
 
@@ -294,3 +300,4 @@ Si no hay respuesta antes del viernes 16/10, rigen los valores provisionales. Ca
 - **Fase 4:** Claude (Anthropic) propuso el código de la fase y revisó los commits contra el diseño. Raúl lo puso en su proyecto, lo probó, decidió los cambios C-08 y C-09 y subió los commits. Hugo no tuvo aporte en esta fase.
 - **Fases 5 y 6:** Claude (Anthropic) propuso el código de las reglas, los servicios, las vistas y las plantillas, función por función, y revisó el código contra el diseño, donde encontró las diferencias de C-10 y las dos desviaciones corregidas al cerrar F6. Raúl lo puso en su proyecto, lo probó a mano y en el navegador, aprobó C-10 y subió los commits; desde las 17:05 lo estudia para poder explicarlo. Hugo no tuvo aporte en estas fases.
 - **Asistencia de IA:** se usó Claude (Anthropic) para leer las guías de las sesiones y el repositorio anterior, para proponer la lista de historias, las estimaciones, el cronograma y la estructura de carpetas, y, desde la fase 4, para proponer el código. Raúl revisó, cambió y aprobó el plan.
+- **Cambios C-12, C-13 y C-14 (18/10/2026):** Hugo Zúñiga pidió sumar los datos del repositorio anterior, agregarse al padrón como administrador (código 10003) y crear el glosario de siglas (issue #28, H0). Claude (Anthropic) los aplicó en el padrón, los requisitos, el diseño, la sesión 12, el plan y el registro de cambios, y comprobó los datos citados contra el commit `4353d1d` del repositorio anterior.

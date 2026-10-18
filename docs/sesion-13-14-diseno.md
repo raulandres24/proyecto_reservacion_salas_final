@@ -95,7 +95,7 @@ Si el administrador marca B2 y B3, se crean **dos documentos**, uno por bloque *
 **`django_session`** — la crea `django.contrib.sessions` para guardar las sesiones iniciadas (RF-14). No la tocamos.
 
 **Fuera de la base de datos:**
-- El padrón (`padron/padron.json`, D-08), con 23 entradas (cambio C-09) y los campos: `codigo`, `nombre`, `correo`, `rol`, `nivel`, `matricula_al_dia` y `activo`. El campo `activo` del padrón **solo se comprueba al registrarse** (RF-13) y no se copia a la cuenta.
+- El padrón (`padron/padron.json`, D-08), con 24 entradas (cambios C-09 y C-13) y los campos: `codigo`, `nombre`, `correo`, `rol`, `nivel`, `matricula_al_dia` y `activo`. El campo `activo` del padrón **solo se comprueba al registrarse** (RF-13) y no se copia a la cuenta.
 - Los horarios de los bloques (sección 2.3).
 
 ### 2.2 Relaciones y multiplicidades
