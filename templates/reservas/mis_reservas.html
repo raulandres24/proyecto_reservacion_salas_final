@@ -1,31 +1,48 @@
 {% extends "base.html" %}
 {% block titulo %}Mis reservas{% endblock %}
 {% block contenido %}
-    <h1>Mis reservas</h1>
+    <h1 class="mb-6 text-2xl font-semibold">Mis reservas</h1>
     {% if reservas %}
-        <table>
-            <tr><th>Sala</th><th>Fecha</th><th>Bloque</th><th>Asistentes</th><th>Estado</th><th>Motivo</th><th></th></tr>
-            {% for reserva in reservas %}
-                <tr>
-                    <td>{{ reserva.sala.letra }}</td>
-                    <td>{{ reserva.fecha|date:"d/m/Y" }}</td>
-                    <td>B{{ reserva.bloque }}</td>
-                    <td>{{ reserva.asistentes }}</td>
-                    <td>{{ reserva.get_estado_display }}</td>
-                    <td>{{ reserva.get_motivo_cancelacion_display }}</td>
-                    <td>
-                        {% if reserva.estado == "confirmada" %}
-                        <a href="{% url 'modificar' reserva.pk %}">Modificar</a>
-                            <form method="post" action="{% url 'cancelar' reserva.pk %}">
-                                {% csrf_token %}
-                                <button type="submit">Cancelar</button>
-                            </form>
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-100 text-slate-700">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">Sala</th>
+                        <th class="px-4 py-3 font-medium">Fecha</th>
+                        <th class="px-4 py-3 font-medium">Bloque</th>
+                        <th class="px-4 py-3 font-medium">Asistentes</th>
+                        <th class="px-4 py-3 font-medium">Estado</th>
+                        <th class="px-4 py-3 font-medium">Motivo</th>
+                        <th class="px-4 py-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reserva in reservas %}
+                        <tr class="border-t border-slate-200">
+                            <td class="px-4 py-3">{{ reserva.sala.letra }}</td>
+                            <td class="px-4 py-3">{{ reserva.fecha|date:"d/m/Y" }}</td>
+                            <td class="px-4 py-3">B{{ reserva.bloque }}</td>
+                            <td class="px-4 py-3">{{ reserva.asistentes }}</td>
+                            <td class="px-4 py-3">{{ reserva.get_estado_display }}</td>
+                            <td class="px-4 py-3">{{ reserva.get_motivo_cancelacion_display }}</td>
+                            <td class="px-4 py-3">
+                                {% if reserva.estado == "confirmada" %}
+                                    <div class="flex items-center gap-3">
+                                        <a class="text-indigo-600 hover:underline" href="{% url 'modificar' reserva.pk %}">Modificar</a>
+                                        <form method="post" action="{% url 'cancelar' reserva.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit"
+                                                    class="rounded-md border border-red-300 px-3 py-1 text-red-700 hover:bg-red-50">Cancelar</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     {% else %}
-        <p>Todavía no tienes reservas.</p>
+        <p class="rounded-md bg-slate-100 px-4 py-3 text-sm text-slate-700">Todavía no tienes reservas.</p>
     {% endif %}
 {% endblock %}
