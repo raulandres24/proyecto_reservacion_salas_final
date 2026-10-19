@@ -1,29 +1,42 @@
 {% extends "base.html" %}
 {% block titulo %}Modificar reserva{% endblock %}
 {% block contenido %}
-    <h1>Modificar reserva de la sala {{ reserva.sala.letra }}</h1>
+    <h1 class="mb-6 text-2xl font-semibold">Modificar reserva de la sala {{ reserva.sala.letra }}</h1>
     {% if preguntar %}
-        <section>
-            <p>No se pudo hacer el cambio. ¿Deseas mantener tu reserva original ({{ reserva.fecha|date:"d/m/Y" }}, B{{ reserva.bloque }})?</p>
-            <a href="{% url 'mis_reservas' %}">Sí, mantenerla</a>
-            <form method="post" action="{% url 'no_mantener' reserva.pk %}">
-                {% csrf_token %}
-                <button type="submit">No, cancelarla</button>
-            </form>
+        <section class="mb-6 rounded-lg border border-amber-300 bg-amber-50 p-4">
+            <p class="mb-4 text-sm text-amber-900">No se pudo hacer el cambio. ¿Deseas mantener tu reserva original ({{ reserva.fecha|date:"d/m/Y" }}, B{{ reserva.bloque }})?</p>
+            <div class="flex items-center gap-3">
+                <a class="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700" href="{% url 'mis_reservas' %}">Sí, mantenerla</a>
+                <form method="post" action="{% url 'no_mantener' reserva.pk %}">
+                    {% csrf_token %}
+                    <button type="submit"
+                            class="rounded-md border border-red-300 px-4 py-2 text-sm font-medium text-red-700 hover:bg-red-50">No, cancelarla</button>
+                </form>
+            </div>
         </section>
     {% endif %}
-    <form method="post">
+    <form method="post" class="max-w-md space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         {% csrf_token %}
-        <p><label>Fecha <input name="fecha" type="date" value="{{ reserva.fecha|date:'Y-m-d' }}" required></label></p>
-        <p><label>Bloque
-            <select name="bloque">
+        <label class="block text-sm font-medium">Fecha
+            <input name="fecha" type="date" value="{{ reserva.fecha|date:'Y-m-d' }}" required
+                   class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+        </label>
+        <label class="block text-sm font-medium">Bloque
+            <select name="bloque"
+                    class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                 {% for numero, horas in bloques.items %}
                     <option value="{{ numero }}" {% if numero == reserva.bloque %}selected{% endif %}>B{{ numero }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
                 {% endfor %}
             </select>
-        </label></p>
-        <p><label>Asistentes <input name="asistentes" type="number" value="{{ reserva.asistentes }}" required></label></p>
-        <button type="submit">Guardar cambios</button>
+        </label>
+        <label class="block text-sm font-medium">Asistentes
+            <input name="asistentes" type="number" value="{{ reserva.asistentes }}" required
+                   class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+        </label>
+        <button type="submit"
+                class="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Guardar cambios</button>
     </form>
-    <p><a href="{% url 'mis_reservas' %}">Volver a mis reservas</a></p>
+    <p class="mt-4 text-sm">
+        <a class="text-indigo-600 hover:underline" href="{% url 'mis_reservas' %}">Volver a mis reservas</a>
+    </p>
 {% endblock %}
