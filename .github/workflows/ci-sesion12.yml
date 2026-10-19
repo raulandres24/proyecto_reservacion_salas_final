@@ -1,0 +1,95 @@
+name: Sesion 12 - pruebas del proyecto con MongoDB
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar-proyecto:
+    runs-on: ubuntu-24.04  # Fijado a 24.04: ubuntu-latest migra a 26.04 desde el 19/10/2026
+    timeout-minutes: 15
+    steps:
+      - name: Obtener la version del repositorio
+        uses: actions/checkout@v6
+
+      - name: Preparar Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Registrar entorno y version comprobada
+        run: |
+          python --version
+          git rev-parse HEAD
+
+      - name: Instalar dependencias declaradas
+        run: python -m pip install -r requirements.txt
+
+      - name: Levantar MongoDB como replica set
+        run: |
+          docker run -d --name mongo -p 27017:27017 mongo:8.0 --replSet rs0
+          python - <<'PY'
+          import time
+
+          from pymongo import MongoClient
+          from pymongo.errors import PyMongoError
+
+          cliente = MongoClient(
+              "mongodb://localhost:27017/", directConnection=True, serverSelectionTimeoutMS=2000
+          )
+          limite = time.time() + 90
+
+          while True:
+              try:
+                  cliente.admin.command("ping")
+                  break
+              except PyMongoError:
+                  if time.time() > limite:
+                      raise SystemExit("MongoDB no respondio en 90 segundos")
+                  time.sleep(2)
+
+          cliente.admin.command(
+              "replSetInitiate",
+              {"_id": "rs0", "members": [{"_id": 0, "host": "localhost:27017"}]},
+          )
+
+          while not cliente.admin.command("hello").get("isWritablePrimary"):
+              if time.time() > limite:
+                  raise SystemExit("MongoDB no llego a ser primario")
+              time.sleep(1)
+
+          print("MongoDB listo: replica set rs0 con primario")
+          PY
+
+      - name: Ejecutar las pruebas
+        run: python -m pytest -v --junitxml=evidencias/sesion12-junit.xml
+
+      - name: Mostrar el registro de MongoDB si algo fallo
+        if: ${{ failure() }}
+        run: docker logs mongo
+
+      - name: Conservar el resultado de las pruebas
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: resultados-sesion12-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidencias/sesion12-junit.xml
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Preparar candidato de codigo fuente aprobado
+        if: ${{ success() && github.ref == 'refs/heads/main' }}
+        run: git archive --format=zip --output="entrega-${GITHUB_SHA}.zip" HEAD
+
+      - name: Conservar candidato para revision
+        if: ${{ success() && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: candidato-sesion12-${{ github.sha }}
+          path: entrega-${{ github.sha }}.zip
+          if-no-files-found: error
+          retention-days: 14
