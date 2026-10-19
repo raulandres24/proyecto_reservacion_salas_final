@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 {% block titulo %}Crear cuenta{% endblock %}
 {% block contenido %}
-    <h1>Crear cuenta</h1>
-    <form method="post">
-        {% csrf_token %}
-        <p><label>Código <input name="codigo" required></label></p>
-        <p><label>Correo <input name="correo" type="email" required></label></p>
-        <p><label>Contraseña <input name="contrasena" type="password" required></label></p>
-        <button type="submit">Crear cuenta</button>
-    </form>
-    <p><a href="{% url 'login' %}">Ya tengo cuenta</a></p>
+    <section class="mx-auto mt-8 max-w-sm rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+        <h1 class="mb-6 text-2xl font-semibold">Crear cuenta</h1>
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <label class="block text-sm font-medium">Código
+                <input name="codigo" required
+                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            </label>
+            <label class="block text-sm font-medium">Correo
+                <input name="correo" type="email" required
+                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            </label>
+            <label class="block text-sm font-medium">Contraseña
+                <input name="contrasena" type="password" required
+                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+            </label>
+            <button type="submit"
+                    class="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Crear cuenta</button>
+        </form>
+        <p class="mt-4 text-center text-sm">
+            <a class="text-indigo-600 hover:underline" href="{% url 'login' %}">Ya tengo cuenta</a>
+        </p>
+    </section>
 {% endblock %}
