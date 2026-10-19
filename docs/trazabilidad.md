@@ -17,7 +17,7 @@ Requisitos: el entorno virtual activo, `pip install -r requirements.txt` y Mongo
 
 ## 2. Los 26 tests
 
-Estado a las 13:11 del 18/10/2026: **15 de 26 implementados y en verde** (`15 passed in 16.30s`). Los 15 de Raúl siguen el issue #18; la base de pytest (`pytest.ini`, `pytest` y `pytest-django` en `requirements.txt`) está en `8e83913`. Los 11 de Hugo están pendientes (issue #19).
+Estado a las 22:55 del 18/10/2026: **26 de 26 implementados y en verde**. Última corrida completa, en la computadora de Raúl, sobre `main` en `29b817a`: `26 passed in 30.68s`. Los 15 de Raúl siguen el issue #18 y los 11 de Hugo, el #19; los de Hugo se fusionaron en `main` con el PR #30 (merge `ec1a354`). La base de pytest (`pytest.ini`, `pytest` y `pytest-django` en `requirements.txt`) está en `8e83913`.
 
 | Requisito | HU | Criterio | Paso o excepción del CU | Test | Archivo | Responsable | Estado |
 |---|---|---|---|---|---|---|---|
@@ -36,17 +36,17 @@ Estado a las 13:11 del 18/10/2026: **15 de 26 implementados y en verde** (`15 pa
 | RF-04 | HU-04 | CA7 rechazo | CU-04 E1 (2f) | `test_HU04_CA7_rechaza_si_supera_la_capacidad` | `test_hu04_reserva.py` | Raúl | Pasa (`d27383a`) |
 | RF-11, RF-10 | HU-05 | CA1 aceptación | CU-05 | `test_HU05_CA1_docente_reserva_sala_a_sin_limite_de_anticipacion` | `test_hu05_personal.py` | Raúl | Pasa (`8082d80`) |
 | RF-09 | HU-05 | CA2 rechazo | CU-05 E1 (2b) | `test_HU05_CA2_rechaza_reserva_en_sabado` | `test_hu05_personal.py` | Raúl | Pasa (`8082d80`) |
-| RF-06 | HU-06 | CA1 aceptación | CU-06 paso 5 | `test_HU06_CA1_cancela_antes_de_que_empiece_y_conserva_el_registro` | — | Hugo | Pendiente |
-| RF-06 | HU-06 | CA2 rechazo + límite | CU-06 E2 | `test_HU06_CA2_rechaza_cancelar_reserva_ya_comenzada` | — | Hugo | Pendiente |
-| RF-06 (C-04) | HU-06 | CA3 rechazo | CU-06 E1 | `test_HU06_CA3_rechaza_cancelar_reserva_ajena` | — | Hugo | Pendiente |
-| RF-03 | HU-07 | CA1 aceptación (sesión 12) | CU-07 paso 5 | `test_HU07_CA1_modifica_el_bloque_de_la_misma_reserva` | — | Hugo | Pendiente |
-| RF-03, RF-01 | HU-07 | CA2 rechazo + "Sí" (sesión 12) | CU-07 E1 | `test_HU07_CA2_rechazo_y_si_conserva_ambas_reservas` | — | Hugo | Pendiente |
-| RF-03 | HU-07 | CA3 rechazo + "No" | CU-07 E1 | `test_HU07_CA3_rechazo_y_no_cancela_la_original` | — | Hugo | Pendiente |
-| RF-06 | HU-07 | CA4 límite (sesión 12) | CU-07 E2 | `test_HU07_CA4_rechaza_modificar_reserva_ya_comenzada` | — | Hugo | Pendiente |
-| RF-12 | HU-08 | CA1 aceptación | CU-08 pasos 3–4 | `test_HU08_CA1_mantenimiento_cancela_reservas_y_bloquea_el_periodo` | — | Hugo | Pendiente |
-| RF-12 | HU-08 | CA2 rechazo | CU-08 E1 | `test_HU08_CA2_rechaza_mantenimiento_en_bloque_ya_empezado` | — | Hugo | Pendiente |
-| RF-03 | HU-09 | CA1 rechazo sin pregunta | CU-09 E1 | `test_HU09_CA1_admin_rechazado_sin_pregunta_conserva_ambas` | — | Hugo | Pendiente |
-| RF-08 (reglas del dueño) | HU-09 | CA2 rechazo | CU-09 paso 3, E1 | `test_HU09_CA2_admin_aplica_reglas_del_dueno` | — | Hugo | Pendiente |
+| RF-06 | HU-06 | CA1 aceptación | CU-06 paso 5 | `test_HU06_CA1_cancela_antes_de_que_empiece_y_conserva_el_registro` | `test_hu06_cancelar.py` | Hugo | Pasa (`19513ea`) |
+| RF-06 | HU-06 | CA2 rechazo + límite | CU-06 E2 | `test_HU06_CA2_rechaza_cancelar_reserva_ya_comenzada` | `test_hu06_cancelar.py` | Hugo | Pasa (`19513ea`) |
+| RF-06 (C-04) | HU-06 | CA3 rechazo | CU-06 E1 | `test_HU06_CA3_rechaza_cancelar_reserva_ajena` | `test_hu06_cancelar.py` | Hugo | Pasa (`19513ea`) |
+| RF-03 | HU-07 | CA1 aceptación (sesión 12) | CU-07 paso 5 | `test_HU07_CA1_modifica_el_bloque_de_la_misma_reserva` | `test_hu07_modificar.py` | Hugo | Pasa (`76fb03a`) |
+| RF-03, RF-01 | HU-07 | CA2 rechazo + "Sí" (sesión 12) | CU-07 E1 | `test_HU07_CA2_rechazo_y_si_conserva_ambas_reservas` | `test_hu07_modificar.py` | Hugo | Pasa (`76fb03a`) |
+| RF-03 | HU-07 | CA3 rechazo + "No" | CU-07 E1 | `test_HU07_CA3_rechazo_y_no_cancela_la_original` | `test_hu07_modificar.py` | Hugo | Pasa (`76fb03a`) |
+| RF-06 | HU-07 | CA4 límite (sesión 12) | CU-07 E2 | `test_HU07_CA4_rechaza_modificar_reserva_ya_comenzada` | `test_hu07_modificar.py` | Hugo | Pasa (`76fb03a`) |
+| RF-12 | HU-08 | CA1 aceptación | CU-08 pasos 3–4 | `test_HU08_CA1_mantenimiento_cancela_reservas_y_bloquea_el_periodo` | `test_hu08_mantenimiento.py` | Hugo | Pasa (`c1c4dbe`) |
+| RF-12 | HU-08 | CA2 rechazo | CU-08 E1 | `test_HU08_CA2_rechaza_mantenimiento_en_bloque_ya_empezado` | `test_hu08_mantenimiento.py` | Hugo | Pasa (`c1c4dbe`) |
+| RF-03 | HU-09 | CA1 rechazo sin pregunta | CU-09 E1 | `test_HU09_CA1_admin_rechazado_sin_pregunta_conserva_ambas` | `test_hu09_gestion_ajena.py` | Hugo | Pasa (`a398910`) |
+| RF-08 (reglas del dueño) | HU-09 | CA2 rechazo | CU-09 paso 3, E1 | `test_HU09_CA2_admin_aplica_reglas_del_dueno` | `test_hu09_gestion_ajena.py` | Hugo | Pasa (`a398910`) |
 
 RC-01 (causa concreta) y RC-03 (un rechazo no deja la operación a medias) no tienen tests propios: los comprueba cada test de rechazo, que verifica el mensaje exacto y lo que quedó guardado.
 
@@ -72,6 +72,8 @@ Estas precisiones dicen qué comprueba exactamente el test, para que nadie lea e
 | HU04-CA3 | El desalojo de 15 minutos se prueba por su resultado (B1 y B2 de la sala B quedan reservadas), no calculando la diferencia de horas. |
 | HU05-CA1 | La falta de límite de anticipación para el docente sigue siendo **[PROVISIONAL]** (P-13). |
 
-## 5. Pruebas de Hugo (pendientes)
+## 5. Pruebas de Hugo
 
-Los tests de HU-06 a HU-09 los escribe Hugo (issue #19), en este orden de prioridad: HU-07, HU-06, HU-08 y HU-09. Según el plan (sección 4), los que falten a las 18:00 del domingo se registran aquí como "no implementado". Al cerrar F7 se actualizan las columnas "Archivo" y "Estado" de las 11 filas, con el commit de cada una.
+Hugo escribió los 11 tests de HU-06 a HU-09 (issue #19), uno por criterio, en cuatro commits: HU-06 en `19513ea`, HU-07 en `76fb03a`, HU-08 en `c1c4dbe` y HU-09 en `a398910`. Se fusionaron en `main` con el PR #30 (merge `ec1a354`).
+
+El plan (sección 4) pedía esos tests antes de las 18:00 del domingo 18/10. No se cumplió: los cuatro commits de Hugo son de las 19:29. Raúl corrió la suite de 26 tests sobre su rama a las 19:41 (todos en verde) y los fusionó en main a las 19:45.
