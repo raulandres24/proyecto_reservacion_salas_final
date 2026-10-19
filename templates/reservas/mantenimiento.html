@@ -1,22 +1,33 @@
 {% extends "base.html" %}
 {% block titulo %}Mantenimiento{% endblock %}
 {% block contenido %}
-    <h1>Registrar mantenimiento</h1>
-    <form method="post">
+    <h1 class="mb-6 text-2xl font-semibold">Registrar mantenimiento</h1>
+    <form method="post" class="max-w-md space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         {% csrf_token %}
-        <p><label>Sala
-            <select name="sala">
+        <label class="block text-sm font-medium">Sala
+            <select name="sala"
+                    class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                 {% for sala in salas %}
                     <option value="{{ sala.letra }}">Sala {{ sala.letra }}</option>
                 {% endfor %}
             </select>
-        </label></p>
-        <p><label>Fecha <input name="fecha" type="date" required></label></p>
-        <p>Bloques:
-            {% for numero, horas in bloques.items %}
-                <label><input type="checkbox" name="bloques" value="{{ numero }}"> B{{ numero }}</label>
-            {% endfor %}
-        </p>
-        <button type="submit">Registrar mantenimiento</button>
+        </label>
+        <label class="block text-sm font-medium">Fecha
+            <input name="fecha" type="date" required
+                   class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+        </label>
+        <fieldset>
+            <legend class="text-sm font-medium">Bloques</legend>
+            <div class="mt-2 flex flex-wrap gap-4 text-sm">
+                {% for numero, horas in bloques.items %}
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" name="bloques" value="{{ numero }}" class="h-4 w-4 rounded border-slate-300">
+                        B{{ numero }}
+                    </label>
+                {% endfor %}
+            </div>
+        </fieldset>
+        <button type="submit"
+                class="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Registrar mantenimiento</button>
     </form>
 {% endblock %}
