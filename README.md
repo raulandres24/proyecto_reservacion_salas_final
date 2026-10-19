@@ -141,8 +141,6 @@ El detalle está en el diseño, secciones 4 y 5.
 
 ## 9. Declaración de uso de IA
 
-**[COMPLETAR POR CADA INTEGRANTE]**
-
 Cada integrante escribe su propio párrafo, solo con lo que es cierto. Guía de qué contar:
 
 - **Qué herramienta** usó (nombre y, si lo sabe, el modelo).
@@ -150,7 +148,7 @@ Cada integrante escribe su propio párrafo, solo con lo que es cierto. Guía de 
 - **Qué hizo la IA y qué hizo el integrante**: si la IA explicó, propuso estructura, propuso código o revisó, y si el integrante lo escribió, lo copió, lo adaptó, lo probó o lo subió.
 - **Que revisó y puede explicar** el código y los documentos que llevan su nombre.
 
-**Raúl Vaca:** [COMPLETAR POR CADA INTEGRANTE]
+**Raúl Vaca:** Usé Claude (Anthropic) durante todo el proyecto: para la documentación (requisitos, plan y diseño), para proponer el código y los tests, para los estilos y para revisar. Claude propuso; yo analicé cada propuesta, comprobé que la entendía y decidí si convenía ponerla en el código o no. Los commits y los cambios subidos al repositorio los hice yo, después de esa revisión con criterio humano. Comprobé lo que subí con pruebas automáticas (pytest) mientras escribía el código, con pruebas de humo y después con pruebas en vivo, con el frontend y el backend funcionando juntos, para verificar que cada caso de uso se cumple. Puedo explicar línea por línea: las apps cuentas y reservas (modelos, servicios, reglas y vistas), el padrón (padron/padron.json y cómo se lee), config/settings.py y, en distintos grados, el funcionamiento de MongoDB y de Django con MongoDB. Todavía estoy repasando: cómo funciona cada test en detalle y dónde se ve cada caso de uso en el código. A veces me quedan dudas sobre el funcionamiento de algunas partes del código que sí puedo explicar; me falta afinarlo.
 
 **Hugo Zúñiga:** [COMPLETAR POR CADA INTEGRANTE]
 
