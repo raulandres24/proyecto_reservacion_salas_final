@@ -1,29 +1,37 @@
+{% load static %}
 <!doctype html>
 <html lang="es">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block titulo %}Reserva de salas{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
 </head>
+<body class="min-h-screen bg-slate-50 text-slate-900">
     {% if user.is_authenticated %}
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            {{ user.nombre }} ({{ user.rol }})
-            <button type="submit">Cerrar sesión</button>
-                    <nav>
-            <a href="{% url 'salas_libres' %}">Salas libres</a>
-            <a href="{% url 'mis_reservas' %}">Mis reservas</a>
-                   {% if user.rol == "administrador" %}
-                <a href="{% url 'reservas_del_dia' %}">Reservas del día</a>
-                <a href="{% url 'mantenimiento' %}">Mantenimiento</a>
-            {% endif %}
-        </nav>
-        </form>
+        <header class="border-b border-slate-200 bg-white">
+            <div class="mx-auto flex max-w-4xl flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
+                <nav class="flex flex-wrap gap-4 text-sm font-medium text-slate-700">
+                    <a class="hover:text-indigo-600" href="{% url 'salas_libres' %}">Salas libres</a>
+                    <a class="hover:text-indigo-600" href="{% url 'mis_reservas' %}">Mis reservas</a>
+                    {% if user.rol == "administrador" %}
+                        <a class="hover:text-indigo-600" href="{% url 'reservas_del_dia' %}">Reservas del día</a>
+                        <a class="hover:text-indigo-600" href="{% url 'mantenimiento' %}">Mantenimiento</a>
+                    {% endif %}
+                </nav>
+                <form method="post" action="{% url 'logout' %}" class="flex items-center gap-3 text-sm">
+                    {% csrf_token %}
+                    <span>{{ user.nombre }} ({{ user.rol }})</span>
+                    <button type="submit" class="rounded-md border border-slate-300 px-3 py-1 hover:bg-slate-100">Cerrar sesión</button>
+                </form>
+            </div>
+        </header>
     {% endif %}
-<body>
-    {% for mensaje in messages %}
-        <p>{{ mensaje }}</p>
-    {% endfor %}
-    {% block contenido %}{% endblock %}
+    <main class="mx-auto max-w-4xl p-4">
+        {% for mensaje in messages %}
+            <p class="mb-4 rounded-md px-4 py-3 text-sm {% if mensaje.tags == 'error' %}bg-red-50 text-red-900{% else %}bg-green-50 text-green-900{% endif %}">{{ mensaje }}</p>
+        {% endfor %}
+        {% block contenido %}{% endblock %}
+    </main>
 </body>
 </html>
