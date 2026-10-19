@@ -1,35 +1,53 @@
 {% extends "base.html" %}
 {% block titulo %}Reservas del día{% endblock %}
 {% block contenido %}
-    <h1>Reservas del día</h1>
-    <form method="get">
-        <label>Fecha <input name="fecha" type="date" value="{{ fecha|date:'Y-m-d' }}" required></label>
-        <button type="submit">Ver reservas</button>
+    <h1 class="mb-6 text-2xl font-semibold">Reservas del día</h1>
+    <form method="get" class="mb-6 flex flex-col gap-4 rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:flex-row sm:items-end">
+        <label class="block flex-1 text-sm font-medium">Fecha
+            <input name="fecha" type="date" value="{{ fecha|date:'Y-m-d' }}" required
+                   class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+        </label>
+        <button type="submit"
+                class="rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Ver reservas</button>
     </form>
     {% if reservas is not None %}
         {% if reservas %}
-            <table>
-                <tr><th>Sala</th><th>Bloque</th><th>Dueño</th><th>Asistentes</th><th>Estado</th><th></th></tr>
-                {% for reserva in reservas %}
-                    <tr>
-                        <td>{{ reserva.sala.letra }}</td>
-                        <td>B{{ reserva.bloque }}</td>
-                        <td>{{ reserva.dueno.nombre }}</td>
-                        <td>{{ reserva.asistentes }}</td>
-                        <td>{{ reserva.get_estado_display }}</td>
-                        <td>
-                            {% if reserva.estado == "confirmada" %}
-                                <form method="post" action="{% url 'cancelar' reserva.pk %}">
-                                    {% csrf_token %}
-                                    <button type="submit">Cancelar</button>
-                                </form>
-                            {% endif %}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <div class="overflow-x-auto rounded-lg border border-slate-200 bg-white shadow-sm">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-100 text-slate-700">
+                        <tr>
+                            <th class="px-4 py-3 font-medium">Sala</th>
+                            <th class="px-4 py-3 font-medium">Bloque</th>
+                            <th class="px-4 py-3 font-medium">Dueño</th>
+                            <th class="px-4 py-3 font-medium">Asistentes</th>
+                            <th class="px-4 py-3 font-medium">Estado</th>
+                            <th class="px-4 py-3"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for reserva in reservas %}
+                            <tr class="border-t border-slate-200">
+                                <td class="px-4 py-3">{{ reserva.sala.letra }}</td>
+                                <td class="px-4 py-3">B{{ reserva.bloque }}</td>
+                                <td class="px-4 py-3">{{ reserva.dueno.nombre }}</td>
+                                <td class="px-4 py-3">{{ reserva.asistentes }}</td>
+                                <td class="px-4 py-3">{{ reserva.get_estado_display }}</td>
+                                <td class="px-4 py-3">
+                                    {% if reserva.estado == "confirmada" %}
+                                        <form method="post" action="{% url 'cancelar' reserva.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit"
+                                                    class="rounded-md border border-red-300 px-3 py-1 text-red-700 hover:bg-red-50">Cancelar</button>
+                                        </form>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-            <p>No hay reservas ese día.</p>
+            <p class="rounded-md bg-slate-100 px-4 py-3 text-sm text-slate-700">No hay reservas ese día.</p>
         {% endif %}
     {% endif %}
 {% endblock %}
