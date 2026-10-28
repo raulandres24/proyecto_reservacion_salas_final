@@ -69,7 +69,7 @@ La aplicación se abre en **`http://127.0.0.1:8000/login/`** (o `/registro/` par
 
 ## 4. Cuentas para probar
 
-No hay cuentas creadas de antemano ni `createsuperuser`: **toda cuenta se crea en `/registro/`** con una persona que figure en el padrón ([padron/padron.json](padron/padron.json), 24 personas, de solo lectura). El registro pide el código, el correo del padrón y una contraseña nueva, que debe cumplir las reglas de Django: al menos 8 caracteres, no solo números, no demasiado común y no parecida al correo ni al nombre.
+No hay cuentas creadas de antemano ni `createsuperuser`: **toda cuenta se crea en `/registro/`** con una persona que figure en el padrón ([padron/padron.json](padron/padron.json), 24 personas, de solo lectura). El registro pide el código, el correo del padrón y una contraseña nueva escrita dos veces ("Contraseña" y "Confirmar contraseña"), que debe cumplir las reglas de Django: al menos 8 caracteres, no solo números, no demasiado común y no parecida al correo ni al nombre.
 
 | Para probar | Código | Correo | Qué se puede ver |
 |---|---|---|---|
@@ -88,7 +88,7 @@ Con el entorno virtual activo y MongoDB corriendo como *replica set*:
 python -m pytest
 ```
 
-Son **26 tests, uno por criterio de aceptación**. [docs/trazabilidad.md](docs/trazabilidad.md) relaciona cada uno con su requisito, su historia y su caso de uso, y dice su estado. Los tests usan el MongoDB real, pero en una **base aparte, `test_reservacion_salas`**, que crea pytest-django: no tocan la base `reservacion_salas` de la aplicación. Ningún test depende de la hora del sistema: cada operación recibe la hora (`ahora`) que dice su criterio.
+Son **27 tests, uno por criterio de aceptación**. [docs/trazabilidad.md](docs/trazabilidad.md) relaciona cada uno con su requisito, su historia y su caso de uso, y dice su estado. Los tests usan el MongoDB real, pero en una **base aparte, `test_reservacion_salas`**, que crea pytest-django: no tocan la base `reservacion_salas` de la aplicación. Ningún test depende de la hora del sistema: cada operación recibe la hora (`ahora`) que dice su criterio.
 
 ## 6. Estilos (Tailwind CSS)
 
@@ -117,7 +117,7 @@ reservas/          salas, reservas y mantenimiento: reglas, servicios y vistas
 padron/            padron.json, el padrón de la universidad (solo lectura)
 templates/         plantillas HTML
 static/            entrada de Tailwind (src/) y CSS compilado (css/)
-tests/             los 26 tests y conftest.py
+tests/             los 27 tests y conftest.py
 mongo_migrations/  migraciones de auth y contenttypes para MongoDB
 docs/              requisitos, historias, plan, diseño, cambios, trazabilidad y glosario
 ```
