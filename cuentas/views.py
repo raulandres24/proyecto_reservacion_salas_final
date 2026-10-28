@@ -9,7 +9,12 @@ from .servicios import Rechazo, registrar
 def registrarse(request):
     if request.method == "POST":
         try:
-            registrar(request.POST["codigo"], request.POST["correo"], request.POST["contrasena"])
+            registrar(
+                request.POST["codigo"],
+                request.POST["correo"],
+                request.POST["contrasena"],
+                request.POST["confirmacion"],
+            )
         except Rechazo as rechazo:
             messages.error(request, rechazo.causa)
         else:

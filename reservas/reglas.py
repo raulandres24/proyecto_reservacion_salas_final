@@ -208,12 +208,16 @@ def verificar_sin_cuenta(ya_tiene_cuenta):
         raise Rechazo("ya tienes una cuenta")
 
 
+def verificar_contrasenas_iguales(contrasena, confirmacion):
+    if contrasena != confirmacion:
+        raise Rechazo("las contraseñas no coinciden")
+
+
 def verificar_contrasena(contrasena, cuenta_nueva):
     try:
         validate_password(contrasena, user=cuenta_nueva)
     except ValidationError as error:
         raise Rechazo(" ".join(error.messages))
-
 
 def verificar_hay_bloques(bloques):
     if not bloques:

@@ -17,12 +17,13 @@ def cuenta_desde_el_padron(persona):
         matricula_al_dia=persona["matricula_al_dia"],
     )
 
-def registrar(codigo, correo, contrasena):
+def registrar(codigo, correo, contrasena, confirmacion):
     persona = buscar_por_codigo(codigo)
     reglas.verificar_persona_en_padron(persona)
     reglas.verificar_correo_del_padron(persona, correo)
     reglas.verificar_persona_activa(persona)
     reglas.verificar_sin_cuenta(ya_tiene_cuenta(persona))
+    reglas.verificar_contrasenas_iguales(contrasena, confirmacion)
     cuenta = cuenta_desde_el_padron(persona)
     reglas.verificar_contrasena(contrasena, cuenta)
     cuenta.set_password(contrasena)

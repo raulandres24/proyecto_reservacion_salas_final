@@ -14,7 +14,7 @@ CONTRASENA = "clave-segura-123"
 def test_HU01_CA1_registra_cuenta_con_codigo_y_correo_del_padron():
     padron_antes = leer_padron()
 
-    cuenta = servicios.registrar("31245", "valeria.rojas@upb.example", CONTRASENA)
+    cuenta = servicios.registrar("31245", "valeria.rojas@upb.example", CONTRASENA, CONTRASENA)
 
     assert cuenta.codigo == "31245"
     assert cuenta.rol == "estudiante"
@@ -22,13 +22,19 @@ def test_HU01_CA1_registra_cuenta_con_codigo_y_correo_del_padron():
     assert authenticate(username="valeria.rojas@upb.example", password=CONTRASENA) == cuenta
     assert leer_padron() == padron_antes
 
-
 def test_HU01_CA2_rechaza_registro_de_persona_inactiva():
     padron_antes = leer_padron()
 
     with pytest.raises(Rechazo) as error:
-        servicios.registrar("31248", "diego.vargas@upb.example", CONTRASENA)
+        servicios.registrar("31248", "diego.vargas@upb.example", CONTRASENA, CONTRASENA)
 
     assert error.value.causa == "persona no activa en el padrón"
     assert Usuario.objects.count() == 0
     assert leer_padron() == padron_antes
+
+def test_HU01_CA3_rechaza_si_las_contrasenas_no_coinciden():
+    with pytest.raises(Rechazo) as error:
+        servicios.registrar("31245", "valeria.rojas@upb.example", CONTRASENA, "otra-clave-456")
+
+    assert error.value.causa == "las contraseñas no coinciden"
+    assert Usuario.objects.count() == 0
