@@ -6,7 +6,7 @@
 - Docente y cliente: Ing. Sergio Barrientos
 - Fecha del plan: 15/10/2026 · Entrega del MVP: lunes 19/10/2026, 14:30
 - Issue: #1 · Milestone: F0 Planificación
-- Última actualización: 18/10/2026, cambios C-12 a C-14 (secciones 10, 11 y 13); antes, 17/10/2026, al cerrar las fases 5 y 6
+- Última actualización: 27/10/2026, fase F10 de refinamiento (sección 11); antes, 18/10/2026, cambios C-12 a C-14 (secciones 10, 11 y 13); antes, 17/10/2026, al cerrar las fases 5 y 6
 
 ## 1. Punto de partida
 
@@ -283,6 +283,7 @@ Las vistas de F6 ya funcionan con HTML simple. Por eso lo que no alcance en F8 a
 | 16/10/2026 | El criterio de cierre de F4 dice "datos visibles con cualquier cliente de MongoDB" en lugar de "Compass". | Los documentos del repositorio no nombran una herramienta concreta para mirar los datos. | Raúl |
 | 17/10/2026 | F7 se reparte por tipo de prueba, sin cambiar las cantidades (15 de Raúl y 11 de Hugo). Raúl escribe `conftest.py` y sus tests de HU-04 y HU-05 el domingo de 11:00 a 16:00; Hugo empieza a las 16:00 con esa base lista y toma los tests de reglas puras, que no necesitan base de datos. La tabla de franjas (sección 6) no se rehace. | Aprovechar el adelanto de F5 y F6, y que Hugo empiece por pruebas que no dependen de la base. | Raúl |
 | 18/10/2026 | Se registran los cambios C-12 (entrevistas y datos del repositorio anterior, como anexo de los requisitos), C-13 (Hugo Zúñiga como tercer administrador del padrón, código 10003; el padrón pasa a 24 entradas) y C-14 (glosario de siglas, `docs/glosario.md`, con autor, revisor y justificación). No cambia ninguna fase, fecha, tarea ni responsable. | Poder leer las fuentes sin salir del repositorio (C-12). Hugo necesita su propia cuenta de administrador para probar las pantallas de administración y escribir los tests de HU-08 y HU-09, en F7 y F8 (C-13). Un solo glosario para las siglas que Hugo lee en H0 (C-14). | Pedido de Hugo (issue #28) |
+| 27/10/2026 | Se agrega la fase **F10, refinamiento**, hasta el viernes 30/10/2026, con trabajo de dos orígenes. **Sugerencias del docente:** el issue #34 (confirmación de la contraseña al registrarse, cambio C-15), el issue #35 (horarios A a F) y la revisión de dónde se guarda y dónde se valida en MongoDB. **Pedido del equipo:** el rediseño visual de las pantallas, mobile-first, para que la aplicación sea más atractiva. | El plan llegaba hasta F9 (entrega del lunes 19/10/2026) y no tenía una fase para este trabajo. | Raúl |
 
 ## 12. Dudas abiertas con el docente
 

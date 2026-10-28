@@ -6,9 +6,9 @@
 
 ```mermaid
 flowchart LR
-    A["1 · Persona<br/>indica código, correo<br/>y contraseña"]
+    A["1 · Persona<br/>indica código, correo,<br/>contraseña y confirmación"]
     B["2 · Presentación<br/>recoge la acción<br/>Crear cuenta"]
-    C["3 · Lógica<br/>registrar(codigo, correo, contrasena)<br/>comprueba las reglas,<br/>guarda la cuenta<br/>y devuelve la cuenta creada"]
+    C["3 · Lógica<br/>registrar(codigo, correo,<br/>contrasena, confirmacion)<br/>comprueba las reglas,<br/>guarda la cuenta<br/>y devuelve la cuenta creada"]
     D["4 · Presentación<br/>muestra en verde:<br/>Cuenta creada. Ya puedes iniciar sesión<br/>y pasa a la pantalla de inicio de sesión"]
     A --> B --> C --> D
 
@@ -22,9 +22,9 @@ flowchart LR
     class D ok
 ```
 
-- **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–12.
-- **Paso 3:** `cuentas/servicios.py`, función `registrar`, líneas 20–30.
-- **Paso 4:** `cuentas/views.py`, líneas 15–17. La vista guarda el mensaje de éxito y redirige al inicio de sesión, donde se muestra (`templates/base.html`, líneas 31–32).
+- **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–17.
+- **Paso 3:** `cuentas/servicios.py`, función `registrar`, líneas 20–31.
+- **Paso 4:** `cuentas/views.py`, líneas 20–22. La vista guarda el mensaje de éxito y redirige al inicio de sesión, donde se muestra (`templates/base.html`, líneas 31–32).
 
 **Qué devuelve la lógica:** la cuenta creada. La vista no la usa para nada más.
 
@@ -34,7 +34,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    A["1 · Persona<br/>indica código, correo<br/>y contraseña"]
+    A["1 · Persona<br/>indica código, correo,<br/>contraseña y confirmación"]
     B["2 · Presentación<br/>recoge la acción<br/>Crear cuenta"]
     C["3 · Lógica<br/>registrar(...) se detiene<br/>en la primera regla que falla<br/>y lanza un Rechazo con su causa<br/>no guarda nada"]
     D["4 · Presentación<br/>muestra en rojo la causa del Rechazo<br/>y deja el formulario en pantalla<br/>para corregir"]
@@ -50,9 +50,9 @@ flowchart LR
     class D no
 ```
 
-- **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–12.
-- **Paso 3:** `cuentas/servicios.py`, líneas 21–27. Las comprobaciones están en `reservas/reglas.py`, líneas 191–215.
-- **Paso 4:** `cuentas/views.py`, líneas 13–14 (guarda la causa como mensaje de error) y 18 (vuelve a mostrar el formulario). El mensaje se pinta en rojo en `templates/base.html`, líneas 31–32.
+- **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–17.
+- **Paso 3:** `cuentas/servicios.py`, líneas 21–28. Las comprobaciones están en `reservas/reglas.py`, líneas 191–220.
+- **Paso 4:** `cuentas/views.py`, líneas 18–19 (guarda la causa como mensaje de error) y 23 (vuelve a mostrar el formulario). El mensaje se pinta en rojo en `templates/base.html`, líneas 31–32.
 
 **Qué devuelve la lógica:** nada. Lanza un `Rechazo` con la causa de la primera regla que falla, y no se guarda ninguna cuenta.
 
@@ -62,6 +62,7 @@ flowchart LR
 - **el correo no corresponde a ese código**
 - **persona no activa en el padrón**
 - **ya tienes una cuenta**
+- **las contraseñas no coinciden** (C-15)
 - el mensaje de Django, en español, cuando la contraseña no cumple las reglas de seguridad (muy corta, muy común, solo números o parecida al nombre o al correo)
 
 Se comprueban en ese orden, y solo se muestra la primera que falla.

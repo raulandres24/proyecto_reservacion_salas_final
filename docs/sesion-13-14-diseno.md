@@ -4,6 +4,7 @@
 - Integrantes que participan: Raúl Vaca (Hugo Zúñiga se incorpora en la fase 7)
 - Fecha: 15–16/10/2026 · Fase 2 · Issue #4 · Milestone F2 Diseño
 - Fuentes: [Requisitos](sesion-06-requisitos.md) · [Historias y casos de uso](sesion-07-modelos.md) · [Cambios](cambios.md) · [Plan](sesion-08-09-plan.md)
+- Actualizado: 27/10/2026 · confirmación de la contraseña en el registro: D-10 y secciones 3.2, 4.3 y 4.4 (C-15)
 
 ## 0. Cómo leer este documento
 
@@ -24,7 +25,7 @@
 | D-07 | **Comando `cargar_salas`**, que carga las 8 salas. Se puede correr varias veces sin duplicar: busca cada sala por su letra y, si existe, la actualiza. **[DECISIÓN F2, 15/10/2026]** | Se corre en la fase 4 y antes de los tests; correrlo dos veces no debe crear salas repetidas. | Datos de la sección 0 de los requisitos |
 | D-08 | **El padrón es un archivo JSON de solo lectura** (`padron/padron.json`). Solo lo lee `cuentas/padron.py` y **no se carga en la base de datos**. | Es la "base de datos estática" del dibujo del docente; el sistema nunca la modifica. | RF-13 |
 | D-09 | **Diagrama de secuencia de CU-07 (modificar)**, con el rechazo, la respuesta "Sí/No" a "¿Deseas mantenerla?" como petición aparte y el índice único como última barrera. | Es la misma operación del diagrama de actividad (sesión 7), de la sesión 12 y de sus tres pruebas. | CU-07 (sección 6, viernes) |
-| D-10 | **Las comprobaciones del registro (las cuatro de RF-13 y la contraseña) están en `reservas/reglas.py`**, el único archivo de reglas, y no leen ni escriben en la base. `cuentas/servicios.py` solo orquesta: lee el padrón, le pregunta a `reglas` y crea la cuenta. **[DECISIÓN F2]** | Mantiene un solo lugar para todas las reglas de negocio. **Costo:** `reglas.py` incluye también las comprobaciones del registro y `cuentas/servicios.py` lo importa; `verificar_contrasena` usa las reglas de contraseña de Django; no hay importación circular porque `reglas.py` no toca modelos. | RF-13; CU-01 |
+| D-10 | **Las comprobaciones del registro (los cinco rechazos de RF-13, incluida la confirmación de la contraseña (C-15), y las reglas de contraseña de Django) están en `reservas/reglas.py`**, el único archivo de reglas, y no leen ni escriben en la base. `cuentas/servicios.py` solo orquesta: lee el padrón, le pregunta a `reglas` y crea la cuenta. **[DECISIÓN F2]** | Mantiene un solo lugar para todas las reglas de negocio. **Costo:** `reglas.py` incluye también las comprobaciones del registro y `cuentas/servicios.py` lo importa; `verificar_contrasena` usa las reglas de contraseña de Django; no hay importación circular porque `reglas.py` no toca modelos. | RF-13; CU-01 |
 
 ### Limitaciones que resultan del diseño
 
@@ -166,7 +167,7 @@ Se elige **`AbstractBaseUser`** porque:
 - **`rol`** es la única fuente de permisos: las reglas preguntan por `rol`, nunca por otra cosa.
 - **Correo y código únicos** (sección 2.4).
 - **Sin `is_active`:** `AbstractBaseUser` ya responde `is_active = True` para todas las cuentas. La limitación está en la sección 1 (ligada a P-17).
-- **Contraseña:** las reglas por defecto de Django (RF-13).
+- **Contraseña:** se escribe dos veces y las dos tienen que coincidir (C-15); además, cumple las reglas por defecto de Django (RF-13).
 - **Las cuentas solo se crean con el registro** contra el padrón (RF-13, CU-01), incluida la del administrador (Sergio Barrientos, 10001, que figura en el padrón con rol administrador y un correo distinto del de su cuenta de docente). El "administrador" de cuentas (manager) solo sabe crear usuarios comunes: **no hay `createsuperuser`** ni ningún otro camino.
 
 ### 3.3 Qué se copia del padrón al registrarse
@@ -323,7 +324,7 @@ classDiagram
 
 | Operación | Entradas | Resultado si se acepta | Si se rechaza | Escribe | Caso de uso |
 |---|---|---|---|---|---|
-| `registrar` (cuentas) | código, correo, contraseña | La cuenta nueva | `Rechazo` con la causa de RF-13; no se crea nada | Sí | CU-01 |
+| `registrar` (cuentas) | código, correo, contraseña, confirmación de la contraseña (C-15) | La cuenta nueva | `Rechazo` con la causa de RF-13; no se crea nada | Sí | CU-01 |
 | `consultar_salas_libres` | usuario, fecha, bloque, ahora | Lista de salas que ese usuario puede reservar | `Rechazo` (día, bloque o anticipación) | **No** (RC-02) | CU-03 |
 | `mis_reservas` | usuario | Sus reservas, Confirmadas y Canceladas, con el motivo | — | **No** (RC-02) | CU-06, paso 1 |
 | `listar_reservas` | administrador, fecha | Las reservas Confirmadas de todas las personas en esa fecha, para elegir cuál modificar o cancelar | `Rechazo` si no es administrador | **No** (RC-02) | CU-09 |
@@ -363,6 +364,7 @@ Cada función recibe datos ya leídos. Si la regla se cumple, no hace nada (o de
 | `verificar_correo_del_padron(persona, correo)` | Que el correo sea el de ese código | "el correo no corresponde a ese código" |
 | `verificar_persona_activa(persona)` | Que la persona esté activa en el padrón | "persona no activa en el padrón" |
 | `verificar_sin_cuenta(ya_tiene_cuenta)` | Que no tenga ya una cuenta | "ya tienes una cuenta" |
+| `verificar_contrasenas_iguales(contrasena, confirmacion)` | Que la contraseña y su confirmación sean iguales (C-15). Se comprueba antes que `verificar_contrasena` | "las contraseñas no coinciden" |
 | `verificar_contrasena(contrasena, cuenta_nueva)` | Las reglas de contraseña de Django. Recibe la cuenta todavía sin guardar, para la regla "no parecida al correo" | Las reglas que no se cumplen |
 
 **Autorización**

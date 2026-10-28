@@ -4,11 +4,12 @@
 - Integrantes que participan: Raúl Vaca (Hugo Zúñiga se incorpora en la fase 7)
 - Fecha: 15/10/2026 · Fase 1 · Issue #3 · Milestone F1 Requisitos
 - Requisitos de origen: [Sesión 6](sesion-06-requisitos.md) · Cambios: [cambios.md](cambios.md) · Plan: [Sesiones 8–9](sesion-08-09-plan.md)
+- Actualizado: 27/10/2026 · criterio HU01-CA3 y confirmación de la contraseña en CU-01 (C-15)
 
 ## 0. Cómo leer este documento
 
 - Los datos de los ejemplos son los de la sección 0 de los requisitos: bloques B1 a B6, personas del padrón usadas en los ejemplos (ficticias, salvo el administrador 10001; cambio C-09), salas y capacidades. Las marcas **[ACUERDO]**, **[PROPUESTA]** y **[PROVISIONAL]** de cada regla están en los requisitos, y aquí se citan por su ID.
-- **Cada criterio de aceptación es exactamente un test.** Hay 26 criterios, así que habrá 26 tests. El nombre de cada test empieza con su historia y su criterio (`test_HU04_CA2_…`). Los tests se programan en la fase 7.
+- **Cada criterio de aceptación es exactamente un test.** Hay 27 criterios: los 26 de la fase 1 y HU01-CA3, agregado el 27/10/2026 (C-15). Por eso hay 27 tests. El nombre de cada test empieza con su historia y su criterio (`test_HU04_CA2_…`). Los tests se programan en la fase 7.
 - Cada criterio fija su "hora actual". Todos los criterios comprueban dos cosas: **la respuesta** del sistema y **lo que quedó guardado** en la base de datos.
 - Lo que **no** se prueba está declarado en la sección 6.
 
@@ -39,6 +40,11 @@
 - **Dado** que Diego (31248, diego.vargas@upb.example) figura como **inactivo** en el padrón,
 - **cuando** intenta registrarse con su código y su correo,
 - **entonces** el sistema rechaza el registro con "persona no activa en el padrón", no se crea ninguna cuenta y el padrón no cambia.
+
+**HU01-CA3 — Rechazo** (C-15). `test_HU01_CA3_rechaza_si_las_contrasenas_no_coinciden`
+- **Dado** que Valeria (31245, valeria.rojas@upb.example) está activa en el padrón y no tiene cuenta,
+- **cuando** se registra con su código y su correo, pero escribe dos contraseñas distintas en "Contraseña" y "Confirmar contraseña",
+- **entonces** el sistema rechaza el registro con "las contraseñas no coinciden" y no se crea ninguna cuenta.
 
 ### HU-02 — Iniciar y cerrar sesión
 
@@ -197,7 +203,7 @@ Formato: objetivo, actor, disparador, precondiciones, poscondición de éxito, g
   3. El sistema comprueba que el correo sea el de ese código. *(No coincide → E2.)*
   4. El sistema comprueba que la persona esté activa. *(Inactiva → E3.)*
   5. El sistema comprueba que no tenga cuenta. *(Ya tiene → E4.)*
-  6. La persona elige una contraseña que cumple las reglas de Django. *(No cumple → E5.)*
+  6. La persona elige una contraseña y la escribe dos veces. El sistema comprueba primero que las dos sean iguales *(no coinciden → E6)* y después que cumpla las reglas de Django *(no cumple → E5)*.
   7. El sistema crea la cuenta en la BD e informa "Cuenta creada".
 - **Excepciones:**
   - E1: "código no encontrado en el padrón".
@@ -205,6 +211,7 @@ Formato: objetivo, actor, disparador, precondiciones, poscondición de éxito, g
   - E3: "persona no activa en el padrón".
   - E4: "ya tienes una cuenta".
   - E5: la contraseña no cumple las reglas; se muestran las reglas que faltan.
+  - E6: "las contraseñas no coinciden" (C-15). Se comprueba antes que E5.
 
   En todos los casos no se crea nada.
 - **Datos:** cambia la colección de cuentas (una nueva). Se conserva el padrón, siempre.
@@ -418,6 +425,7 @@ No existe un estado "Rechazada": lo que se rechaza es la **solicitud**, no la re
 |---|---|---|---|---|---|
 | RF-13 | HU-01 | CA1 aceptación | CU-01 paso 7 | `test_HU01_CA1_registra_cuenta_con_codigo_y_correo_del_padron` | Raúl |
 | RF-13 | HU-01 | CA2 rechazo | CU-01 E3 | `test_HU01_CA2_rechaza_registro_de_persona_inactiva` | Raúl |
+| RF-13 | HU-01 | CA3 rechazo (C-15) | CU-01 E6 | `test_HU01_CA3_rechaza_si_las_contrasenas_no_coinciden` | Raúl |
 | RF-14 | HU-02 | CA1 aceptación | CU-02 paso 3 | `test_HU02_CA1_inicia_sesion_con_correo_y_contrasena` | Raúl |
 | RF-14 | HU-02 | CA2 rechazo | CU-02 E1 | `test_HU02_CA2_contrasena_incorrecta_da_mensaje_unico` | Raúl |
 | RF-01, RF-11, RC-02 | HU-03 | CA1 aceptación | CU-03 paso 4 | `test_HU03_CA1_muestra_salas_libres_sin_a_ni_e_y_no_modifica_datos` | Raúl |
@@ -443,7 +451,7 @@ No existe un estado "Rechazada": lo que se rechaza es la **solicitud**, no la re
 | RF-03 | HU-09 | CA1 rechazo sin pregunta | CU-09 E1 | `test_HU09_CA1_admin_rechazado_sin_pregunta_conserva_ambas` | Hugo |
 | RF-08 (reglas del dueño) | HU-09 | CA2 rechazo | CU-09 paso 3, E1 | `test_HU09_CA2_admin_aplica_reglas_del_dueno` | Hugo |
 
-**Total: 26 tests**, 15 de Raúl y 11 de Hugo. Las tres pruebas de la **sesión 12** son HU07-CA1 (aceptación), HU07-CA2 (rechazo) y HU07-CA4 (límite).
+**Total: 27 tests**, 16 de Raúl y 11 de Hugo. HU01-CA3 se agregó el 27/10/2026 (C-15); los otros 26 son los de la fase 1. Las tres pruebas de la **sesión 12** son HU07-CA1 (aceptación), HU07-CA2 (rechazo) y HU07-CA4 (límite).
 
 RC-01 (causa concreta) y RC-03 (un rechazo no deja la operación a medias) no tienen tests propios: los comprueba **cada** test de rechazo, que verifica el mensaje y lo que quedó guardado.
 

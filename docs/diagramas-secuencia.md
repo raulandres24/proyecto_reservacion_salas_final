@@ -151,7 +151,7 @@ sequenceDiagram
 | 3 | Datos ilegibles | `views.py`, líneas 129–130; vuelve a mostrar el formulario en la línea 134 |
 | 4 | Llama al servicio, con la hora real como `ahora` | `views.py`, líneas 124–126; el servicio está en `reservas/servicios.py`, línea 147 |
 | 5 | Comprueba que sea administrador | `servicios.py`, línea 148; `reglas.py`, líneas 150–152 |
-| 6 | Comprueba que haya al menos un bloque | `servicios.py`, línea 149; `reglas.py`, líneas 218–220 |
+| 6 | Comprueba que haya al menos un bloque | `servicios.py`, línea 149; `reglas.py`, líneas 223–225 (según `ed35945`) |
 | 7–9 | Busca la sala | `servicios.py`, línea 150; `buscar_sala` está en las líneas 8–12 |
 | 10 | Comprueba cada bloque: día de atención, que exista y que no haya empezado | `servicios.py`, líneas 151–152; `reglas.py`, líneas 84–90 |
 | 11–12 | Rechazo antes de la transacción | La línea `raise` de la función que falló; la vista lo muestra en `views.py`, líneas 127–128, y vuelve al formulario en la línea 134 |

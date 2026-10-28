@@ -5,7 +5,7 @@
 - Fecha: 18/10/2026 · Fase 7 · Issue #22 · Milestone F7 Pruebas
 - Requisitos: [Sesión 6](sesion-06-requisitos.md) · Historias, criterios y casos de uso: [Sesión 7](sesion-07-modelos.md) · Diseño: [Sesiones 13–14](sesion-13-14-diseno.md) · Plan: [Sesiones 8–9](sesion-08-09-plan.md) · Cambios: [cambios.md](cambios.md)
 
-Este documento relaciona cada test con su requisito, su historia, su criterio de aceptación y su caso de uso, y dice en qué estado está. La lista de 26 tests se acordó en la fase 1 (sesión 7, sección 6). **Lo que no se prueba** está declarado allí y no se copia aquí, para no tener dos listas que se contradigan.
+Este documento relaciona cada test con su requisito, su historia, su criterio de aceptación y su caso de uso, y dice en qué estado está. La lista de 26 tests se acordó en la fase 1 (sesión 7, sección 6); el 27/10/2026 se agregó HU01-CA3 (cambio C-15), así que son 27. **Lo que no se prueba** está declarado allí y no se copia aquí, para no tener dos listas que se contradigan.
 
 ## 1. Cómo se ejecutan
 
@@ -15,14 +15,15 @@ python -m pytest -v
 
 Requisitos: el entorno virtual activo, `pip install -r requirements.txt` y MongoDB local corriendo como *replica set* (la misma base que usa la aplicación). pytest-django crea su propia base `test_reservacion_salas`; **no toca** la base `reservacion_salas` de la aplicación.
 
-## 2. Los 26 tests
+## 2. Los 27 tests
 
-Estado a las 22:55 del 18/10/2026: **26 de 26 implementados y en verde**. Última corrida completa, en la computadora de Raúl, sobre `main` en `29b817a`: `26 passed in 30.68s`. Los 15 de Raúl siguen el issue #18 y los 11 de Hugo, el #19; los de Hugo se fusionaron en `main` con el PR #30 (merge `ec1a354`). La base de pytest (`pytest.ini`, `pytest` y `pytest-django` en `requirements.txt`) está en `8e83913`.
+Estado al 27/10/2026: **27 de 27 implementados y en verde**, en local y en GitHub Actions. Última corrida completa, en la copia local de Raúl, con el código que se subió en `ff7c3d6`: 27 passed, en unos 48 segundos. En GitHub Actions, el CI de `ff7c3d6` pasó en verde: [run #15](https://github.com/raulandres24/proyecto_reservacion_salas_final/actions/runs/40613061505), en 44 s. La corrida anterior, con los 26 tests de la fase 1, fue a las 22:55 del 18/10/2026 sobre `29b817a` (`26 passed in 30.68s`). De los 16 tests de Raúl, 15 siguen el issue #18 y HU01-CA3, el #34; los 11 de Hugo siguen el #19; los de Hugo se fusionaron en `main` con el PR #30 (merge `ec1a354`). La base de pytest (`pytest.ini`, `pytest` y `pytest-django` en `requirements.txt`) está en `8e83913`.
 
 | Requisito | HU | Criterio | Paso o excepción del CU | Test | Archivo | Responsable | Estado |
 |---|---|---|---|---|---|---|---|
 | RF-13 | HU-01 | CA1 aceptación | CU-01 paso 7 | `test_HU01_CA1_registra_cuenta_con_codigo_y_correo_del_padron` | `test_hu01_registro.py` | Raúl | Pasa (`60eda5d`) |
 | RF-13 | HU-01 | CA2 rechazo | CU-01 E3 | `test_HU01_CA2_rechaza_registro_de_persona_inactiva` | `test_hu01_registro.py` | Raúl | Pasa (`60eda5d`) |
+| RF-13 | HU-01 | CA3 rechazo (C-15) | CU-01 E6 | `test_HU01_CA3_rechaza_si_las_contrasenas_no_coinciden` | `test_hu01_registro.py` | Raúl | Pasa (`ff7c3d6`, local y Actions) |
 | RF-14 | HU-02 | CA1 aceptación | CU-02 paso 3 | `test_HU02_CA1_inicia_sesion_con_correo_y_contrasena` | `test_hu02_sesion.py` | Raúl | Pasa (`154d7c9`) |
 | RF-14 | HU-02 | CA2 rechazo | CU-02 E1 | `test_HU02_CA2_contrasena_incorrecta_da_mensaje_unico` | `test_hu02_sesion.py` | Raúl | Pasa (`154d7c9`) |
 | RF-01, RF-11, RC-02 | HU-03 | CA1 aceptación | CU-03 paso 4 | `test_HU03_CA1_muestra_salas_libres_sin_a_ni_e_y_no_modifica_datos` | `test_hu03_consulta.py` | Raúl | Pasa (`640e63a`) |

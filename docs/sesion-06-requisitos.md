@@ -6,6 +6,7 @@
 - Fecha: 15/10/2026 · Fase 1 · Issue #2 · Milestone F1 Requisitos
 - Plan: [Sesiones 8–9](sesion-08-09-plan.md) · Cambios: [cambios.md](cambios.md)
 - Actualizado: 18/10/2026 · anexo con los datos del repositorio anterior (sección 9, C-12), administrador 10003 en el padrón (C-13) y glosario de siglas (C-14). Las reglas no cambian.
+- Actualizado: 27/10/2026 · confirmación de la contraseña al registrarse en RES-RF-13 (C-15).
 
 ## 0. Cómo leer este documento
 
@@ -255,17 +256,20 @@ El contenido de ENC, S4, S6 y D07 está copiado en el anexo de la sección 9, co
 - Origen: arquitectura indicada por el docente (D07: registro FE → MW → Padrón → BD). Prioridad: alta.
 - Estado:
   - El recorrido del registro: **[ACUERDO]** (D07).
-  - Los cuatro rechazos, que la matrícula vencida no impida registrarse, y que la contraseña siga las reglas por defecto de Django: **[PROPUESTA, E15]**.
-- Requisito: una persona sin cuenta escribe su código y su correo. El sistema los busca en el padrón, y si cumplen todo, la persona elige su contraseña y se crea su cuenta en la BD. Se rechaza si:
+  - Los cuatro primeros rechazos, que la matrícula vencida no impida registrarse, y que la contraseña siga las reglas por defecto de Django: **[PROPUESTA, E15]**.
+  - El quinto rechazo, la confirmación de la contraseña: **[ACUERDO]**, sugerencia del docente comunicada por Raúl el 27/10/2026 (C-15).
+- Requisito: una persona sin cuenta escribe su código y su correo. El sistema los busca en el padrón, y si cumplen todo, la persona elige su contraseña, la escribe dos veces y se crea su cuenta en la BD. Se rechaza si:
   1. el código no existe en el padrón;
   2. el correo no es el de ese código;
   3. la persona está inactiva;
-  4. la persona ya tiene cuenta.
+  4. la persona ya tiene cuenta;
+  5. la contraseña y su confirmación no coinciden ("las contraseñas no coinciden"). Se comprueba antes que las reglas de contraseña de Django.
 
   El padrón es de solo lectura: el sistema nunca lo modifica y no guarda contraseñas en él.
 - Criterio de aceptación:
   - Aceptación: Valeria (31245, valeria.rojas@upb.example), sin cuenta, se registra con una contraseña válida. Se crea su cuenta y el padrón no cambia.
   - Rechazo: Diego (31248, inactivo) intenta registrarse. Se rechaza por "persona no activa en el padrón" y no se crea ninguna cuenta.
+  - Rechazo: Valeria escribe dos contraseñas distintas. Se rechaza por "las contraseñas no coinciden" y no se crea ninguna cuenta (C-15).
 
 ### RES-RF-14 — Inicio y cierre de sesión
 
