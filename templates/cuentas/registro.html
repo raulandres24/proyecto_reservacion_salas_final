@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 {% block titulo %}Crear cuenta{% endblock %}
+{% block clases_main %}lg:grid lg:min-h-screen lg:grid-cols-2{% endblock %}
+{% block mensajes %}{% endblock %}
 {% block contenido %}
-    <section class="mx-auto mt-8 max-w-sm rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-        <h1 class="mb-6 text-2xl font-semibold">Crear cuenta</h1>
-        <form method="post" class="space-y-4">
-            {% csrf_token %}
-            <label class="block text-sm font-medium">Código
-                <input name="codigo" required
-                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            </label>
-            <label class="block text-sm font-medium">Correo
-                <input name="correo" type="email" required
-                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            </label>
-            <label class="block text-sm font-medium">Contraseña
-                <input name="contrasena" type="password" required
-                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            </label>
-            <label class="block text-sm font-medium">Confirmar contraseña
-                <input name="confirmacion" type="password" required
-                       class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
-            </label>
-            <button type="submit"
-                    class="w-full rounded-md bg-indigo-600 px-4 py-2 font-medium text-white hover:bg-indigo-700">Crear cuenta</button>
-        </form>
-        <p class="mt-4 text-center text-sm">
-            <a class="text-indigo-600 hover:underline" href="{% url 'login' %}">Ya tengo cuenta</a>
-        </p>
+    <section class="group relative overflow-hidden bg-emerald-800 px-6 pt-14 pb-32 text-white lg:flex lg:flex-col lg:justify-center lg:px-16 lg:py-16 xl:px-24">
+        <div aria-hidden="true" class="pointer-events-none absolute -top-16 -right-16 size-56 rounded-full bg-white/10 transition duration-300 lg:size-96 motion-safe:lg:group-hover:scale-110"></div>
+        <div aria-hidden="true" class="pointer-events-none absolute -bottom-32 -left-20 hidden size-80 rounded-full bg-emerald-700 transition duration-300 lg:block motion-safe:lg:group-hover:translate-x-6 motion-safe:lg:group-hover:-translate-y-6"></div>
+        <div aria-hidden="true" class="pointer-events-none absolute right-24 bottom-24 hidden size-24 rounded-full bg-amber-400/25 transition duration-300 lg:block motion-safe:lg:group-hover:-translate-x-8 motion-safe:lg:group-hover:scale-125"></div>
+        <p class="relative text-sm font-semibold tracking-widest text-emerald-200 uppercase">Reserva de Salas</p>
+        <h1 class="relative mt-3 max-w-lg text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl lg:text-6xl">Tu sala de estudio, en dos toques.</h1>
+        <p class="relative mt-6 hidden max-w-md text-xl text-emerald-100 lg:block">Mira qué sala está libre y resérvala para tu grupo.</p>
     </section>
+    <div class="-mt-20 px-4 pb-12 lg:mt-0 lg:flex lg:items-center lg:justify-center lg:p-12">
+        <section class="tarjeta relative mx-auto w-full max-w-md rounded-3xl bg-white p-6 shadow-xl ring-1 shadow-stone-900/10 ring-stone-900/5 sm:p-10{% for mensaje in messages %}{% if mensaje.tags == 'error' %} con-error{% endif %}{% endfor %}">
+            <h2 class="aparecer mb-6 text-3xl font-bold tracking-tight">Crear cuenta</h2>
+            {% include "mensajes.html" %}
+            <form method="post" class="space-y-5">
+                {% csrf_token %}
+                <label class="aparecer block text-sm font-semibold text-stone-700" style="animation-delay: 100ms">Código
+                    <input name="codigo" required value="{{ request.POST.codigo }}"
+                           class="mt-2 block w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base font-normal text-stone-900 transition duration-200 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/15 focus:outline-none">
+                </label>
+                <label class="aparecer block text-sm font-semibold text-stone-700" style="animation-delay: 200ms">Correo
+                    <input name="correo" type="email" required autocomplete="email" value="{{ request.POST.correo }}"
+                           class="mt-2 block w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base font-normal text-stone-900 transition duration-200 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/15 focus:outline-none">
+                </label>
+                <label class="aparecer block text-sm font-semibold text-stone-700" style="animation-delay: 300ms">Contraseña
+                    <input name="contrasena" type="password" required autocomplete="new-password"
+                           class="mt-2 block w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base font-normal text-stone-900 transition duration-200 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/15 focus:outline-none">
+                </label>
+                <label class="aparecer block text-sm font-semibold text-stone-700" style="animation-delay: 400ms">Confirmar contraseña
+                    <input name="confirmacion" type="password" required autocomplete="new-password"
+                           class="mt-2 block w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-base font-normal text-stone-900 transition duration-200 focus:border-emerald-700 focus:ring-4 focus:ring-emerald-700/15 focus:outline-none">
+                </label>
+                <button type="submit" style="animation-delay: 500ms"
+                        class="aparecer w-full rounded-xl bg-amber-400 px-4 py-3.5 text-base font-semibold text-stone-900 shadow-sm transition duration-200 hover:bg-amber-300 hover:shadow-md focus-visible:ring-4 focus-visible:ring-amber-400/50 focus-visible:ring-offset-2 focus-visible:outline-none motion-safe:hover:-translate-y-0.5 motion-safe:active:scale-95">Crear cuenta</button>
+            </form>
+            <p class="aparecer mt-6 text-center text-sm text-stone-600" style="animation-delay: 600ms">¿Ya tienes cuenta?
+                <a class="rounded font-semibold text-emerald-800 underline-offset-4 transition duration-200 hover:underline focus-visible:ring-2 focus-visible:ring-emerald-700 focus-visible:outline-none" href="{% url 'login' %}">Inicia sesión</a>
+            </p>
+        </section>
+    </div>
 {% endblock %}
