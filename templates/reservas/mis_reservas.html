@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load horarios %}
 {% block titulo %}Mis reservas{% endblock %}
 {% block contenido %}
     <h1 class="mb-6 text-2xl font-semibold">Mis reservas</h1>
@@ -9,7 +10,7 @@
                     <tr>
                         <th class="px-4 py-3 font-medium">Sala</th>
                         <th class="px-4 py-3 font-medium">Fecha</th>
-                        <th class="px-4 py-3 font-medium">Bloque</th>
+                        <th class="px-4 py-3 font-medium">Horario</th>
                         <th class="px-4 py-3 font-medium">Asistentes</th>
                         <th class="px-4 py-3 font-medium">Estado</th>
                         <th class="px-4 py-3 font-medium">Motivo</th>
@@ -21,7 +22,7 @@
                         <tr class="border-t border-slate-200">
                             <td class="px-4 py-3">{{ reserva.sala.letra }}</td>
                             <td class="px-4 py-3">{{ reserva.fecha|date:"d/m/Y" }}</td>
-                            <td class="px-4 py-3">B{{ reserva.bloque }}</td>
+                            <td class="px-4 py-3">Horario {{ reserva.bloque|letra_horario }}</td>
                             <td class="px-4 py-3">{{ reserva.asistentes }}</td>
                             <td class="px-4 py-3">{{ reserva.get_estado_display }}</td>
                             <td class="px-4 py-3">{{ reserva.get_motivo_cancelacion_display }}</td>

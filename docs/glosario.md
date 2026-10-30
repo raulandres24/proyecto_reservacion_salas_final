@@ -52,7 +52,8 @@ En el texto suelen abreviar `RES-RF-04` como `RF-04`. Es lo mismo.
 | **P** | Pregunta abierta al docente | `P-02` (¿Esc cancela?) | `sesion-06`, sección 6 |
 | **C** | Cambio aprobado | `C-04` | `cambios.md` |
 | **D** | Decisión de diseño | `D-02` índices únicos | `sesion-13-14`, sección 1 |
-| **B1–B6** | Bloque horario 1 a 6 | `B2` = 10:00–12:00 | `sesion-06`, sección 0 |
+| **B1–B6** | Bloque horario 1 a 6. Es el nombre que usan el código y los documentos | `B2` = 10:00–12:00 | `sesion-06`, sección 0 |
+| **Horario A–F** | Nombre que ve el usuario en las pantallas para los bloques 1 a 6 (C-16): 1 = A, 2 = B, 3 = C, 4 = D, 5 = E, 6 = F. El código y la base siguen guardando el número | "Horario B" = bloque 2 = `B2` = 10:00–12:00 | `reservas/templatetags/horarios.py` (filtro `letra_horario`) |
 
 **Mismo número, misma funcionalidad:** `HU-n` y `CU-n` hablan de lo mismo (HU-07 y CU-07 = modificar).
 
@@ -208,7 +209,7 @@ Son las 9 comprobaciones de `comprobar_reserva`, en este orden:
 
 | Letra | Significados (según dónde aparezca) |
 |---|---|
-| **B** | Sala B **o** Bloque B1–B6. `B2` es un bloque; "sala B" es una sala |
+| **B** | Sala B **o** Bloque B1–B6 **o** "Horario B" en pantalla, que es el bloque 2 (C-16). `B2` es un bloque; "sala B" es una sala; "Horario B" es `B2` |
 | **C** | Sala C **o** Cambio `C-01` |
 | **D** | Sala D **o** Decisión `D-01` **o** fuente `D07` (no es `D-07`, que es el comando `cargar_salas`) |
 | **E** | Sala E **o** Excepción `E1` **o** Ensayo (`E`) **o** fuente `E15` |
@@ -231,7 +232,7 @@ Son las 9 comprobaciones de `comprobar_reserva`, en este orden:
 | **Padrón** | Archivo JSON con 24 entradas: 15 compañeros reales, el docente, 3 administradores y 5 personas ficticias de los ejemplos (23 antes de C-13). Solo se lee, y solo al registrarse. El repo anterior y el docente lo llaman también **DB estática** |
 | **Cuentas de administrador** | Códigos `10001` (Sergio), `10002` (Raúl) y `10003` (Hugo, C-13): 5 dígitos, correo inventado `@upb.example` y entrada aparte de la del estudiante o docente de la misma persona |
 | **Dueño** | Quien creó la reserva (`dueno`, sin ñ en el código) |
-| **Bloque** | Franja fija de 2 h; hay 6 al día, separadas por 15 min |
+| **Bloque** | Franja fija de 2 h; hay 6 al día, separadas por 15 min. En pantalla se llama "Horario A" a "Horario F" (C-16) |
 | **Desalojo de 15 min** | El margen entre un bloque y el siguiente; por eso no hace falta una regla aparte |
 | **Rechazo** | Excepción de `reglas.py` con `causa` y `preguntar_si_mantener` |
 | **Índice único parcial** | Restricción de MongoDB: no permite dos reservas *confirmadas* iguales. Es la última barrera (D-02) |

@@ -6,7 +6,7 @@
 
 ## 1. Qué hace
 
-Aplicación web para reservar las salas de estudio de la universidad por bloques fijos (B1 a B6, de lunes a viernes). Cubre las nueve historias del MVP ([sesion-07-modelos.md](docs/sesion-07-modelos.md), sección 1):
+Aplicación web para reservar las salas de estudio de la universidad por bloques fijos (B1 a B6, que en pantalla se llaman "Horario A" a "Horario F"; de lunes a viernes). Cubre las nueve historias del MVP ([sesion-07-modelos.md](docs/sesion-07-modelos.md), sección 1):
 
 | Historia | Qué permite |
 |---|---|
