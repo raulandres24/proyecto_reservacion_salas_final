@@ -20,11 +20,12 @@ Cada requisito, y cada parte de un requisito cuando hace falta, lleva una de est
 | **[PROPUESTA]** | Lo decidió o propuso el equipo y el docente todavía no lo confirmó. |
 | **[PROVISIONAL]** | Valor que usamos mientras el docente no responda una pregunta abierta (sección 6). Si responde distinto, se registra en `cambios.md` y se corrige. |
 
-**Bloques horarios.** Las reservas se hacen por bloques fijos (RES-RF-09):
+**Bloques horarios.** Las reservas se hacen por bloques fijos (RES-RF-09). Desde C-16, las pantallas los muestran como "Horario A" a "Horario F"; el código, la base y estos documentos siguen usando el número del bloque:
 
 | Bloque | B1 | B2 | B3 | B4 | B5 | B6 |
 |---|---|---|---|---|---|---|
 | Horario | 07:45–09:45 | 10:00–12:00 | 12:15–14:15 | 14:30–16:30 | 16:45–18:45 | 19:00–21:00 |
+| En pantalla (C-16) | Horario A | Horario B | Horario C | Horario D | Horario E | Horario F |
 
 **Personas del padrón usadas en los ejemplos** [PROPUESTA]. El padrón (`padron/padron.json`) tiene 24 entradas: 15 estudiantes reales del curso, el docente, tres administradores y las cinco personas ficticias de los ejemplos (cambios C-09 y C-13). Los ejemplos y las pruebas usan solo las personas de esta tabla; los datos de los estudiantes reales no se copian a los documentos.
 
