@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load horarios %}
 {% block titulo %}Salas libres{% endblock %}
 {% block contenido %}
     <h1 class="mb-6 text-2xl font-semibold">Salas libres</h1>
@@ -7,11 +8,11 @@
             <input name="fecha" type="date" value="{{ fecha|date:'Y-m-d' }}" required
                    class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
         </label>
-        <label class="block flex-1 text-sm font-medium">Bloque
+        <label class="block flex-1 text-sm font-medium">Horario
             <select name="bloque"
                     class="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                 {% for numero, horas in bloques.items %}
-                    <option value="{{ numero }}" {% if numero == bloque %}selected{% endif %}>B{{ numero }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
+                    <option value="{{ numero }}" {% if numero == bloque %}selected{% endif %}>Horario {{ numero|letra_horario }}: {{ horas.0|time:"H:i" }}–{{ horas.1|time:"H:i" }}</option>
                 {% endfor %}
             </select>
         </label>
@@ -40,7 +41,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p class="rounded-md bg-slate-100 px-4 py-3 text-sm text-slate-700">No hay salas libres en ese bloque.</p>
+            <p class="rounded-md bg-slate-100 px-4 py-3 text-sm text-slate-700">No hay salas libres en ese horario.</p>
         {% endif %}
     {% endif %}
 {% endblock %}
