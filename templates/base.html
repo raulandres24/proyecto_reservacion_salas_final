@@ -7,30 +7,32 @@
     <title>{% block titulo %}Reserva de salas{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/estilos.css' %}">
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-900">
+<body class="min-h-screen bg-stone-50 text-stone-900">
     {% if user.is_authenticated %}
-        <header class="border-b border-slate-200 bg-white">
-            <div class="mx-auto flex max-w-4xl flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <nav class="flex flex-wrap gap-4 text-sm font-medium text-slate-700">
-                    <a class="hover:text-indigo-600" href="{% url 'salas_libres' %}">Salas libres</a>
-                    <a class="hover:text-indigo-600" href="{% url 'mis_reservas' %}">Mis reservas</a>
+        <header class="bg-emerald-800 text-white">
+            <div class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 p-4 lg:flex-nowrap">
+                <span class="whitespace-nowrap text-base font-extrabold">Reserva de Salas</span>
+                <nav class="order-last flex w-full flex-wrap gap-2 text-sm font-semibold lg:order-none lg:w-auto">
+                    <a class="whitespace-nowrap rounded-lg px-3 py-2 transition hover:bg-white/15" href="{% url 'salas_libres' %}">Salas libres</a>
+                    <a class="whitespace-nowrap rounded-lg px-3 py-2 transition hover:bg-white/15" href="{% url 'mis_reservas' %}">Mis reservas</a>
                     {% if user.rol == "administrador" %}
-                        <a class="hover:text-indigo-600" href="{% url 'reservas_del_dia' %}">Reservas del día</a>
-                        <a class="hover:text-indigo-600" href="{% url 'mantenimiento' %}">Mantenimiento</a>
+                        <a class="whitespace-nowrap rounded-lg px-3 py-2 transition hover:bg-white/15" href="{% url 'reservas_del_dia' %}">Reservas del día</a>
+                        <a class="whitespace-nowrap rounded-lg px-3 py-2 transition hover:bg-white/15" href="{% url 'mantenimiento' %}">Mantenimiento</a>
                     {% endif %}
                 </nav>
                 <form method="post" action="{% url 'logout' %}" class="flex items-center gap-3 text-sm">
                     {% csrf_token %}
-                    <span>{{ user.nombre }} ({{ user.rol }})</span>
-                    <button type="submit" class="rounded-md border border-slate-300 px-3 py-1 hover:bg-slate-100">Cerrar sesión</button>
+                    <span class="hidden flex-col text-right leading-tight sm:flex">
+                        <span class="whitespace-nowrap font-semibold">{{ user.nombre }}</span>
+                        <span class="text-xs text-emerald-200">{{ user.rol }}</span>
+                    </span>
+                    <button type="submit" class="whitespace-nowrap rounded-lg bg-amber-400 px-3 py-2 font-semibold text-stone-900 transition hover:bg-amber-300">Cerrar sesión</button>
                 </form>
             </div>
         </header>
     {% endif %}
-    <main class="mx-auto max-w-4xl p-4">
-        {% for mensaje in messages %}
-            <p class="mb-4 rounded-md px-4 py-3 text-sm {% if mensaje.tags == 'error' %}bg-red-50 text-red-900{% else %}bg-green-50 text-green-900{% endif %}">{{ mensaje }}</p>
-        {% endfor %}
+    <main class="{% block clases_main %}mx-auto max-w-5xl p-4{% endblock %}">
+        {% block mensajes %}{% include "mensajes.html" %}{% endblock %}
         {% block contenido %}{% endblock %}
     </main>
 </body>

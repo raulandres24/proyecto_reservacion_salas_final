@@ -29,7 +29,7 @@ def salas_libres(request):
             messages.error(request, rechazo.causa)
         except ValueError:
             messages.error(request, "La fecha o el bloque no son válidos")
-    contexto = {"salas": salas, "fecha": fecha, "bloque": bloque, "bloques": BLOQUES}
+    contexto = {"salas": salas, "fecha": fecha or timezone.localdate(), "bloque": bloque, "bloques": BLOQUES}
     return render(request, "reservas/salas_libres.html", contexto)
 
 
