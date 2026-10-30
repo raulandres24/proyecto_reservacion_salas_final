@@ -110,7 +110,7 @@ En el texto suelen abreviar `RES-RF-04` como `RF-04`. Es lo mismo.
 | **GET / POST** | Métodos HTTP: GET consulta, POST envía datos que cambian algo | `request.method`, `@require_POST` |
 | **URL** | Dirección web de cada pantalla | `urls.py` |
 | **HTML** | Lenguaje de las pantallas | `templates/*.html` |
-| **CSS** | Estilos; en F8 llega Tailwind | `static/` (todavía no existe) |
+| **CSS** | Estilos de las pantallas, hechos con Tailwind CSS | `static/src/entrada.css` (entrada de Tailwind) y `static/css/estilos.css` (CSS compilado) |
 | **JSON** | Formato de datos en texto | `padron.json` |
 | **WSGI** | Web Server Gateway Interface: puerta de entrada del servidor (externo) | `config/wsgi.py` (la usa `runserver`) |
 | **ASGI** | Asynchronous Server Gateway Interface: versión asíncrona (externo) | `config/asgi.py` |

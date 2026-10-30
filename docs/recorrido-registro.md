@@ -24,7 +24,7 @@ flowchart LR
 
 - **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–17.
 - **Paso 3:** `cuentas/servicios.py`, función `registrar`, líneas 20–31.
-- **Paso 4:** `cuentas/views.py`, líneas 20–22. La vista guarda el mensaje de éxito y redirige al inicio de sesión, donde se muestra (`templates/base.html`, líneas 31–32).
+- **Paso 4:** `cuentas/views.py`, líneas 20–22. La vista guarda el mensaje de éxito y redirige al inicio de sesión, donde se muestra dentro de la tarjeta del formulario: `templates/cuentas/login.html`, línea 17, incluye `templates/mensajes.html`.
 
 **Qué devuelve la lógica:** la cuenta creada. La vista no la usa para nada más.
 
@@ -37,7 +37,7 @@ flowchart LR
     A["1 · Persona<br/>indica código, correo,<br/>contraseña y confirmación"]
     B["2 · Presentación<br/>recoge la acción<br/>Crear cuenta"]
     C["3 · Lógica<br/>registrar(...) se detiene<br/>en la primera regla que falla<br/>y lanza un Rechazo con su causa<br/>no guarda nada"]
-    D["4 · Presentación<br/>muestra en rojo la causa del Rechazo<br/>y deja el formulario en pantalla<br/>para corregir"]
+    D["4 · Presentación<br/>muestra en rojo la causa del Rechazo<br/>y deja el formulario en pantalla,<br/>con el código y el correo escritos"]
     A --> B --> C --> D
 
     classDef persona fill:#f1f5f9,stroke:#94a3b8,color:#334155
@@ -52,11 +52,11 @@ flowchart LR
 
 - **Paso 2:** `cuentas/views.py`, función `registrarse`, líneas 9–17.
 - **Paso 3:** `cuentas/servicios.py`, líneas 21–28. Las comprobaciones están en `reservas/reglas.py`, líneas 191–220.
-- **Paso 4:** `cuentas/views.py`, líneas 18–19 (guarda la causa como mensaje de error) y 23 (vuelve a mostrar el formulario). El mensaje se pinta en rojo en `templates/base.html`, líneas 31–32.
+- **Paso 4:** `cuentas/views.py`, líneas 18–19 (guarda la causa como mensaje de error) y 23 (vuelve a mostrar el formulario). El mensaje se pinta en rojo dentro de la tarjeta del formulario: `templates/cuentas/registro.html`, línea 17, incluye `templates/mensajes.html`.
 
 **Qué devuelve la lógica:** nada. Lanza un `Rechazo` con la causa de la primera regla que falla, y no se guarda ninguna cuenta.
 
-**Qué muestra la presentación:** la causa concreta, en un recuadro rojo sobre el mismo formulario. Según la regla que falle, será una de estas:
+**Qué muestra la presentación:** la causa concreta, en un recuadro rojo sobre el mismo formulario. El formulario conserva el código y el correo que la persona escribió; las dos contraseñas quedan vacías. Según la regla que falle, será una de estas:
 
 - **código no encontrado en el padrón**
 - **el correo no corresponde a ese código**

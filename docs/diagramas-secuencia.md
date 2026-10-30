@@ -181,7 +181,7 @@ sequenceDiagram
 
 | Paso | Qué pasa | Dónde está en el código |
 |---|---|---|
-| — | Sin fecha en la dirección (primera visita), solo muestra el formulario | `reservas/views.py`, líneas 22–23 y 32–33 |
+| — | Sin fecha en la dirección (primera visita), solo muestra el formulario, con la fecha de hoy ya puesta (`a6372d0`) | `reservas/views.py`, líneas 22–23 y 32–33 |
 | 1 | El navegador pide la consulta | `reservas/views.py`, líneas 20–23 (`salas_libres`); la ruta está en `reservas/urls.py`, línea 6 |
 | 2 | Convierte la fecha y el bloque | `views.py`, líneas 25–26 |
 | 3 | Datos ilegibles | `views.py`, líneas 30–31 |
