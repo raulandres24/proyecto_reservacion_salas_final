@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   verificar-proyecto:
-    runs-on: ubuntu-24.04  # Fijado a 24.04: ubuntu-latest migra a 26.04 desde el 19/10/2026
+    runs-on: ubuntu-22.04  # Fijado a 22.04: la imagen ubuntu-24.04 20261026 trae kernel 7.0 y MongoDB 8.0 no arranca con kernel 6.19 o superior
     timeout-minutes: 15
     steps:
       - name: Obtener la version del repositorio
